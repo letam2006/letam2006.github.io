@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>No access rights. Please wait.</title>
+  <title>No Access</title>
   <style>
     body {
       margin: 0;
@@ -13,55 +13,32 @@
       align-items: center;
       height: 100vh;
       font-family: 'Courier New', monospace;
+      color: #00ff00;
+      font-size: 2em;
+      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
     }
 
-    a {
-      color: #00ff00;
-      font-size: 3em;
-      text-decoration: none;
-      text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00;
-      border: none;
-      background: none;
-      outline: none;
-      cursor: pointer;
+    #message {
+      white-space: pre;
     }
   </style>
 </head>
 <body>
-<script>
-    const text = "No access rights. Please wait.";
+  <div id="message"></div>
 
+  <script>
+    const text = "No access rights.\nPlease wait.";
+    const element = document.getElementById("message");
     let index = 0;
-    let typingDone = false;
 
-    // タイピング風に1文字ずつ表示
     function typeText() {
       if (index < text.length) {
-        link.textContent += text[index++];
-        setTimeout(typeText, 150);
-      } else {
-        typingDone = true;
+        element.textContent += text[index++];
+        setTimeout(typeText, 100);
       }
     }
 
     typeText();
-
-    // クリック時に1文字ずつ消す → 最後にリンク遷移
-    link.addEventListener("click", function (e) {
-      if (!typingDone) return e.preventDefault();
-
-      e.preventDefault(); // 即ジャンプさせない
-      let deleteIndex = text.length;
-
-      const interval = setInterval(() => {
-        if (deleteIndex > 0) {
-          link.textContent = text.substring(0, --deleteIndex);
-        } else {
-          clearInterval(interval);
-          window.location.href = link.href; // 遷移
-        }
-      }, 100);
-    });
   </script>
 </body>
 </html>
