@@ -111,12 +111,12 @@
     const reliefDisplay = document.getElementById("reliefLevel");
 
     const orbLinks = [
-      "https://example.com/orb1",
-      "https://example.com/orb2",
-      "https://example.com/orb3"
+      "https://letam2006.github.io/about/no-access",
+      "https://letam2006.github.io/about/no-access",
+      "https://letam2006.github.io/about/no-access"
     ];
 
-    const coreLink = "https://example.com/core";
+    const coreLink = "https://letam2006.github.io/about/no-access";
 
     const orbStatus = [false, false, false]; // false = 生存中, true = 討伐済み
 
