@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "title": "Tutorial",
+    "artist": "Stylista System",
+    "bpm": 120
+  },
+  "events": [
+    { "time": 0, "type": "start" },
+    { "time": 5000, "type": "end" }
+  ],
+  "notes": [
+    { "time": 1000, "lane": 1, "type": "single" },
+    { "time": 2000, "lane": 2, "type": "single" },
+    { "time": 3000, "lane": "all", "type": "single" },
+    { "time": 4000, "lane": 3, "type": "single" }
+  ]
+}
