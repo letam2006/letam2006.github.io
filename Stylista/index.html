@@ -4,113 +4,101 @@
   <meta charset="UTF-8">
   <title>Stylista</title>
   <style>
-    body { margin: 0; font-family: sans-serif; background: #111; color: white; }
-    #menu, #game, #result { display: none; text-align: center; }
-    #menu { padding: 20px; }
-    #laneCanvas { background: #333; display: block; margin: 0 auto; }
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: black;
+      overflow: hidden;
+    }
+    #gameCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #222;
+      display: block;
+    }
+    #songList {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: white;
+      font-family: sans-serif;
+      z-index: 10;
+    }
+    #songList button {
+      display: block;
+      margin: 5px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
-
-<!-- 🎵 選曲画面 -->
-<div id="menu">
-  <h2>Stylista - 選曲</h2>
-  <div>
-    ユーザー名: <input id="username" placeholder="Your Name">
-    称号: <input id="title" placeholder="Your Title">
+  <canvas id="gameCanvas"></canvas>
+  <div id="songList">
+    <button onclick="loadChart('charts/tutorial.sla')">Tutorial</button>
   </div>
-  <h3>曲リスト</h3>
-  <ul id="songList"></ul>
-</div>
 
-<!-- 🎮 プレイ画面 -->
-<canvas id="laneCanvas" width="400" height="600"></canvas>
-<div id="game">
-  <p id="score">Score: 0</p>
-  <p id="judgement">---</p>
-</div>
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
 
-<!-- 🏆 リザルト -->
-<div id="result">
-  <h2>Result</h2>
-  <p id="finalScore"></p>
-  <button onclick="backToMenu()">Back to Menu</button>
-</div>
+    // resize canvas to fullscreen
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
-<script>
-let songs = [
-  { title: "Tutorial", file: "charts/tutorial.sla" }
-];
+    let chart = null;
+    let startTime = null;
+    let playing = false;
 
-let chart = null;
-let notes = [];
-let startTime = 0;
-let score = 0;
-let ctx = document.getElementById("laneCanvas").getContext("2d");
+    async function loadChart(path) {
+      const res = await fetch(path);
+      chart = await res.json();
+      startTime = performance.now();
+      playing = true;
+      document.getElementById("songList").style.display = "none";
+      requestAnimationFrame(gameLoop);
+    }
 
-function loadSongs() {
-  let list = document.getElementById("songList");
-  songs.forEach(song => {
-    let li = document.createElement("li");
-    let btn = document.createElement("button");
-    btn.innerText = song.title;
-    btn.onclick = () => loadChart(song.file);
-    li.appendChild(btn);
-    list.appendChild(li);
-  });
-}
+    function gameLoop(timestamp) {
+      if (!playing) return;
 
-async function loadChart(file) {
-  let res = await fetch(file);
-  chart = await res.json();
-  notes = chart.notes;
-  startGame();
-}
+      const elapsed = timestamp - startTime;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-function startGame() {
-  document.getElementById("menu").style.display = "none";
-  document.getElementById("game").style.display = "block";
-  score = 0;
-  startTime = performance.now();
-  requestAnimationFrame(gameLoop);
-}
+      // draw lanes (4 lanes)
+      const laneWidth = canvas.width / 4;
+      for (let i = 0; i < 4; i++) {
+        ctx.fillStyle = "#444";
+        ctx.fillRect(i * laneWidth, 0, laneWidth - 2, canvas.height);
+      }
 
-function gameLoop() {
-  let now = performance.now() - startTime;
-  ctx.clearRect(0,0,400,600);
-  ctx.fillStyle = "#666";
-  ctx.fillRect(50,0,300,600);
+      // draw notes
+      if (chart && chart.notes) {
+        chart.notes.forEach(note => {
+          const appearY = (elapsed - note.time) * 0.3; // speed
+          if (appearY > -50 && appearY < canvas.height) {
+            if (note.lane === "all") {
+              ctx.fillStyle = "white";
+              ctx.fillRect(0, appearY, canvas.width, 20);
+            } else {
+              const laneIndex = note.lane - 1;
+              ctx.fillStyle = "white";
+              ctx.fillRect(laneIndex * laneWidth + laneWidth/3, appearY, laneWidth/3, 20);
+            }
+          }
+        });
+      }
 
-  notes.forEach(note => {
-    let y = 600 - (note.time - now) / 3;
-    ctx.fillStyle = (note.lane === "all") ? "white" : "white";
-    ctx.fillRect(note.lane === "all" ? 50 : 50 + (note.lane-1)*75+25, y, 
-                 note.lane === "all" ? 300 : 25, 10);
-  });
-
-  if (now < chart.events[1].time) {
-    requestAnimationFrame(gameLoop);
-  } else {
-    endGame();
-  }
-}
-
-function endGame() {
-  document.getElementById("game").style.display = "none";
-  document.getElementById("result").style.display = "block";
-  document.getElementById("finalScore").innerText = "Score: " + score;
-}
-
-function backToMenu() {
-  document.getElementById("result").style.display = "none";
-  document.getElementById("menu").style.display = "block";
-}
-
-window.onload = () => {
-  document.getElementById("menu").style.display = "block";
-  loadSongs();
-};
-</script>
-
+      requestAnimationFrame(gameLoop);
+    }
+  </script>
 </body>
 </html>
