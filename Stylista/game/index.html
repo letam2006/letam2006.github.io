@@ -1,12 +1,149 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>Stylista</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Stylista プロトタイプ</title>
+<style>
+  body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; background: #222; color: #fff; }
+  #userPanel { margin: 10px; }
+  #canvasContainer { position: relative; width: 320px; height: 480px; background: #555; margin: 10px; }
+  canvas { width: 100%; height: 100%; background: #888; display: block; }
+  #touchButtons { display: flex; justify-content: space-between; margin-top: 5px; }
+  .btn { flex: 1; height: 40px; margin: 0 2px; background: #ccc; color: #000; font-weight: bold; border-radius: 5px; display: none; }
+  #results { margin: 10px; display: none; }
+  #songList { width: 320px; max-height: 200px; overflow-y: auto; background: #444; margin: 10px; padding: 5px; }
+  .songItem { padding: 5px; cursor: pointer; border-bottom: 1px solid #666; }
+  .songItem.selected { background: #666; }
+</style>
 </head>
 <body>
-  <canvas id="gameCanvas"></canvas>
-  <script src="game.js"></script>
+
+<div id="userPanel">
+  ユーザー名: <input type="text" id="username" placeholder="名前入力">
+</div>
+
+<div id="songList"></div>
+
+<div id="canvasContainer">
+  <canvas id="gameCanvas" width="320" height="480"></canvas>
+</div>
+
+<div id="touchButtons">
+  <div class="btn" data-lane="0">1</div>
+  <div class="btn" data-lane="1">2</div>
+  <div class="btn" data-lane="2">3</div>
+  <div class="btn" data-lane="3">4</div>
+</div>
+
+<div id="results"></div>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+const songListEl = document.getElementById("songList");
+const touchButtons = document.querySelectorAll(".btn");
+const resultsEl = document.getElementById("results");
+
+let state = "select"; // select / play / result
+let username = "";
+let selectedSong = null;
+
+// デモ譜面 (tutorial.sla の簡易版)
+const demoSong = {
+  title: "Tutorial",
+  bpm: 60,
+  notes: [
+    {beat:0, lane:0, type:"single"},
+    {beat:1, lane:1, type:"single"},
+    {beat:2, lane:2, type:"long", length:2},
+    {beat:4, lane:3, type:"single"},
+    {beat:4, type:"all", type2:"single"}
+  ],
+  awards: [
+    {title:"チュートリアルクリア", condition:"クリア"},
+    {title:"All StylistaPerfect", condition:"All StylistaPerfect"}
+  ]
+};
+let songs = [demoSong];
+
+// プレイ用変数
+let notesToDraw = [];
+let startTime = 0;
+let stats = {sp:0,p:0,g:0,gd:0,o:0,combo:0,maxCombo:0,cleared:false};
+
+// 選曲画面初期化
+function initSongList() {
+  songListEl.innerHTML = "";
+  songs.forEach((song,i)=>{
+    const div = document.createElement("div");
+    div.className="songItem";
+    div.textContent = song.title;
+    div.onclick = ()=>{ selectSong(i); };
+    songListEl.appendChild(div);
+  });
+}
+
+function selectSong(i){
+  selectedSong = songs[i];
+  document.querySelectorAll(".songItem").forEach(el=>el.classList.remove("selected"));
+  songListEl.children[i].classList.add("selected");
+  startPlay();
+}
+
+// プレイ開始
+function startPlay(){
+  state="play";
+  startTime = performance.now();
+  notesToDraw = selectedSong.notes.map(n=>{
+    return {...n, y:canvas.height};
+  });
+  stats = {sp:0,p:0,g:0,gd:0,o:0,combo:0,maxCombo:0,cleared:false};
+  songListEl.style.display="none";
+  touchButtons.forEach(btn=>btn.style.display="flex");
+  requestAnimationFrame(gameLoop);
+}
+
+// ノーツ描画
+function drawNotes(){
+  const laneWidth = canvas.width/4;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  notesToDraw.forEach(n=>{
+    const x = n.type==="all"?0:(n.lane*laneWidth);
+    const w = n.type==="all"?canvas.width:laneWidth;
+    const h = 20; // 高さ固定
+    ctx.fillStyle = n.type==="all"?"#fff":"#fff";
+    ctx.fillRect(x, n.y, w, h);
+  });
+  // 判定ライン
+  ctx.strokeStyle="#ff0";
+  ctx.beginPath();
+  ctx.moveTo(0,400);
+  ctx.lineTo(canvas.width,400);
+  ctx.stroke();
+}
+
+// ゲームループ
+function gameLoop(){
+  const now = performance.now();
+  const delta = (now-startTime)/1000; // 秒
+  const speed = 60; // px/sec
+  notesToDraw.forEach(n=>{ n.y -= speed*0.016; });
+  drawNotes();
+  if(notesToDraw.length>0) requestAnimationFrame(gameLoop);
+  else showResults();
+}
+
+// 結果画面
+function showResults(){
+  state="result";
+  resultsEl.style.display="block";
+  resultsEl.innerHTML=`<h3>結果</h3>
+    <p>SP: ${stats.sp} Perfect:${stats.p} Great:${stats.g} Good:${stats.gd} Over:${stats.o}</p>`;
+}
+
+// 初期化
+initSongList();
+</script>
 </body>
 </html>
