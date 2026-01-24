@@ -6,31 +6,22 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        :root { --master: #ff0055; --advancer: #ffaa00; --beginner: #00ffaa; --gold: #fbbf24; }
+        :root { --Master: #ff0055; --Advancer: #ffaa00; --Beginner: #00ffaa; --gold: #fbbf24; }
         body { background: #0b101a; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
         .upload-section { background: #1a2233; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 30px; border: 1px solid #334155; }
-        
         .b30-header { text-align: center; margin-bottom: 20px; }
-        .b30-avg { font-size: 3.5rem; font-weight: bold; color: var(--gold); text-shadow: 0 0 20px rgba(251, 191, 36, 0.4); }
-        .b30-label { font-size: 1rem; color: #60a5fa; letter-spacing: 2px; }
-
+        .b30-avg { font-size: 3.5rem; font-weight: bold; color: var(--gold); }
         .best-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; max-width: 1200px; margin: 0 auto; }
-        
-        .card { background: #1e293b; border-radius: 6px; padding: 12px; position: relative; border-left: 5px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-        .card.Master { border-left-color: var(--master); background: linear-gradient(135deg, #1e293b 0%, #4a1025 100%); }
-        .card.Advancer { border-left-color: var(--advancer); background: linear-gradient(135deg, #1e293b 0%, #4a3010 100%); }
-        .card.Beginner { border-left-color: var(--beginner); }
-
-        .rank-num { font-size: 0.8rem; color: #94a3b8; font-weight: bold; margin-bottom: 5px; }
-        .song-name { font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; height: 2.4em; overflow: hidden; line-height: 1.2; }
-        .score-val { font-family: 'Courier New', monospace; color: #00d4ff; font-size: 1.1rem; font-weight: bold; }
-        .rating-val { color: var(--gold); font-weight: bold; font-size: 1.3rem; float: right; }
-        .footer-info { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; display: flex; justify-content: space-between; font-size: 0.75rem; }
-        .rank-badge { font-weight: 900; font-size: 1.1rem; font-style: italic; }
-        .rank-X { color: #fff; text-shadow: 0 0 10px #00ffff; }
-
-        input[type="file"] { margin: 15px 0; }
-        button { background: #3b82f6; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .card { background: #1e293b; border-radius: 6px; padding: 12px; border-left: 5px solid #fff; }
+        /* 難易度別色分け */
+        .card.Master { border-left-color: var(--Master); background: linear-gradient(135deg, #1e293b 0%, #4a1025 100%); }
+        .card.Advancer { border-left-color: var(--Advancer); background: linear-gradient(135deg, #1e293b 0%, #4a3010 100%); }
+        .card.Beginner { border-left-color: var(--Beginner); }
+        .song-name { font-weight: bold; font-size: 0.85rem; height: 2.4em; overflow: hidden; margin-bottom: 8px; }
+        .score-val { color: #00d4ff; font-family: monospace; font-size: 1rem; }
+        .rating-val { color: var(--gold); font-weight: bold; float: right; font-size: 1.2rem; }
+        .footer { font-size: 0.7rem; color: #94a3b8; margin-top: 8px; display: flex; justify-content: space-between; }
+        button { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -43,7 +34,7 @@
     </div>
     <p><code>score.csv</code> を選択してください</p>
     <input type="file" id="scoreInput" accept=".csv">
-    <br>
+    <br><br>
     <button id="dlBtn" style="display:none;" onclick="exportImg()">画像を保存する</button>
 </div>
 
@@ -57,13 +48,16 @@
     // マスタ読み込み
     Papa.parse("Xtrhme_music_seat.csv", {
         download: true, header: true, skipEmptyLines: true,
-        complete: function(results) { master = results.data; }
+        complete: function(results) { 
+            master = results.data;
+            console.log("Master Loaded:", master[0]); // デバッグ用
+        }
     });
 
-    // レート計算
     function getRating(score, constVal) {
         const s = parseFloat(score);
         const c = parseFloat(constVal);
+        if (isNaN(s) || isNaN(c)) return 0;
         if (s >= 104000000) return c + 4;
         if (s >= 100000000) return c + 2 + (s - 100000000) * 0.0000001;
         if (s >= 98000000)  return c + 1.8 + (s - 98000000) * 0.0000001;
@@ -75,7 +69,6 @@
         return 0;
     }
 
-    // ランク判定
     function getRankStr(score) {
         const s = parseFloat(score);
         if (s >= 100000000) return "X";
@@ -92,23 +85,35 @@
         Papa.parse(file, {
             header: true, skipEmptyLines: true,
             complete: function(results) {
+                console.log("Score CSV Parsed:", results.data[0]); // デバッグ用
+
                 const b30 = results.data
-                    .filter(row => row.score && row.score.trim() !== "") // スコアがある行のみ
+                    .filter(row => row.score && row.score.trim() !== "")
                     .map(row => {
-                        const info = master.find(m => m[""] === row["song name"]); // CSVのsong name列
-                        const constant = info ? info[row.difficulty] : null; // difficulty列(Master等)
+                        // 1. 曲名の特定 (マスタの1列目を取得)
+                        const songName = row["song name"] ? row["song name"].trim() : "";
+                        const diffName = row["difficulty"] ? row["difficulty"].trim() : "";
+                        
+                        // マスタから一致する曲を探す (キー名が空の列を考慮)
+                        const info = master.find(m => {
+                            const mName = (m[""] || m["song name"] || Object.values(m)[0] || "").trim();
+                            return mName === songName;
+                        });
+
+                        const constant = info ? info[diffName] : null;
                         if (!constant) return null;
+
                         const rating = getRating(row.score, constant);
                         return { 
-                            name: row["song name"], 
+                            name: songName, 
                             score: row.score, 
-                            diff: row.difficulty, 
+                            diff: diffName, 
                             const: constant, 
                             rating: rating,
                             rank: getRankStr(row.score)
                         };
                     })
-                    .filter(v => v !== null)
+                    .filter(v => v !== null && v.rating > 0)
                     .sort((a, b) => b.rating - a.rating)
                     .slice(0, 30);
 
@@ -131,9 +136,9 @@
                     <span class="score-val">${parseInt(d.score).toLocaleString()}</span>
                     <span class="rating-val">${d.rating.toFixed(2)}</span>
                 </div>
-                <div class="footer-info">
+                <div class="footer">
                     <span>${d.diff} / 定数 ${d.const}</span>
-                    <span class="rank-badge rank-${d.rank.replace('+','plus')}">${d.rank}</span>
+                    <span style="font-weight:bold">${d.rank}</span>
                 </div>
             </div>
         `).join('');
