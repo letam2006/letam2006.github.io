@@ -2,95 +2,81 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Xtrhme Best 30 Generator</title>
+    <title>Xtrhme B30 Generator</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        :root { --ext: #ff0055; --adv: #ffaa00; --beg: #00ffaa; --gold: #fbbf24; }
-        body { background: #0b101a; color: white; font-family: 'Inter', 'Segoe UI', sans-serif; margin: 0; padding: 20px; text-align: center; }
+        :root { --master: #ff0055; --advancer: #ffaa00; --beginner: #00ffaa; --gold: #fbbf24; }
+        body { background: #0b101a; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
+        .upload-section { background: #1a2233; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 30px; border: 1px solid #334155; }
         
-        .upload-area { background: #1a2233; padding: 30px; border-radius: 15px; border: 1px solid #334155; margin-bottom: 30px; }
-        
-        /* 総合レート表示 */
-        .header-stats { display: flex; justify-content: center; gap: 50px; margin-bottom: 20px; }
-        .stat-item .label { font-size: 0.9rem; color: #60a5fa; margin-bottom: 5px; }
-        .stat-item .value { font-size: 3rem; font-weight: bold; color: var(--gold); text-shadow: 0 0 15px rgba(251, 191, 36, 0.4); }
+        .b30-header { text-align: center; margin-bottom: 20px; }
+        .b30-avg { font-size: 3.5rem; font-weight: bold; color: var(--gold); text-shadow: 0 0 20px rgba(251, 191, 36, 0.4); }
+        .b30-label { font-size: 1rem; color: #60a5fa; letter-spacing: 2px; }
 
-        /* グリッドレイアウト */
-        .best-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; max-width: 1100px; margin: 0 auto; }
+        .best-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; max-width: 1200px; margin: 0 auto; }
         
-        /* カードデザイン */
-        .card { background: #1e293b; border-radius: 6px; padding: 12px; text-align: left; position: relative; border-left: 5px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .card.Master { border-left-color: var(--ext); background: linear-gradient(135deg, #1e293b 0%, #4a1025 100%); }
-        .card.Advancer { border-left-color: var(--adv); background: linear-gradient(135deg, #1e293b 0%, #4a3010 100%); }
-        .card.Beginner { border-left-color: var(--beg); }
+        .card { background: #1e293b; border-radius: 6px; padding: 12px; position: relative; border-left: 5px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .card.Master { border-left-color: var(--master); background: linear-gradient(135deg, #1e293b 0%, #4a1025 100%); }
+        .card.Advancer { border-left-color: var(--advancer); background: linear-gradient(135deg, #1e293b 0%, #4a3010 100%); }
+        .card.Beginner { border-left-color: var(--beginner); }
 
-        .rank-num { font-size: 0.75rem; color: #94a3b8; font-weight: bold; }
-        .title { font-weight: bold; font-size: 0.9rem; margin: 5px 0; height: 2.5em; overflow: hidden; line-height: 1.2; }
-        
-        .info-row { display: flex; justify-content: space-between; align-items: baseline; }
-        .score { font-family: 'Courier New', monospace; color: #00d4ff; font-size: 1.1rem; font-weight: bold; }
-        .single-rating { color: var(--gold); font-weight: bold; font-size: 1.2rem; }
-        
-        .bottom-info { display: flex; justify-content: space-between; margin-top: 8px; font-size: 0.7rem; color: #94a3b8; }
-        .rank-badge { font-weight: bold; font-size: 1rem; }
-        .rank-X { color: #fff; text-shadow: 0 0 8px #00ffff; }
+        .rank-num { font-size: 0.8rem; color: #94a3b8; font-weight: bold; margin-bottom: 5px; }
+        .song-name { font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; height: 2.4em; overflow: hidden; line-height: 1.2; }
+        .score-val { font-family: 'Courier New', monospace; color: #00d4ff; font-size: 1.1rem; font-weight: bold; }
+        .rating-val { color: var(--gold); font-weight: bold; font-size: 1.3rem; float: right; }
+        .footer-info { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 8px; display: flex; justify-content: space-between; font-size: 0.75rem; }
+        .rank-badge { font-weight: 900; font-size: 1.1rem; font-style: italic; }
+        .rank-X { color: #fff; text-shadow: 0 0 10px #00ffff; }
 
-        button { background: #3b82f6; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #1d4ed8; transform: translateY(-2px); }
+        input[type="file"] { margin: 15px 0; }
+        button { background: #3b82f6; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="upload-area">
+<div class="upload-section">
     <h1>Xtrhme Best 30</h1>
-    <div class="header-stats">
-        <div class="stat-item">
-            <div class="label">B30 AVERAGE</div>
-            <div id="avg-rating" class="value">0.00</div>
-        </div>
+    <div class="b30-header">
+        <div class="b30-label">BEST 30 AVERAGE</div>
+        <div id="avg-display" class="b30-avg">0.00</div>
     </div>
-    <input type="file" id="scoreFile" accept=".csv" style="margin-bottom: 10px;">
+    <p><code>score.csv</code> を選択してください</p>
+    <input type="file" id="scoreInput" accept=".csv">
     <br>
-    <button id="saveBtn" style="display:none;" onclick="saveImage()">画像を保存する</button>
+    <button id="dlBtn" style="display:none;" onclick="exportImg()">画像を保存する</button>
 </div>
 
-<div id="capture-area" style="background: #0b101a; padding: 20px;">
-    <div id="display-area" class="best-grid">
-        </div>
+<div id="capture-area">
+    <div id="main-grid" class="best-grid"></div>
 </div>
 
 <script>
-    let masterData = [];
+    let master = [];
 
-    // マスタ読み込み（あなたのGitHub上のファイル名に合わせてください）
+    // マスタ読み込み
     Papa.parse("xtrhme_music_seat.csv", {
-        download: true, header: true, complete: function(results) { masterData = results.data; }
-    });
-
-    document.getElementById('scoreFile').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        Papa.parse(file, { header: true, complete: function(results) { processScores(results.data); } });
+        download: true, header: true, skipEmptyLines: true,
+        complete: function(results) { master = results.data; }
     });
 
     // レート計算
-    function calcRating(s, c) {
-        const B2 = parseFloat(s);
-        const D2 = parseFloat(c);
-        if (B2 >= 104000000) return D2 + 4;
-        if (B2 >= 100000000) return D2 + 2 + (B2 - 100000000) * 0.0000001;
-        if (B2 >= 98000000)  return D2 + 1.8 + (B2 - 98000000) * 0.0000001;
-        if (B2 >= 95000000)  return D2 + 1.5 + (B2 - 95000000) * 0.0000001;
-        if (B2 >= 90000000)  return D2 + 1 + (B2 - 90000000) * 0.0000001;
-        if (B2 >= 80000000)  return D2 - 1 + (B2 - 80000000) * 0.0000001;
-        if (B2 >= 60000000)  return D2 - 3 + (B2 - 60000000) * 0.0000001;
-        if (B2 >= 0)         return D2 * 0.00000005;
+    function getRating(score, constVal) {
+        const s = parseFloat(score);
+        const c = parseFloat(constVal);
+        if (s >= 104000000) return c + 4;
+        if (s >= 100000000) return c + 2 + (s - 100000000) * 0.0000001;
+        if (s >= 98000000)  return c + 1.8 + (s - 98000000) * 0.0000001;
+        if (s >= 95000000)  return c + 1.5 + (s - 95000000) * 0.0000001;
+        if (s >= 90000000)  return c + 1 + (s - 90000000) * 0.0000001;
+        if (s >= 80000000)  return c - 1 + (s - 80000000) * 0.0000001;
+        if (s >= 60000000)  return c - 3 + (s - 60000000) * 0.0000001;
+        if (s >= 0)         return c * 0.00000005;
         return 0;
     }
 
     // ランク判定
-    function getRank(score) {
+    function getRankStr(score) {
         const s = parseFloat(score);
         if (s >= 100000000) return "X";
         if (s >= 98000000)  return "S+";
@@ -101,61 +87,64 @@
         return "F";
     }
 
-    function processScores(userScores) {
-        const finalData = userScores.map(u => {
-            // Excelの列名に合わせて Music, Difficulty, Score を使用
-            const info = masterData.find(m => m.Music === u.Music && (m.Difficulty === u.Difficulty || m[u.Difficulty]));
-            
-            // マスタの構造が「Music名に対して各難易度が列」になっている場合の対応
-            let constant = info ? info[u.Difficulty] || info.Const : null;
-            
-            if (!constant) return null;
-            
-            const rating = calcRating(u.Score, constant);
-            return {
-                title: u.Music,
-                diff: u.Difficulty,
-                score: u.Score,
-                const: constant,
-                rating: rating,
-                rank: getRank(u.Score)
-            };
-        }).filter(d => d !== null)
-          .sort((a, b) => b.rating - a.rating) // ★ここが「単曲レート順に並べる」処理
-          .slice(0, 30);
+    document.getElementById('scoreInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        Papa.parse(file, {
+            header: true, skipEmptyLines: true,
+            complete: function(results) {
+                const b30 = results.data
+                    .filter(row => row.score && row.score.trim() !== "") // スコアがある行のみ
+                    .map(row => {
+                        const info = master.find(m => m[""] === row["song name"]); // CSVのsong name列
+                        const constant = info ? info[row.difficulty] : null; // difficulty列(Master等)
+                        if (!constant) return null;
+                        const rating = getRating(row.score, constant);
+                        return { 
+                            name: row["song name"], 
+                            score: row.score, 
+                            diff: row.difficulty, 
+                            const: constant, 
+                            rating: rating,
+                            rank: getRankStr(row.score)
+                        };
+                    })
+                    .filter(v => v !== null)
+                    .sort((a, b) => b.rating - a.rating)
+                    .slice(0, 30);
 
-        // 総合レート計算
-        const avg = finalData.length > 0 ? (finalData.reduce((a, b) => a + b.rating, 0) / finalData.length) : 0;
-        document.getElementById('avg-rating').innerText = avg.toFixed(2);
-
-        render(finalData);
-        document.getElementById('saveBtn').style.display = 'inline-block';
-    }
+                const avg = b30.length ? (b30.reduce((s,v) => s + v.rating, 0) / b30.length) : 0;
+                document.getElementById('avg-display').innerText = avg.toFixed(2);
+                
+                render(b30);
+                document.getElementById('dlBtn').style.display = 'inline-block';
+            }
+        });
+    });
 
     function render(data) {
-        const area = document.getElementById('display-area');
-        area.innerHTML = data.map((d, i) => `
+        const grid = document.getElementById('main-grid');
+        grid.innerHTML = data.map((d, i) => `
             <div class="card ${d.diff}">
-                <div class="rank-num">#${i + 1}</div>
-                <div class="title">${d.title}</div>
-                <div class="info-row">
-                    <div class="score">${parseInt(d.score).toLocaleString()}</div>
-                    <div class="single-rating">${d.rating.toFixed(2)}</div>
+                <div class="rank-num">#${i+1}</div>
+                <div class="song-name">${d.name}</div>
+                <div>
+                    <span class="score-val">${parseInt(d.score).toLocaleString()}</span>
+                    <span class="rating-val">${d.rating.toFixed(2)}</span>
                 </div>
-                <div class="bottom-info">
-                    <span>定数: ${d.const} / ${d.diff}</span>
-                    <span class="rank-badge rank-${d.rank.replace('+', 'plus')}">${d.rank}</span>
+                <div class="footer-info">
+                    <span>${d.diff} / 定数 ${d.const}</span>
+                    <span class="rank-badge rank-${d.rank.replace('+','plus')}">${d.rank}</span>
                 </div>
             </div>
         `).join('');
     }
 
-    function saveImage() {
-        html2canvas(document.querySelector("#capture-area")).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'xtrhme_b30.png';
-            link.href = canvas.toDataURL();
-            link.click();
+    function exportImg() {
+        html2canvas(document.querySelector("#capture-area"), {backgroundColor: "#0b101a"}).then(canvas => {
+            const a = document.createElement('a');
+            a.href = canvas.toDataURL();
+            a.download = 'Xtrhme_B30.png';
+            a.click();
         });
     }
 </script>
