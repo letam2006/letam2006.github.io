@@ -2,683 +2,577 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Creator Profile</title>
 
-<!-- QR CODE -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
-<!-- PNG EXPORT -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <style>
-*{
-    box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-html,
-body{
-    margin:0;
-    padding:0;
+body {
+    margin: 0;
     font-family:
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         "Noto Sans JP",
         sans-serif;
-    background:#eef0f3;
-    color:#17191d;
+    background: #eef0f3;
+    color: #17191d;
 }
 
-button,
+header {
+    background: #111318;
+    color: white;
+    padding: 20px;
+}
+
+.header-inner {
+    max-width: 1200px;
+    margin: auto;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 900;
+    letter-spacing: .12em;
+}
+
+.subtitle {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #aeb4bd;
+}
+
+main {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.layout {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 20px;
+}
+
+/* =========================
+   EDITOR
+========================= */
+
+.editor {
+    background: white;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.07);
+}
+
+.section {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e1e4e8;
+}
+
+.section:last-child {
+    border-bottom: none;
+}
+
+.section-title {
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: .15em;
+    color: #747b84;
+    margin-bottom: 14px;
+}
+
+.field {
+    margin-bottom: 14px;
+}
+
+.field:last-child {
+    margin-bottom: 0;
+}
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
 input,
 textarea,
-select{
-    font:inherit;
-}
-
-button{
-    cursor:pointer;
-}
-
-.header{
-    background:#111318;
-    color:#fff;
-}
-
-.header-inner{
-    max-width:1280px;
-    margin:auto;
-    padding:20px 24px;
-}
-
-.logo{
-    font-size:21px;
-    font-weight:900;
-    letter-spacing:.08em;
-}
-
-.logo-sub{
-    margin-top:5px;
-    color:#9ca0a8;
-    font-size:12px;
-}
-
-.container{
-    width:min(1280px,100%);
-    margin:auto;
-    padding:24px;
-}
-
-.workspace{
-    display:grid;
-    grid-template-columns:400px minmax(0,1fr);
-    gap:24px;
-    align-items:start;
-}
-
-.editor{
-    background:#fff;
-    padding:22px;
-    border-radius:18px;
-    box-shadow:0 8px 35px rgba(0,0,0,.07);
-}
-
-.section{
-    margin-bottom:28px;
-}
-
-.section-title{
-    margin-bottom:14px;
-    font-size:12px;
-    font-weight:900;
-    letter-spacing:.12em;
-    color:#555b63;
-}
-
-.field{
-    margin-bottom:15px;
-}
-
-.field label{
-    display:block;
-    margin-bottom:6px;
-    font-size:12px;
-    font-weight:800;
-}
-
-input,
-textarea,
-select{
-    width:100%;
-    border:1px solid #dfe2e6;
-    border-radius:10px;
-    padding:11px 12px;
-    background:#fafbfc;
-    outline:none;
+select {
+    width: 100%;
+    border: 1px solid #d9dde2;
+    background: #fafbfc;
+    border-radius: 10px;
+    padding: 10px 11px;
+    outline: none;
+    font-size: 14px;
 }
 
 input:focus,
 textarea:focus,
-select:focus{
-    border-color:#777d86;
-    background:#fff;
+select:focus {
+    border-color: #777f89;
+    background: white;
 }
 
-textarea{
-    min-height:100px;
-    resize:vertical;
+textarea {
+    min-height: 110px;
+    resize: vertical;
 }
 
-.avatar-editor{
-    display:flex;
-    gap:14px;
-    align-items:center;
+input[type="color"] {
+    height: 42px;
+    padding: 4px;
 }
 
-.avatar-input{
-    width:78px;
-    height:78px;
-    border-radius:50%;
-    object-fit:cover;
-    background:#ddd;
+input[type="range"] {
+    padding: 0;
 }
 
-.link-editor{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
+.avatar-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
-.link-item{
-    padding:11px;
-    border:1px solid #dfe2e6;
-    border-radius:12px;
-    background:#fafbfc;
+.avatar-preview {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: #e1e4e8;
+    flex-shrink: 0;
 }
 
-.link-header{
-    display:grid;
-    grid-template-columns:1fr 36px;
-    gap:7px;
+.hint {
+    color: #7c838c;
+    font-size: 10px;
+    line-height: 1.5;
+    margin-top: 5px;
 }
 
-.link-url{
-    margin-top:7px;
+/* =========================
+   LINKS
+========================= */
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.link-controls{
-    display:flex;
-    gap:5px;
-    margin-top:7px;
+.link-item {
+    border: 1px solid #dfe3e7;
+    background: #fafbfc;
+    border-radius: 12px;
+    padding: 10px;
 }
 
-.link-control{
-    flex:1;
-    border:1px solid #dfe2e6;
-    background:#fff;
-    border-radius:8px;
-    padding:6px;
-    font-size:12px;
+.link-top {
+    display: grid;
+    grid-template-columns: 1fr 38px;
+    gap: 7px;
 }
 
-.remove-link{
-    border:0;
-    border-radius:8px;
-    background:#e8eaed;
-    font-size:18px;
+.link-url {
+    margin-top: 7px;
 }
 
-.add-link{
-    width:100%;
-    margin-top:9px;
-    padding:11px;
-    border:1px dashed #aeb3ba;
-    border-radius:10px;
-    background:#fff;
-    font-weight:800;
+.link-buttons {
+    display: flex;
+    gap: 5px;
+    margin-top: 7px;
 }
 
-.link-count{
-    margin-top:7px;
-    text-align:right;
-    color:#92969e;
-    font-size:11px;
+.link-buttons button {
+    flex: 1;
+    border: 1px solid #d9dde2;
+    background: white;
+    border-radius: 7px;
+    padding: 6px;
+    font-size: 11px;
 }
 
-.checkbox{
-    display:flex;
-    align-items:center;
-    gap:8px;
-    font-size:13px;
+.delete-link {
+    font-size: 18px !important;
+    color: #777;
 }
 
-.checkbox input{
-    width:auto;
+.add-link {
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px dashed #aeb5bd;
+    background: white;
+    font-weight: 900;
 }
 
-.range-row{
-    display:grid;
-    grid-template-columns:1fr 55px;
-    gap:10px;
-    align-items:center;
+.link-count {
+    text-align: right;
+    font-size: 10px;
+    color: #777f89;
+    margin-top: 5px;
 }
 
-input[type="range"]{
-    padding:0;
+/* =========================
+   BUTTONS
+========================= */
+
+.buttons {
+    display: grid;
+    gap: 8px;
 }
 
-.button{
-    width:100%;
-    padding:12px;
-    border:0;
-    border-radius:10px;
-    font-weight:800;
+button {
+    cursor: pointer;
 }
 
-.button-dark{
-    background:#111318;
-    color:#fff;
+.btn {
+    border: none;
+    border-radius: 10px;
+    padding: 11px;
+    font-weight: 900;
 }
 
-.button-light{
-    background:#f0f1f3;
+.primary {
+    background: #111318;
+    color: white;
 }
 
-.button-danger{
-    background:#f6e9e9;
-    color:#963737;
+.secondary {
+    background: #eceff2;
+    color: #17191d;
 }
 
-.button+.button{
-    margin-top:8px;
+.danger {
+    background: #f7e7e7;
+    color: #963d3d;
 }
 
-.status{
-    display:none;
-    margin-bottom:12px;
-    padding:10px 12px;
-    border-radius:9px;
-    font-size:12px;
+/* =========================
+   PREVIEW
+========================= */
+
+.preview-area {
+    min-width: 0;
 }
 
-.status.show{
-    display:block;
+.preview-label {
+    font-size: 11px;
+    font-weight: 900;
+    color: #747b84;
+    margin: 0 0 8px 5px;
 }
 
-.status.error{
-    background:#f8eaea;
-    color:#963737;
+.preview-scroll {
+    overflow: auto;
+    padding: 15px;
+    background: #dfe3e8;
+    border-radius: 18px;
 }
 
-.status.success{
-    background:#eaf5ec;
-    color:#31723b;
+.profile {
+    position: relative;
+    width: 760px;
+    min-height: 980px;
+    margin: auto;
+    padding: 58px;
+    background: white;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,.15);
 }
 
-.preview-panel{
-    position:sticky;
-    top:20px;
+.profile-background {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 }
 
-.preview-toolbar{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:12px;
-    font-size:12px;
-    color:#70757d;
+.profile-content {
+    position: relative;
+    z-index: 2;
 }
 
-.preview-stage{
-    display:flex;
-    justify-content:center;
-    padding:10px;
-    overflow:auto;
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
 
-.profile-card{
-    position:relative;
-    width:720px;
-    min-height:900px;
-    overflow:hidden;
-    padding:54px;
-    border-radius:30px;
-    color:#17191d;
-    background:#fff;
-    box-shadow:0 28px 80px rgba(0,0,0,.18);
-    flex-shrink:0;
+.profile-avatar {
+    width: 125px;
+    height: 125px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: #e0e3e7;
+    flex-shrink: 0;
 }
 
-.profile-bg{
-    position:absolute;
-    inset:0;
-    z-index:0;
-    pointer-events:none;
+.profile-name {
+    font-size: 43px;
+    font-weight: 950;
+    line-height: 1.1;
+    word-break: break-word;
 }
 
-.profile-content{
-    position:relative;
-    z-index:2;
+.profile-title {
+    margin-top: 8px;
+    font-size: 16px;
+    color: #737983;
+    font-weight: 750;
 }
 
-.card-header{
-    display:flex;
-    align-items:center;
-    gap:24px;
+.profile-description {
+    margin-top: 30px;
+    font-size: 16px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    word-break: break-word;
 }
 
-.card-avatar{
-    width:120px;
-    height:120px;
-    object-fit:cover;
-    flex-shrink:0;
-    border-radius:50%;
-    background:#ddd;
+.profile-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 35px;
 }
 
-.card-name{
-    font-size:40px;
-    line-height:1.05;
-    font-weight:950;
-    word-break:break-word;
+.profile-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 16px;
+    border-radius: 15px;
+    border: 1px solid rgba(0,0,0,.1);
+    background: rgba(255,255,255,.82);
 }
 
-.card-title{
-    margin-top:9px;
-    font-size:15px;
-    font-weight:700;
-    opacity:.65;
+.profile-link-name {
+    font-size: 14px;
+    font-weight: 950;
+    margin-bottom: 6px;
 }
 
-.card-description{
-    margin-top:34px;
-    font-size:16px;
-    line-height:1.8;
-    white-space:pre-wrap;
-    word-break:break-word;
+.profile-link-url {
+    font-size: 10px;
+    color: #707782;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
 }
 
-.card-links{
-    display:grid;
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:18px;
-    margin-top:36px;
+.empty-links {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 45px 15px;
+    color: #9298a1;
+    border: 1px dashed #c8cdd4;
+    border-radius: 15px;
+    font-size: 12px;
 }
 
-.qr-item{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    min-width:0;
-    padding:18px;
-    border-radius:18px;
-    background:rgba(255,255,255,.86);
-    border:1px solid rgba(0,0,0,.08);
+.footer {
+    position: absolute;
+    bottom: 28px;
+    left: 58px;
+    right: 58px;
+    border-top: 1px solid rgba(0,0,0,.1);
+    padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: .12em;
 }
 
-.qr-name{
-    margin-bottom:10px;
-    font-size:14px;
-    font-weight:900;
+.footer-date {
+    font-weight: 500;
+    letter-spacing: 0;
+    color: #888;
 }
 
-.qr-container{
-    width:155px;
-    height:155px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    background:#fff;
-    padding:5px;
-}
+/* =========================
+   THEMES
+========================= */
 
-.qr-container img,
-.qr-container canvas{
-    display:block;
-    width:145px !important;
-    height:145px !important;
-}
-
-.qr-url{
-    width:100%;
-    margin-top:11px;
-    font-size:10px;
-    line-height:1.45;
-    text-align:center;
-    word-break:break-all;
-    opacity:.62;
-}
-
-.qr-error{
-    width:145px;
-    height:145px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    font-size:11px;
-    color:#a33;
-    background:#faf0f0;
-    border:1px solid #ecc;
-    border-radius:6px;
-}
-
-.empty-links{
-    grid-column:1/-1;
-    padding:50px 20px;
-    text-align:center;
-    opacity:.45;
-    font-size:13px;
-}
-
-.card-footer{
-    position:absolute;
-    left:54px;
-    right:54px;
-    bottom:28px;
-    display:flex;
-    justify-content:space-between;
-    padding-top:13px;
-    border-top:1px solid rgba(0,0,0,.1);
-}
-
-.footer-title{
-    font-size:10px;
-    font-weight:900;
-    letter-spacing:.16em;
-}
-
-.footer-date{
-    font-size:9px;
-    opacity:.45;
-}
-
-/* SNS */
-
-.template-sns .profile-bg{
+.theme-sns .profile-background {
     background:
         radial-gradient(
-            circle at 100% 0%,
+            circle at 100% 0,
             var(--accent),
             transparent 35%
-        ),
-        radial-gradient(
-            circle at 0% 100%,
-            rgba(0,0,0,.06),
-            transparent 35%
         );
-    opacity:.16;
+    opacity: .15;
 }
 
-/* CREATOR */
-
-.template-creator .profile-card{
-    background:#f7f7f5;
+.theme-creator {
+    background: #f6f6f3;
 }
 
-.template-creator .profile-bg{
+.theme-creator .profile-background {
     background:
         linear-gradient(
             135deg,
-            transparent 0 55%,
-            var(--accent) 55% 55.5%,
-            transparent 55.5%
+            transparent 0 58%,
+            var(--accent) 58% 59%,
+            transparent 59%
         );
-    opacity:.13;
+    opacity: .12;
 }
 
-/* ARTIST */
-
-.template-artist .profile-card{
-    background:#101114;
-    color:#fff;
+.theme-artist {
+    background: #0d0f13;
+    color: white;
 }
 
-.template-artist .profile-bg{
+.theme-artist .profile-background {
     background:
         radial-gradient(
-            circle at 85% 20%,
+            circle at 86% 12%,
             var(--accent),
-            transparent 28%
-        ),
-        radial-gradient(
-            circle at 10% 90%,
-            rgba(255,255,255,.08),
-            transparent 30%
+            transparent 32%
         );
-    opacity:.45;
+    opacity: .42;
 }
 
-.template-artist .card-title{
-    color:#fff;
+.theme-artist .profile-title,
+.theme-artist .profile-link-url {
+    color: #aeb3bc;
 }
 
-.template-artist .card-description{
-    color:#fff;
+.theme-artist .profile-link {
+    background: rgba(255,255,255,.07);
+    border-color: rgba(255,255,255,.15);
 }
 
-.template-artist .qr-item{
-    background:rgba(255,255,255,.08);
-    border-color:rgba(255,255,255,.14);
+.theme-artist .footer {
+    border-color: rgba(255,255,255,.18);
 }
 
-.template-artist .qr-url{
-    color:#fff;
+.theme-minimal {
+    border: 1px solid #d8dce1;
+    box-shadow: none;
 }
 
-.template-artist .card-footer{
-    border-color:rgba(255,255,255,.16);
-}
-
-/* MINIMAL */
-
-.template-minimal .profile-card{
-    background:#fff;
-    box-shadow:none;
-    border:1px solid #ddd;
-}
-
-.template-minimal .profile-bg{
+.theme-minimal .profile-background {
     background:
         linear-gradient(
             90deg,
             transparent 49.8%,
-            rgba(0,0,0,.04) 50%,
+            rgba(0,0,0,.035) 50%,
             transparent 50.2%
         ),
         linear-gradient(
             transparent 49.8%,
-            rgba(0,0,0,.04) 50%,
+            rgba(0,0,0,.035) 50%,
             transparent 50.2%
         );
-    background-size:40px 40px;
+    background-size: 42px 42px;
 }
 
-.template-minimal .qr-item{
-    background:#fff;
-    border-color:#ddd;
+.theme-neon {
+    background: #080a0e;
+    color: white;
 }
 
-/* NEON */
-
-.template-neon .profile-card{
-    background:#090b10;
-    color:#fff;
-}
-
-.template-neon .profile-bg{
+.theme-neon .profile-background {
     background:
-        linear-gradient(
-            120deg,
-            transparent 0 40%,
-            var(--accent) 40% 41%,
-            transparent 41%
-        ),
         radial-gradient(
-            circle at 80% 15%,
+            circle at 82% 8%,
             var(--accent),
             transparent 30%
         );
-    opacity:.32;
+    opacity: .35;
 }
 
-.template-neon .card-title,
-.template-neon .card-description{
-    color:#fff;
+.theme-neon .profile-title,
+.theme-neon .profile-link-url {
+    color: #aeb3bc;
 }
 
-.template-neon .qr-item{
-    background:rgba(0,0,0,.45);
-    border:1px solid var(--accent);
+.theme-neon .profile-link {
+    background: rgba(0,0,0,.45);
+    border-color: var(--accent);
 }
 
-.template-neon .qr-url{
-    color:#fff;
+.theme-neon .footer {
+    border-color: rgba(255,255,255,.18);
 }
 
-.template-neon .card-footer{
-    border-color:rgba(255,255,255,.2);
+.theme-elegant {
+    background: #f1ece3;
 }
 
-/* ELEGANT */
-
-.template-elegant .profile-card{
-    background:#f2eee7;
-    color:#27231f;
-}
-
-.template-elegant .profile-bg{
+.theme-elegant .profile-background {
     background:
         radial-gradient(
             circle at 90% 10%,
             var(--accent),
             transparent 28%
-        ),
-        radial-gradient(
-            circle at 5% 90%,
-            rgba(0,0,0,.08),
-            transparent 28%
         );
-    opacity:.16;
+    opacity: .13;
 }
 
-.template-elegant .card-name{
-    font-family:Georgia,"Times New Roman",serif;
-    font-weight:700;
+.theme-elegant .profile-name {
+    font-family: Georgia, "Times New Roman", serif;
+    font-weight: 700;
 }
 
-.template-elegant .qr-item{
-    background:rgba(255,255,255,.5);
-    border-color:rgba(70,60,50,.15);
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-area {
+        order: -1;
+    }
+
 }
 
-/* MOBILE */
+@media (max-width: 600px) {
 
-@media(max-width:960px){
-
-    .workspace{
-        grid-template-columns:1fr;
+    main {
+        padding: 10px;
     }
 
-    .preview-panel{
-        position:static;
-        order:-1;
-    }
-}
-
-@media(max-width:600px){
-
-    .container{
-        padding:12px;
+    .editor {
+        padding: 15px;
     }
 
-    .editor{
-        padding:16px;
+    .profile {
+        width: 680px;
+        min-height: 850px;
+        padding: 40px;
     }
 
-    .profile-card{
-        width:600px;
-        min-height:750px;
-        padding:30px;
+    .profile-avatar {
+        width: 95px;
+        height: 95px;
     }
 
-    .card-avatar{
-        width:82px;
-        height:82px;
+    .profile-name {
+        font-size: 34px;
     }
 
-    .card-name{
-        font-size:29px;
+    .profile-description {
+        font-size: 14px;
     }
 
-    .card-description{
-        font-size:13px;
-    }
-
-    .card-footer{
-        left:30px;
-        right:30px;
+    .footer {
+        left: 40px;
+        right: 40px;
     }
 }
 </style>
@@ -686,156 +580,103 @@ input[type="range"]{
 
 <body>
 
-<header class="header">
+<header>
     <div class="header-inner">
         <div class="logo">CREATOR PROFILE</div>
-        <div class="logo-sub">
-            クリエイターの活動を、1枚のプロフィールカードに。
+        <div class="subtitle">
+            クリエイターの情報を、1枚のプロフィール画像に。
         </div>
     </div>
 </header>
 
-<main class="container">
+<main>
 
-<div class="workspace">
+<div class="layout">
 
-<!-- =====================================================
+<!-- =========================
      EDITOR
-===================================================== -->
+========================= -->
 
 <section class="editor">
 
-<div id="status" class="status"></div>
-
-<!-- PROFILE -->
-
 <div class="section">
 
-<div class="section-title">PROFILE</div>
+<div class="section-title">
+PROFILE
+</div>
 
 <div class="field">
 
-<label>プロフィール画像</label>
+<label>
+プロフィール画像
+</label>
 
-<div class="avatar-editor">
+<div class="avatar-row">
 
-<img id="avatarPreview" class="avatar-input">
+<img
+    id="avatarPreview"
+    class="avatar-preview"
+    alt=""
+>
 
 <input
-    id="avatarFile"
+    id="avatar"
     type="file"
     accept="image/png,image/jpeg,image/webp"
 >
 
 </div>
 
+<div class="hint">
+PNG / JPG / WebPに対応しています。
 </div>
+
+</div>
+
 
 <div class="field">
 
-<label>クリエイター名</label>
+<label>
+クリエイター名
+</label>
 
 <input
     id="name"
-    maxlength="40"
+    type="text"
+    maxlength="50"
     placeholder="例：letam"
 >
 
 </div>
 
+
 <div class="field">
 
-<label>肩書き</label>
+<label>
+肩書き
+</label>
 
 <input
     id="title"
-    maxlength="60"
+    type="text"
+    maxlength="80"
     placeholder="例：Composer / Artist"
 >
 
 </div>
 
+
 <div class="field">
 
-<label>自己紹介</label>
+<label>
+自己紹介
+</label>
 
 <textarea
     id="description"
-    maxlength="300"
+    maxlength="400"
     placeholder="あなたの活動について紹介してください。"
 ></textarea>
-
-</div>
-
-</div>
-
-
-<!-- DESIGN -->
-
-<div class="section">
-
-<div class="section-title">DESIGN</div>
-
-<div class="field">
-
-<label>テンプレート</label>
-
-<select id="template">
-
-<option value="sns">SNS Card</option>
-<option value="creator">Creator</option>
-<option value="artist">Artist</option>
-<option value="minimal">Minimal</option>
-<option value="neon">Neon</option>
-<option value="elegant">Elegant</option>
-
-</select>
-
-</div>
-
-<div class="field">
-
-<label>アクセントカラー</label>
-
-<input
-    id="accentColor"
-    type="color"
-    value="#111318"
->
-
-</div>
-
-<div class="field">
-
-<label>プロフィール画像形状</label>
-
-<select id="avatarShape">
-
-<option value="circle">Circle</option>
-<option value="rounded">Rounded</option>
-<option value="square">Square</option>
-
-</select>
-
-</div>
-
-<div class="field">
-
-<label>カード角丸</label>
-
-<div class="range-row">
-
-<input
-    id="radius"
-    type="range"
-    min="0"
-    max="50"
-    value="30"
->
-
-<output id="radiusValue">30</output>
-
-</div>
 
 </div>
 
@@ -846,79 +687,151 @@ input[type="range"]{
 
 <div class="section">
 
-<div class="section-title">LINKS</div>
+<div class="section-title">
+LINKS
+</div>
 
-<div id="linkEditor" class="link-editor"></div>
+<div
+    id="links"
+    class="links"
+></div>
 
 <button
-    id="addLinkButton"
+    id="addLink"
     class="add-link"
     type="button"
 >
 ＋ リンクを追加
 </button>
 
-<div id="linkCount" class="link-count">
+<div
+    id="linkCount"
+    class="link-count"
+>
 0 / 12
 </div>
 
+<div class="hint">
+URLは https:// を省略して入力することもできます。
+</div>
+
 </div>
 
 
-<!-- QR -->
+<!-- DESIGN -->
 
 <div class="section">
 
-<div class="section-title">QR CODE</div>
+<div class="section-title">
+DESIGN
+</div>
+
 
 <div class="field">
 
-<label>QRコードサイズ</label>
-
-<div class="range-row">
-
-<input
-    id="qrSize"
-    type="range"
-    min="90"
-    max="180"
-    value="145"
->
-
-<output id="qrSizeValue">145</output>
-
-</div>
-
-</div>
-
-<div class="field">
-
-<label class="checkbox">
-
-<input
-    id="showUrls"
-    type="checkbox"
-    checked
->
-
-QRコードの下にリンクアドレスを表示
-
+<label>
+テンプレート
 </label>
 
-</div>
+<select id="theme">
+
+<option value="sns">
+SNS
+</option>
+
+<option value="creator">
+Creator
+</option>
+
+<option value="artist">
+Artist
+</option>
+
+<option value="minimal">
+Minimal
+</option>
+
+<option value="neon">
+Neon
+</option>
+
+<option value="elegant">
+Elegant
+</option>
+
+</select>
 
 </div>
 
-
-<!-- FOOTER -->
-
-<div class="section">
-
-<div class="section-title">FOOTER</div>
 
 <div class="field">
 
-<label class="checkbox">
+<label>
+アクセントカラー
+</label>
+
+<input
+    id="accent"
+    type="color"
+    value="#111827"
+>
+
+</div>
+
+
+<div class="field">
+
+<label>
+プロフィール画像の形
+</label>
+
+<select id="avatarShape">
+
+<option value="circle">
+Circle
+</option>
+
+<option value="rounded">
+Rounded
+</option>
+
+<option value="square">
+Square
+</option>
+
+</select>
+
+</div>
+
+
+<div class="field">
+
+<label>
+カードの角丸
+</label>
+
+<input
+    id="radius"
+    type="range"
+    min="0"
+    max="50"
+    value="32"
+>
+
+</div>
+
+</div>
+
+
+<!-- DISPLAY -->
+
+<div class="section">
+
+<div class="section-title">
+DISPLAY
+</div>
+
+<label>
 
 <input
     id="showFooter"
@@ -926,15 +839,13 @@ QRコードの下にリンクアドレスを表示
     checked
 >
 
-CREATOR PROFILEを表示
+ CREATOR PROFILEを表示
 
 </label>
 
-</div>
+<br>
 
-<div class="field">
-
-<label class="checkbox">
+<label>
 
 <input
     id="showDate"
@@ -942,11 +853,9 @@ CREATOR PROFILEを表示
     checked
 >
 
-作成日を表示
+ 作成日を表示
 
 </label>
-
-</div>
 
 </div>
 
@@ -955,90 +864,99 @@ CREATOR PROFILEを表示
 
 <div class="section">
 
-<div class="section-title">DATA</div>
+<div class="section-title">
+DATA
+</div>
+
+<div class="buttons">
 
 <button
-    id="saveButton"
-    class="button button-dark"
-    type="button"
+    id="save"
+    class="btn primary"
 >
 設定を保存
 </button>
 
 <button
-    id="loadButton"
-    class="button button-light"
-    type="button"
+    id="load"
+    class="btn secondary"
 >
 保存データを読み込む
 </button>
 
 <button
-    id="resetButton"
-    class="button button-danger"
-    type="button"
+    id="reset"
+    class="btn danger"
 >
 すべてリセット
 </button>
 
 </div>
 
+<div class="hint">
+データはこのブラウザ内にのみ保存されます。
+</div>
+
+</div>
+
 
 <button
-    id="exportButton"
-    class="button button-dark"
-    type="button"
+    id="export"
+    class="btn primary"
+    style="width:100%"
 >
 PNG画像として保存
 </button>
 
+<div class="hint">
+PNG画像にはリンク先URLが文字として掲載されます。
+</div>
+
 </section>
 
 
-<!-- =====================================================
+<!-- =========================
      PREVIEW
-===================================================== -->
+========================= -->
 
-<section class="preview-panel">
+<section class="preview-area">
 
-<div class="preview-toolbar">
-
-<span>PREVIEW</span>
-
-<strong>LIVE</strong>
-
+<div class="preview-label">
+PREVIEW
 </div>
 
-<div class="preview-stage">
+<div class="preview-scroll">
 
 <div
-    id="profileCard"
-    class="profile-card template-sns"
+    id="profile"
+    class="profile theme-sns"
+    style="--accent:#111827;"
 >
 
-<div class="profile-bg"></div>
+<div class="profile-background"></div>
 
 <div class="profile-content">
 
-<div class="card-header">
+<div class="profile-header">
 
 <img
-    id="cardAvatar"
-    class="card-avatar"
+    id="profileAvatar"
+    class="profile-avatar"
+    alt=""
 >
 
 <div>
 
 <div
-    id="cardName"
-    class="card-name"
+    id="profileName"
+    class="profile-name"
 >
 Creator Name
 </div>
 
 <div
-    id="cardTitle"
-    class="card-title"
+    id="profileTitle"
+    class="profile-title"
 >
 Creator
 </div>
@@ -1047,36 +965,38 @@ Creator
 
 </div>
 
+
 <div
-    id="cardDescription"
-    class="card-description"
+    id="profileDescription"
+    class="profile-description"
 >
 あなたの活動を紹介しましょう。
 </div>
 
+
 <div
-    id="cardLinks"
-    class="card-links"
-></div>
+    id="profileLinks"
+    class="profile-links"
+>
+</div>
 
 </div>
 
-<div
-    id="cardFooter"
-    class="card-footer"
->
 
 <div
-    id="footerTitle"
-    class="footer-title"
+    id="footer"
+    class="footer"
 >
+
+<span>
 CREATOR PROFILE
-</div>
+</span>
 
-<div
+<span
     id="footerDate"
     class="footer-date"
-></div>
+>
+</span>
 
 </div>
 
@@ -1093,23 +1013,31 @@ CREATOR PROFILE
 
 <script>
 
-/* =====================================================
-   BASIC
-===================================================== */
+"use strict";
+
+
+/* =================================
+   基本設定
+================================= */
 
 const MAX_LINKS = 12;
-const STORAGE_KEY = "creator-profile-v3";
+const STORAGE_KEY = "creator-profile-data";
 
 let avatarData = "";
+
+
+/* =================================
+   要素取得
+================================= */
 
 const $ = id => document.getElementById(id);
 
 
-/* =====================================================
-   PLACEHOLDER
-===================================================== */
+/* =================================
+   仮プロフィール画像
+================================= */
 
-function createPlaceholder(){
+function createPlaceholder() {
 
     const canvas = document.createElement("canvas");
 
@@ -1118,194 +1046,172 @@ function createPlaceholder(){
 
     const ctx = canvas.getContext("2d");
 
-    ctx.fillStyle = "#dfe2e5";
-    ctx.fillRect(0,0,300,300);
+    ctx.fillStyle = "#dfe3e8";
+    ctx.fillRect(0, 0, 300, 300);
 
-    ctx.fillStyle = "#aeb3ba";
+    ctx.fillStyle = "#aeb5bf";
 
     ctx.beginPath();
-    ctx.arc(150,105,55,0,Math.PI*2);
+    ctx.arc(150, 105, 55, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.beginPath();
-    ctx.arc(150,330,115,Math.PI,0);
+    ctx.arc(150, 330, 115, Math.PI, 0);
     ctx.fill();
 
     return canvas.toDataURL("image/png");
 }
 
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-let statusTimer;
-
-function showStatus(message,type="success"){
-
-    const box = $("status");
-
-    box.textContent = message;
-
-    box.className =
-        "status show " + type;
-
-    clearTimeout(statusTimer);
-
-    statusTimer = setTimeout(()=>{
-        box.className = "status";
-    },3000);
-}
+const placeholderAvatar = createPlaceholder();
 
 
-/* =====================================================
-   URL VALIDATION
-===================================================== */
+/* =================================
+   URL安全処理
+================================= */
 
-function normalizeURL(value){
+function normalizeURL(value) {
 
-    let url = String(value || "").trim();
+    value = String(value || "").trim();
 
-    if(!url){
+    if (!value) {
         return "";
     }
 
-    /*
-     * スクリプト系URLは禁止
-     */
-
-    const lower = url.toLowerCase();
-
-    if(
-        lower.startsWith("javascript:") ||
-        lower.startsWith("data:") ||
-        lower.startsWith("file:")
-    ){
+    if (
+        value.toLowerCase().startsWith("javascript:") ||
+        value.toLowerCase().startsWith("data:") ||
+        value.toLowerCase().startsWith("vbscript:") ||
+        value.toLowerCase().startsWith("file:")
+    ) {
         return "";
     }
 
-    /*
-     * https:// が無ければ追加
-     */
-
-    if(
-        !lower.startsWith("http://") &&
-        !lower.startsWith("https://")
-    ){
-        url = "https://" + url;
+    if (!/^https?:\/\//i.test(value)) {
+        value = "https://" + value;
     }
 
-    try{
+    try {
 
-        const parsed = new URL(url);
+        const url = new URL(value);
 
-        if(
-            parsed.protocol !== "http:" &&
-            parsed.protocol !== "https:"
-        ){
+        if (
+            url.protocol !== "http:" &&
+            url.protocol !== "https:"
+        ) {
             return "";
         }
 
-        return parsed.href;
+        return url.href;
 
-    }catch{
+    } catch {
 
         return "";
     }
 }
 
 
-/* =====================================================
-   LINK EDITOR
-===================================================== */
+/* =================================
+   リンク追加
+================================= */
 
-function addLink(service="Website",url=""){
+function addLink(
+    service = "",
+    url = ""
+) {
 
-    if(
-        $("linkEditor").children.length >= MAX_LINKS
-    ){
-        showStatus(
-            "リンクは最大12件まで追加できます。",
-            "error"
-        );
+    if (
+        $("links").children.length >= MAX_LINKS
+    ) {
         return;
     }
+
 
     const item =
         document.createElement("div");
 
     item.className = "link-item";
 
-    item.innerHTML = `
 
-        <div class="link-header">
+    const top =
+        document.createElement("div");
 
-            <select class="service">
+    top.className = "link-top";
 
-                <option>pixiv</option>
-                <option>X</option>
-                <option>YouTube</option>
-                <option>SoundCloud</option>
-                <option>GitHub</option>
-                <option>BOOTH</option>
-                <option>Instagram</option>
-                <option>TikTok</option>
-                <option>Discord</option>
-                <option>Website</option>
-                <option>Other</option>
-
-            </select>
-
-            <button
-                class="remove-link"
-                type="button"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <input
-            class="link-url"
-            type="text"
-            inputmode="url"
-            autocomplete="url"
-            placeholder="https://example.com/"
-        >
-
-        <div class="link-controls">
-
-            <button
-                class="link-control up"
-                type="button"
-            >
-                ↑ 上へ
-            </button>
-
-            <button
-                class="link-control down"
-                type="button"
-            >
-                ↓ 下へ
-            </button>
-
-        </div>
-
-    `;
 
     const serviceInput =
-        item.querySelector(".service");
+        document.createElement("input");
 
-    const urlInput =
-        item.querySelector(".link-url");
-
+    serviceInput.type = "text";
+    serviceInput.className = "link-service";
+    serviceInput.maxLength = 40;
+    serviceInput.placeholder = "サービス名";
     serviceInput.value = service;
 
+
+    const deleteButton =
+        document.createElement("button");
+
+    deleteButton.type = "button";
+    deleteButton.className = "delete-link";
+    deleteButton.textContent = "×";
+
+
+    const urlInput =
+        document.createElement("input");
+
+    urlInput.type = "url";
+    urlInput.className = "link-url";
+    urlInput.placeholder =
+        "https://example.com/";
     urlInput.value = url;
 
 
+    const buttons =
+        document.createElement("div");
+
+    buttons.className = "link-buttons";
+
+
+    const up =
+        document.createElement("button");
+
+    up.type = "button";
+    up.textContent = "↑ 上へ";
+
+
+    const down =
+        document.createElement("button");
+
+    down.type = "button";
+    down.textContent = "↓ 下へ";
+
+
+    buttons.append(
+        up,
+        down
+    );
+
+
+    top.append(
+        serviceInput,
+        deleteButton
+    );
+
+
+    item.append(
+        top,
+        urlInput,
+        buttons
+    );
+
+
+    $("links").appendChild(item);
+
+
+    /* 入力 */
+
     serviceInput.addEventListener(
-        "change",
+        "input",
         update
     );
 
@@ -1314,381 +1220,269 @@ function addLink(service="Website",url=""){
         update
     );
 
-    item.querySelector(".remove-link")
-        .addEventListener(
-            "click",
-            ()=>{
-                item.remove();
+
+    /* 削除 */
+
+    deleteButton.addEventListener(
+        "click",
+        () => {
+
+            item.remove();
+
+            update();
+
+        }
+    );
+
+
+    /* 上へ */
+
+    up.addEventListener(
+        "click",
+        () => {
+
+            const previous =
+                item.previousElementSibling;
+
+            if (previous) {
+
+                $("links").insertBefore(
+                    item,
+                    previous
+                );
+
                 update();
             }
-        );
+
+        }
+    );
 
 
-    item.querySelector(".up")
-        .addEventListener(
-            "click",
-            ()=>{
+    /* 下へ */
 
-                const previous =
-                    item.previousElementSibling;
+    down.addEventListener(
+        "click",
+        () => {
 
-                if(previous){
+            const next =
+                item.nextElementSibling;
 
-                    $("linkEditor")
-                        .insertBefore(
-                            item,
-                            previous
-                        );
+            if (next) {
 
-                    update();
-                }
+                $("links").insertBefore(
+                    next,
+                    item
+                );
 
+                update();
             }
-        );
 
+        }
+    );
 
-    item.querySelector(".down")
-        .addEventListener(
-            "click",
-            ()=>{
-
-                const next =
-                    item.nextElementSibling;
-
-                if(next){
-
-                    $("linkEditor")
-                        .insertBefore(
-                            next,
-                            item
-                        );
-
-                    update();
-                }
-
-            }
-        );
-
-
-    $("linkEditor").appendChild(item);
 
     update();
 }
 
 
-/* =====================================================
-   COLLECT LINKS
-===================================================== */
+/* =================================
+   リンク取得
+================================= */
 
-function collectLinks(){
+function getLinks() {
 
-    const result = [];
+    return [
+        ...$("links").querySelectorAll(
+            ".link-item"
+        )
+    ]
 
-    $("linkEditor")
-        .querySelectorAll(".link-item")
-        .forEach(item=>{
+    .map(item => {
 
-            const service =
-                item.querySelector(
-                    ".service"
-                ).value;
+        const service =
+            item.querySelector(
+                ".link-service"
+            ).value.trim();
 
-            const raw =
-                item.querySelector(
-                    ".link-url"
-                ).value;
+        const raw =
+            item.querySelector(
+                ".link-url"
+            ).value.trim();
 
-            const url =
-                normalizeURL(raw);
+        const url =
+            normalizeURL(raw);
 
-            if(url){
+        return {
+            service:
+                service || "Website",
+            url
+        };
 
-                result.push({
-                    service,
-                    url
-                });
+    })
 
-            }
-
-        });
-
-    return result;
+    .filter(
+        link => link.url
+    );
 }
 
 
-/* =====================================================
-   PROFILE
-===================================================== */
+/* =================================
+   プロフィール更新
+================================= */
 
-function updateProfile(){
+function updateProfile() {
 
-    $("cardName").textContent =
-        $("name").value.trim() ||
-        "Creator Name";
+    $("profileName").textContent =
+        $("name").value.trim()
+        || "Creator Name";
 
-    $("cardTitle").textContent =
-        $("title").value.trim() ||
-        "Creator";
 
-    $("cardDescription").textContent =
-        $("description").value.trim() ||
+    $("profileTitle").textContent =
+        $("title").value.trim()
+        || "Creator";
+
+
+    $("profileDescription").textContent =
+        $("description").value.trim()
+        ||
         "あなたの活動を紹介しましょう。";
 }
 
 
-/* =====================================================
-   DESIGN
-===================================================== */
+/* =================================
+   リンク表示
+================================= */
 
-function updateDesign(){
-
-    const card = $("profileCard");
-
-    card.className =
-        "profile-card template-" +
-        $("template").value;
-
-    card.style.setProperty(
-        "--accent",
-        $("accentColor").value
-    );
-
-    card.style.borderRadius =
-        $("radius").value + "px";
-
-    $("radiusValue").textContent =
-        $("radius").value;
-
-    $("qrSizeValue").textContent =
-        $("qrSize").value;
-
-
-    const shape =
-        $("avatarShape").value;
-
-    if(shape === "circle"){
-
-        $("cardAvatar").style.borderRadius =
-            "50%";
-
-    }
-    else if(shape === "rounded"){
-
-        $("cardAvatar").style.borderRadius =
-            "22px";
-
-    }
-    else{
-
-        $("cardAvatar").style.borderRadius =
-            "0";
-
-    }
-
-}
-
-
-/* =====================================================
-   QR CODE
-===================================================== */
-
-function generateQRCode(container,url,size){
-
-    /*
-     * 既存QRを完全に削除
-     */
-
-    container.innerHTML = "";
-
-    if(!url){
-
-        return false;
-    }
-
-    /*
-     * QRCode.jsが読み込まれているか確認
-     */
-
-    if(
-        typeof QRCode === "undefined"
-    ){
-
-        const error =
-            document.createElement("div");
-
-        error.className = "qr-error";
-
-        error.textContent =
-            "QRコードライブラリを読み込めませんでした。";
-
-        container.appendChild(error);
-
-        return false;
-    }
-
-    try{
-
-        /*
-         * QRCode.jsで生成
-         */
-
-        new QRCode(
-            container,
-            {
-                text:url,
-
-                width:size,
-
-                height:size,
-
-                colorDark:"#000000",
-
-                colorLight:"#ffffff",
-
-                correctLevel:
-                    QRCode.CorrectLevel.M
-            }
-        );
-
-        return true;
-
-    }catch(error){
-
-        console.error(
-            "QR Code Error:",
-            error
-        );
-
-        const errorBox =
-            document.createElement("div");
-
-        errorBox.className =
-            "qr-error";
-
-        errorBox.textContent =
-            "このURLのQRコードを生成できませんでした。";
-
-        container.appendChild(
-            errorBox
-        );
-
-        return false;
-    }
-}
-
-
-/* =====================================================
-   LINK PREVIEW
-===================================================== */
-
-function updateLinks(){
+function updateLinks() {
 
     const container =
-        $("cardLinks");
+        $("profileLinks");
 
     container.innerHTML = "";
 
+
     const links =
-        collectLinks();
+        getLinks();
+
 
     $("linkCount").textContent =
-        links.length + " / " + MAX_LINKS;
+        links.length +
+        " / " +
+        MAX_LINKS;
 
 
-    if(!links.length){
+    if (!links.length) {
 
-        container.innerHTML = `
+        const empty =
+            document.createElement("div");
 
-            <div class="empty-links">
+        empty.className =
+            "empty-links";
 
-                リンクを追加すると<br>
-                QRコードとリンクアドレスが表示されます。
+        empty.textContent =
+            "リンクを追加すると、ここに表示されます。";
 
-            </div>
-
-        `;
+        container.appendChild(empty);
 
         return;
     }
 
 
-    const size =
-        Number($("qrSize").value);
+    links.forEach(link => {
 
+        const a =
+            document.createElement("a");
 
-    links.forEach(link=>{
+        a.className =
+            "profile-link";
 
-        const box =
-            document.createElement("div");
+        a.href =
+            link.url;
 
-        box.className =
-            "qr-item";
+        a.target =
+            "_blank";
+
+        a.rel =
+            "noopener noreferrer";
 
 
         const name =
             document.createElement("div");
 
         name.className =
-            "qr-name";
+            "profile-link-name";
 
         name.textContent =
             link.service;
-
-
-        const qr =
-            document.createElement("div");
-
-        qr.className =
-            "qr-container";
 
 
         const url =
             document.createElement("div");
 
         url.className =
-            "qr-url";
+            "profile-link-url";
 
         url.textContent =
             link.url;
 
 
-        if(
-            !$("showUrls").checked
-        ){
-
-            url.style.display =
-                "none";
-
-        }
-
-
-        box.appendChild(name);
-
-        box.appendChild(qr);
-
-        box.appendChild(url);
-
-        container.appendChild(box);
-
-
-        generateQRCode(
-            qr,
-            link.url,
-            size
+        a.append(
+            name,
+            url
         );
+
+        container.appendChild(a);
 
     });
 
 }
 
 
-/* =====================================================
-   FOOTER
-===================================================== */
+/* =================================
+   デザイン
+================================= */
 
-function updateFooter(){
+function updateDesign() {
 
-    $("cardFooter").style.display =
+    const profile =
+        $("profile");
+
+
+    profile.className =
+        "profile theme-" +
+        $("theme").value;
+
+
+    profile.style.setProperty(
+        "--accent",
+        $("accent").value
+    );
+
+
+    profile.style.borderRadius =
+        $("radius").value + "px";
+
+
+    const shape =
+        $("avatarShape").value;
+
+
+    $("profileAvatar").style.borderRadius =
+        shape === "circle"
+            ? "50%"
+            : shape === "rounded"
+                ? "22px"
+                : "0";
+}
+
+
+/* =================================
+   フッター
+================================= */
+
+function updateFooter() {
+
+    $("footer").style.display =
         $("showFooter").checked
             ? "flex"
             : "none";
@@ -1708,70 +1502,137 @@ function updateFooter(){
         date.getFullYear() +
         "." +
         String(
-            date.getMonth()+1
-        ).padStart(2,"0") +
+            date.getMonth() + 1
+        ).padStart(2, "0") +
         "." +
         String(
             date.getDate()
-        ).padStart(2,"0");
+        ).padStart(2, "0");
 }
 
 
-/* =====================================================
-   AVATAR
-===================================================== */
+/* =================================
+   アバター
+================================= */
 
-function updateAvatar(){
+function updateAvatar() {
 
-    const source =
+    const src =
         avatarData ||
-        createPlaceholder();
+        placeholderAvatar;
+
 
     $("avatarPreview").src =
-        source;
+        src;
 
-    $("cardAvatar").src =
-        source;
+    $("profileAvatar").src =
+        src;
 }
 
 
-/* =====================================================
-   MASTER UPDATE
-===================================================== */
+/* =================================
+   全体更新
+================================= */
 
-function update(){
+function update() {
 
     updateProfile();
+
+    updateLinks();
 
     updateDesign();
 
     updateAvatar();
 
-    updateLinks();
-
     updateFooter();
-
 }
 
 
-/* =====================================================
-   INPUT EVENTS
-===================================================== */
+/* =================================
+   画像読み込み
+================================= */
+
+$("avatar").addEventListener(
+    "change",
+    event => {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) {
+            return;
+        }
+
+
+        if (
+            file.size >
+            10 * 1024 * 1024
+        ) {
+
+            alert(
+                "画像サイズは10MB以下にしてください。"
+            );
+
+            event.target.value = "";
+
+            return;
+        }
+
+
+        if (
+            ![
+                "image/png",
+                "image/jpeg",
+                "image/webp"
+            ].includes(file.type)
+        ) {
+
+            alert(
+                "PNG / JPG / WebPのみ使用できます。"
+            );
+
+            event.target.value = "";
+
+            return;
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            () => {
+
+                avatarData =
+                    reader.result;
+
+                update();
+            };
+
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+
+/* =================================
+   各入力
+================================= */
 
 [
     "name",
     "title",
     "description",
-    "template",
-    "accentColor",
+    "theme",
+    "accent",
     "avatarShape",
     "radius",
-    "qrSize",
-    "showUrls",
     "showFooter",
     "showDate"
-
-].forEach(id=>{
+]
+.forEach(id => {
 
     $(id).addEventListener(
         "input",
@@ -1786,91 +1647,39 @@ function update(){
 });
 
 
-/* =====================================================
-   AVATAR
-===================================================== */
+/* =================================
+   リンク追加
+================================= */
 
-$("avatarFile")
-.addEventListener(
-    "change",
-    event=>{
+$("addLink").addEventListener(
+    "click",
+    () => {
 
-        const file =
-            event.target.files[0];
+        if (
+            $("links").children.length >=
+            MAX_LINKS
+        ) {
 
-        if(!file){
-            return;
-        }
-
-
-        if(
-            file.size >
-            10 * 1024 * 1024
-        ){
-
-            showStatus(
-                "画像は10MB以下にしてください。",
-                "error"
+            alert(
+                "リンクは最大12個まで追加できます。"
             );
 
-            event.target.value = "";
-
             return;
         }
 
-
-        const reader =
-            new FileReader();
-
-
-        reader.onload =
-            event=>{
-
-                avatarData =
-                    event.target.result;
-
-                update();
-
-            };
-
-
-        reader.onerror =
-            ()=>{
-
-                showStatus(
-                    "画像を読み込めませんでした。",
-                    "error"
-                );
-
-            };
-
-
-        reader.readAsDataURL(file);
-
-    }
-);
-
-
-/* =====================================================
-   ADD LINK
-===================================================== */
-
-$("addLinkButton")
-.addEventListener(
-    "click",
-    ()=>{
         addLink();
+
     }
 );
 
 
-/* =====================================================
-   SAVE DATA
-===================================================== */
+/* =================================
+   データ取得
+================================= */
 
-function getData(){
+function getData() {
 
-    return{
+    return {
 
         name:
             $("name").value,
@@ -1884,27 +1693,17 @@ function getData(){
         avatar:
             avatarData,
 
-        template:
-            $("template").value,
+        theme:
+            $("theme").value,
 
-        accentColor:
-            $("accentColor").value,
+        accent:
+            $("accent").value,
 
         avatarShape:
             $("avatarShape").value,
 
         radius:
-            Number(
-                $("radius").value
-            ),
-
-        qrSize:
-            Number(
-                $("qrSize").value
-            ),
-
-        showUrls:
-            $("showUrls").checked,
+            $("radius").value,
 
         showFooter:
             $("showFooter").checked,
@@ -1913,19 +1712,34 @@ function getData(){
             $("showDate").checked,
 
         links:
-            collectLinks()
+            [
+                ...$("links").querySelectorAll(
+                    ".link-item"
+                )
+            ]
+            .map(item => ({
+
+                service:
+                    item.querySelector(
+                        ".link-service"
+                    ).value,
+
+                url:
+                    item.querySelector(
+                        ".link-url"
+                    ).value
+
+            }))
 
     };
-
 }
 
 
-function applyData(data){
+/* =================================
+   データ適用
+================================= */
 
-    if(!data){
-        return;
-    }
-
+function applyData(data) {
 
     $("name").value =
         data.name || "";
@@ -1941,50 +1755,45 @@ function applyData(data){
         data.avatar || "";
 
 
-    $("template").value =
-        data.template || "sns";
+    $("theme").value =
+        data.theme || "sns";
 
-    $("accentColor").value =
-        data.accentColor || "#111318";
+
+    $("accent").value =
+        data.accent || "#111827";
+
 
     $("avatarShape").value =
-        data.avatarShape || "circle";
+        data.avatarShape ||
+        "circle";
 
 
     $("radius").value =
-        Number(data.radius) || 30;
+        data.radius || 32;
 
-    $("qrSize").value =
-        Number(data.qrSize) || 145;
-
-
-    $("showUrls").checked =
-        data.showUrls !== false;
 
     $("showFooter").checked =
         data.showFooter !== false;
+
 
     $("showDate").checked =
         data.showDate !== false;
 
 
-    $("linkEditor").innerHTML = "";
+    $("links").innerHTML = "";
 
 
-    if(
+    if (
         Array.isArray(data.links)
-    ){
+    ) {
 
         data.links
-            .slice(0,MAX_LINKS)
-            .forEach(link=>{
+            .slice(0, MAX_LINKS)
+            .forEach(link => {
 
                 addLink(
-                    link.service ||
-                        "Website",
-
-                    link.url ||
-                        ""
+                    link.service || "Website",
+                    link.url || ""
                 );
 
             });
@@ -1993,20 +1802,18 @@ function applyData(data){
 
 
     update();
-
 }
 
 
-/* =====================================================
-   SAVE
-===================================================== */
+/* =================================
+   保存
+================================= */
 
-$("saveButton")
-.addEventListener(
+$("save").addEventListener(
     "click",
-    ()=>{
+    () => {
 
-        try{
+        try {
 
             localStorage.setItem(
                 STORAGE_KEY,
@@ -2015,17 +1822,16 @@ $("saveButton")
                 )
             );
 
-            showStatus(
+            alert(
                 "設定を保存しました。"
             );
 
-        }catch(error){
+        } catch(error) {
 
             console.error(error);
 
-            showStatus(
-                "保存できませんでした。",
-                "error"
+            alert(
+                "保存できませんでした。"
             );
 
         }
@@ -2034,28 +1840,26 @@ $("saveButton")
 );
 
 
-/* =====================================================
-   LOAD
-===================================================== */
+/* =================================
+   読み込み
+================================= */
 
-$("loadButton")
-.addEventListener(
+$("load").addEventListener(
     "click",
-    ()=>{
+    () => {
 
-        try{
+        try {
 
-            const raw =
+            const data =
                 localStorage.getItem(
                     STORAGE_KEY
                 );
 
 
-            if(!raw){
+            if (!data) {
 
-                showStatus(
-                    "保存データがありません。",
-                    "error"
+                alert(
+                    "保存データがありません。"
                 );
 
                 return;
@@ -2063,22 +1867,20 @@ $("loadButton")
 
 
             applyData(
-                JSON.parse(raw)
+                JSON.parse(data)
             );
 
 
-            showStatus(
+            alert(
                 "保存データを読み込みました。"
             );
 
-
-        }catch(error){
+        } catch(error) {
 
             console.error(error);
 
-            showStatus(
-                "保存データを読み込めませんでした。",
-                "error"
+            alert(
+                "保存データの読み込みに失敗しました。"
             );
 
         }
@@ -2087,20 +1889,19 @@ $("loadButton")
 );
 
 
-/* =====================================================
-   RESET
-===================================================== */
+/* =================================
+   リセット
+================================= */
 
-$("resetButton")
-.addEventListener(
+$("reset").addEventListener(
     "click",
-    ()=>{
+    () => {
 
-        if(
+        if (
             !confirm(
-                "すべての入力内容をリセットしますか？"
+                "入力内容をすべてリセットしますか？"
             )
-        ){
+        ) {
             return;
         }
 
@@ -2111,239 +1912,751 @@ $("resetButton")
 
 
         $("name").value = "";
-
         $("title").value = "";
-
         $("description").value = "";
 
-        $("template").value = "sns";
-
-        $("accentColor").value =
-            "#111318";
-
-        $("avatarShape").value =
-            "circle";
-
-        $("radius").value = 30;
-
-        $("qrSize").value = 145;
-
-        $("showUrls").checked = true;
+        $("theme").value = "sns";
+        $("accent").value = "#111827";
+        $("avatarShape").value = "circle";
+        $("radius").value = 32;
 
         $("showFooter").checked = true;
-
         $("showDate").checked = true;
 
+        $("avatar").value = "";
 
         avatarData = "";
 
 
-        $("linkEditor").innerHTML = "";
+        $("links").innerHTML = "";
 
 
-        addLink("pixiv","");
+        addLink(
+            "pixiv",
+            ""
+        );
 
-        addLink("X","");
+        addLink(
+            "X",
+            ""
+        );
 
-        addLink("YouTube","");
+        addLink(
+            "YouTube",
+            ""
+        );
 
-        addLink("Website","");
+        addLink(
+            "Website",
+            ""
+        );
 
 
         update();
 
+    }
+);
 
-        showStatus(
-            "リセットしました。"
+
+/* =================================
+   PNG出力
+================================= */
+
+/*
+    Canvasだけを使用してPNGを生成します。
+    外部ライブラリは使用しません。
+*/
+
+async function exportPNG() {
+
+    const button =
+        $("export");
+
+    button.disabled = true;
+
+    button.textContent =
+        "画像を生成中…";
+
+
+    try {
+
+        const canvas =
+            document.createElement(
+                "canvas"
+            );
+
+
+        const width = 1520;
+        const height = 1960;
+
+
+        canvas.width =
+            width;
+
+        canvas.height =
+            height;
+
+
+        const ctx =
+            canvas.getContext(
+                "2d"
+            );
+
+
+        const theme =
+            $("theme").value;
+
+        const accent =
+            $("accent").value;
+
+
+        const dark =
+            theme === "artist" ||
+            theme === "neon";
+
+
+        const text =
+            dark
+                ? "#ffffff"
+                : "#17191d";
+
+
+        const muted =
+            dark
+                ? "#aeb3bc"
+                : "#707782";
+
+
+        /* 背景 */
+
+        if (
+            theme === "artist" ||
+            theme === "neon"
+        ) {
+
+            ctx.fillStyle =
+                "#0d0f13";
+
+            ctx.fillRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+
+            const gradient =
+                ctx.createRadialGradient(
+                    width * .86,
+                    height * .08,
+                    0,
+                    width * .86,
+                    height * .08,
+                    width * .42
+                );
+
+
+            gradient.addColorStop(
+                0,
+                accent + "99"
+            );
+
+            gradient.addColorStop(
+                1,
+                "#00000000"
+            );
+
+
+            ctx.fillStyle =
+                gradient;
+
+            ctx.fillRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+        } else {
+
+            ctx.fillStyle =
+                theme === "creator"
+                    ? "#f6f6f3"
+                    : theme === "elegant"
+                        ? "#f1ece3"
+                        : "#ffffff";
+
+
+            ctx.fillRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+
+            const gradient =
+                ctx.createRadialGradient(
+                    width,
+                    0,
+                    0,
+                    width,
+                    0,
+                    width * .38
+                );
+
+
+            gradient.addColorStop(
+                0,
+                accent + "35"
+            );
+
+            gradient.addColorStop(
+                1,
+                "#ffffff00"
+            );
+
+
+            ctx.fillStyle =
+                gradient;
+
+            ctx.fillRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+        }
+
+
+        /* アバター */
+
+        const avatar =
+            new Image();
+
+
+        await new Promise(
+            (resolve, reject) => {
+
+                avatar.onload =
+                    resolve;
+
+                avatar.onerror =
+                    reject;
+
+                avatar.src =
+                    avatarData ||
+                    placeholderAvatar;
+
+            }
         );
 
-    }
-);
+
+        const avatarX = 116;
+        const avatarY = 116;
+        const avatarSize = 250;
 
 
-/* =====================================================
-   PNG EXPORT
-===================================================== */
-
-$("exportButton")
-.addEventListener(
-    "click",
-    async()=>{
-
-        const button =
-            $("exportButton");
+        ctx.save();
 
 
-        if(
-            typeof html2canvas ===
-            "undefined"
-        ){
+        const shape =
+            $("avatarShape").value;
 
-            showStatus(
-                "画像出力機能を読み込めませんでした。",
-                "error"
+
+        if (
+            shape === "circle"
+        ) {
+
+            ctx.beginPath();
+
+            ctx.arc(
+                avatarX + avatarSize / 2,
+                avatarY + avatarSize / 2,
+                avatarSize / 2,
+                0,
+                Math.PI * 2
             );
 
-            return;
+            ctx.clip();
+
+        } else {
+
+            const radius =
+                shape === "rounded"
+                    ? 44
+                    : 0;
+
+
+            ctx.beginPath();
+
+            ctx.roundRect(
+                avatarX,
+                avatarY,
+                avatarSize,
+                avatarSize,
+                radius
+            );
+
+            ctx.clip();
+
         }
 
 
-        button.disabled = true;
+        ctx.drawImage(
+            avatar,
+            avatarX,
+            avatarY,
+            avatarSize,
+            avatarSize
+        );
 
-        button.textContent =
-            "画像を生成しています…";
+
+        ctx.restore();
 
 
-        try{
+        /* 名前 */
 
-            /*
-             * QRコード生成を待つ
-             */
+        const name =
+            $("name").value.trim()
+            || "Creator Name";
 
-            await new Promise(
-                resolve =>
-                    setTimeout(
-                        resolve,
-                        500
-                    )
+
+        const title =
+            $("title").value.trim()
+            || "Creator";
+
+
+        const description =
+            $("description").value.trim()
+            ||
+            "あなたの活動を紹介しましょう。";
+
+
+        ctx.fillStyle =
+            text;
+
+
+        ctx.font =
+            "900 86px sans-serif";
+
+
+        ctx.fillText(
+            name.substring(0, 24),
+            405,
+            190
+        );
+
+
+        ctx.fillStyle =
+            muted;
+
+
+        ctx.font =
+            "700 30px sans-serif";
+
+
+        ctx.fillText(
+            title.substring(0, 45),
+            405,
+            255
+        );
+
+
+        /* 説明 */
+
+        ctx.fillStyle =
+            text;
+
+
+        ctx.font =
+            "400 29px sans-serif";
+
+
+        const descriptionLines =
+            description.split("\n");
+
+
+        let descriptionY =
+            450;
+
+
+        descriptionLines
+            .slice(0, 7)
+            .forEach(line => {
+
+                ctx.fillText(
+                    line.substring(0, 65),
+                    116,
+                    descriptionY
+                );
+
+                descriptionY += 48;
+
+            });
+
+
+        /* リンク */
+
+        const links =
+            getLinks();
+
+
+        let linkY =
+            Math.max(
+                descriptionY + 35,
+                700
             );
 
 
-            /*
-             * カードを画像化
-             */
+        const gap =
+            28;
 
-            const canvas =
-                await html2canvas(
-                    $("profileCard"),
-                    {
 
-                        scale:3,
+        const boxWidth =
+            (width - 232 - gap) / 2;
 
-                        useCORS:true,
 
-                        allowTaint:false,
+        const boxHeight =
+            155;
 
-                        backgroundColor:null,
 
-                        logging:false
+        links
+            .slice(0, 12)
+            .forEach(
+                (link, index) => {
+
+                    const column =
+                        index % 2;
+
+                    const row =
+                        Math.floor(
+                            index / 2
+                        );
+
+
+                    const x =
+                        116 +
+                        column *
+                        (boxWidth + gap);
+
+
+                    const y =
+                        linkY +
+                        row *
+                        (boxHeight + 22);
+
+
+                    ctx.fillStyle =
+                        dark
+                            ? "#ffffff12"
+                            : "#ffffffd9";
+
+
+                    ctx.strokeStyle =
+                        dark
+                            ? "#ffffff26"
+                            : "#00000016";
+
+
+                    ctx.beginPath();
+
+                    ctx.roundRect(
+                        x,
+                        y,
+                        boxWidth,
+                        boxHeight,
+                        22
+                    );
+
+                    ctx.fill();
+                    ctx.stroke();
+
+
+                    ctx.fillStyle =
+                        text;
+
+
+                    ctx.font =
+                        "900 27px sans-serif";
+
+
+                    ctx.fillText(
+                        link.service,
+                        x + 24,
+                        y + 43
+                    );
+
+
+                    ctx.fillStyle =
+                        muted;
+
+
+                    ctx.font =
+                        "400 18px sans-serif";
+
+
+                    const url =
+                        link.url;
+
+
+                    const maxChars =
+                        48;
+
+
+                    const urlLines =
+                        [];
+
+
+                    for (
+                        let i = 0;
+                        i < url.length;
+                        i += maxChars
+                    ) {
+
+                        urlLines.push(
+                            url.substring(
+                                i,
+                                i + maxChars
+                            )
+                        );
 
                     }
+
+
+                    urlLines
+                        .slice(0, 4)
+                        .forEach(
+                            (line, i) => {
+
+                                ctx.fillText(
+                                    line,
+                                    x + 24,
+                                    y + 78 +
+                                    i * 25
+                                );
+
+                            }
+                        );
+
+                }
+            );
+
+
+        /* フッター */
+
+        if (
+            $("showFooter").checked
+        ) {
+
+            const footerY =
+                height - 70;
+
+
+            ctx.strokeStyle =
+                dark
+                    ? "#ffffff2b"
+                    : "#0000001a";
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                116,
+                footerY - 28
+            );
+
+            ctx.lineTo(
+                width - 116,
+                footerY - 28
+            );
+
+            ctx.stroke();
+
+
+            ctx.fillStyle =
+                text;
+
+
+            ctx.font =
+                "900 16px sans-serif";
+
+
+            ctx.fillText(
+                "CREATOR PROFILE",
+                116,
+                footerY
+            );
+
+
+            if (
+                $("showDate").checked
+            ) {
+
+                const date =
+                    new Date();
+
+
+                const dateText =
+                    date.getFullYear() +
+                    "." +
+                    String(
+                        date.getMonth() + 1
+                    ).padStart(2, "0") +
+                    "." +
+                    String(
+                        date.getDate()
+                    ).padStart(2, "0");
+
+
+                ctx.fillStyle =
+                    muted;
+
+
+                ctx.font =
+                    "500 16px sans-serif";
+
+
+                ctx.textAlign =
+                    "right";
+
+
+                ctx.fillText(
+                    dateText,
+                    width - 116,
+                    footerY
                 );
 
 
-            const filename =
-                (
-                    $("name")
-                        .value
-                        .trim()
-                        .replace(
-                            /[\\/:*?"<>|]/g,
-                            ""
-                        )
-                    ||
-                    "creator-profile"
-                ) +
-                "-creator-profile.png";
-
-
-            const link =
-                document.createElement("a");
-
-
-            link.download =
-                filename;
-
-
-            link.href =
-                canvas.toDataURL(
-                    "image/png"
-                );
-
-
-            document.body.appendChild(
-                link
-            );
-
-
-            link.click();
-
-
-            link.remove();
-
-
-            showStatus(
-                "PNG画像を作成しました。"
-            );
-
-
-        }catch(error){
-
-            console.error(
-                "Export Error:",
-                error
-            );
-
-
-            showStatus(
-                "画像の作成に失敗しました。",
-                "error"
-            );
-
-
-        }finally{
-
-            button.disabled = false;
-
-            button.textContent =
-                "PNG画像として保存";
+                ctx.textAlign =
+                    "left";
+            }
 
         }
 
+
+        /* ダウンロード */
+
+        const filename =
+            (
+                name
+                .replace(
+                    /[\\/:*?"<>|]/g,
+                    ""
+                )
+                .trim()
+                ||
+                "creator-profile"
+            ) +
+            "-creator-profile.png";
+
+
+        const link =
+            document.createElement("a");
+
+
+        link.download =
+            filename;
+
+
+        link.href =
+            canvas.toDataURL(
+                "image/png"
+            );
+
+
+        document.body.appendChild(
+            link
+        );
+
+
+        link.click();
+
+
+        link.remove();
+
+
+    } catch(error) {
+
+        console.error(error);
+
+        alert(
+            "PNG画像の生成に失敗しました。"
+        );
+
+    } finally {
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "PNG画像として保存";
+
     }
+
+}
+
+
+/* =================================
+   PNGボタン
+================================= */
+
+$("export").addEventListener(
+    "click",
+    exportPNG
 );
 
 
-/* =====================================================
-   INITIALIZE
-===================================================== */
+/* =================================
+   初期状態
+================================= */
 
-function initialize(){
+function initialize() {
 
-    /*
-     * 保存データがある場合は読み込む
-     */
+    try {
 
-    let loaded = false;
-
-    try{
-
-        const raw =
+        const saved =
             localStorage.getItem(
                 STORAGE_KEY
             );
 
-        if(raw){
+
+        if (saved) {
 
             applyData(
-                JSON.parse(raw)
+                JSON.parse(saved)
             );
 
-            loaded = true;
+        } else {
+
+            addLink(
+                "pixiv",
+                ""
+            );
+
+            addLink(
+                "X",
+                ""
+            );
+
+            addLink(
+                "YouTube",
+                ""
+            );
+
+            addLink(
+                "Website",
+                ""
+            );
+
         }
 
-    }catch(error){
+    } catch(error) {
 
         console.error(error);
 
-    }
-
-
-    /*
-     * 初回だけサンプルリンクを用意
-     */
-
-    if(!loaded){
+        $("links").innerHTML = "";
 
         addLink(
             "pixiv",
@@ -2371,6 +2684,7 @@ function initialize(){
     update();
 
 }
+
 
 initialize();
 
