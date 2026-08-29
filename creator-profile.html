@@ -6,18 +6,31 @@
 
 <title>クリエイタープロフィール</title>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<!-- QR Code -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+
+<!-- PNG Export -->
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
 * {
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
     background: #eef0f3;
-    color: #16181c;
+    color: #17191d;
+
     font-family:
         -apple-system,
         BlinkMacSystemFont,
@@ -26,92 +39,149 @@ body {
         sans-serif;
 }
 
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
 .header {
     background: #111318;
     color: white;
-    padding: 20px;
 }
 
 .header-inner {
-    max-width: 1200px;
+    max-width: 1280px;
     margin: auto;
+    padding: 20px 24px;
 }
 
 .logo {
-    font-size: 20px;
+    font-size: 21px;
     font-weight: 900;
+    letter-spacing: .06em;
 }
 
 .logo-sub {
-    margin-top: 4px;
-    color: #999;
+    margin-top: 5px;
     font-size: 12px;
+    color: #9ca0a8;
 }
 
+
+/* =========================================================
+   APP
+========================================================= */
+
 .container {
-    max-width: 1200px;
+    width: min(1280px, 100%);
     margin: auto;
     padding: 24px;
 }
 
 .workspace {
     display: grid;
-    grid-template-columns: 390px 1fr;
+    grid-template-columns: 400px minmax(0, 1fr);
     gap: 24px;
+    align-items: start;
 }
+
+
+/* =========================================================
+   EDITOR
+========================================================= */
 
 .editor {
     background: white;
     border-radius: 18px;
     padding: 22px;
-    box-shadow: 0 8px 30px rgba(0,0,0,.06);
+
+    box-shadow:
+        0 8px 35px rgba(0,0,0,.07);
 }
 
 .section {
-    margin-bottom: 26px;
+    margin-bottom: 28px;
+}
+
+.section:last-child {
+    margin-bottom: 0;
 }
 
 .section-title {
-    font-size: 13px;
+    margin-bottom: 14px;
+
+    font-size: 12px;
     font-weight: 900;
-    margin-bottom: 13px;
-    letter-spacing: .08em;
+
+    letter-spacing: .12em;
+
+    color: #565b63;
 }
 
 .field {
-    margin-bottom: 14px;
+    margin-bottom: 15px;
+}
+
+.field:last-child {
+    margin-bottom: 0;
 }
 
 .field label {
     display: block;
-    font-size: 12px;
-    font-weight: 700;
+
     margin-bottom: 6px;
+
+    font-size: 12px;
+    font-weight: 800;
 }
 
 input,
 textarea,
 select {
     width: 100%;
+
     border: 1px solid #dfe2e6;
     border-radius: 10px;
+
     padding: 11px 12px;
-    font-size: 14px;
+
     background: #fafbfc;
+    color: #17191d;
+
     outline: none;
+
+    transition:
+        border-color .15s,
+        background .15s;
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-    border-color: #777;
+    border-color: #777d86;
     background: white;
 }
 
 textarea {
-    min-height: 90px;
+    min-height: 100px;
     resize: vertical;
 }
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
 
 .avatar-editor {
     display: flex;
@@ -120,16 +190,43 @@ textarea {
 }
 
 .avatar-input {
-    width: 76px;
-    height: 76px;
-    border-radius: 50%;
+    width: 78px;
+    height: 78px;
+
     object-fit: cover;
-    background: #ddd;
+
+    border-radius: 50%;
+
+    background: #e3e5e8;
+
+    flex-shrink: 0;
 }
 
-/* =========================
-   LINK EDITOR
-========================= */
+.avatar-actions {
+    flex: 1;
+}
+
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.checkbox-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 13px;
+}
+
+.checkbox-row input {
+    width: auto;
+}
+
+
+/* =========================================================
+   LINKS
+========================================================= */
 
 .link-editor {
     display: flex;
@@ -138,83 +235,215 @@ textarea {
 }
 
 .link-item {
+    padding: 11px;
+
     border: 1px solid #dfe2e6;
     border-radius: 12px;
-    padding: 11px;
+
     background: #fafbfc;
 }
 
 .link-header {
     display: grid;
-    grid-template-columns: 105px 1fr 34px;
-    gap: 6px;
+
+    grid-template-columns:
+        minmax(95px, 1fr)
+        34px;
+
+    gap: 7px;
 }
 
 .link-url {
     margin-top: 7px;
 }
 
+.link-controls {
+    display: flex;
+    gap: 5px;
+    margin-top: 7px;
+}
+
+.link-control {
+    flex: 1;
+
+    border: 1px solid #dfe2e6;
+    background: white;
+
+    border-radius: 8px;
+
+    padding: 6px;
+
+    cursor: pointer;
+
+    font-size: 12px;
+}
+
+.link-control:disabled {
+    opacity: .35;
+    cursor: default;
+}
+
 .remove-link {
     border: 0;
     border-radius: 8px;
+
     background: #e8eaed;
-    color: #666;
+
+    color: #555;
+
     cursor: pointer;
-    font-size: 17px;
-    padding: 0;
 }
 
 .remove-link:hover {
-    background: #ddd;
+    background: #dedfe2;
 }
 
 .add-link {
     width: 100%;
+
     margin-top: 9px;
-    border: 1px dashed #aeb3ba;
-    background: white;
-    border-radius: 10px;
+
     padding: 11px;
+
+    border: 1px dashed #aeb3ba;
+    border-radius: 10px;
+
+    background: white;
+
     cursor: pointer;
-    font-weight: 700;
+
+    font-weight: 800;
 }
 
 .add-link:hover {
     background: #f5f6f7;
 }
 
-.export-button {
-    width: 100%;
-    border: 0;
-    background: #111318;
-    color: white;
-    border-radius: 11px;
-    padding: 14px;
-    font-size: 14px;
-    font-weight: 800;
-    cursor: pointer;
+.link-count {
+    margin-top: 7px;
+
+    font-size: 11px;
+    color: #92969e;
+
+    text-align: right;
 }
 
-/* =========================
+
+/* =========================================================
+   RANGE
+========================================================= */
+
+.range-row {
+    display: grid;
+
+    grid-template-columns: 1fr 55px;
+
+    gap: 10px;
+
+    align-items: center;
+}
+
+input[type="range"] {
+    padding: 0;
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.button {
+    width: 100%;
+
+    border: 0;
+    border-radius: 10px;
+
+    padding: 12px;
+
+    cursor: pointer;
+
+    font-weight: 800;
+}
+
+.button-dark {
+    background: #111318;
+    color: white;
+}
+
+.button-light {
+    background: #f0f1f3;
+    color: #333;
+}
+
+.button-danger {
+    background: #f4e9e9;
+    color: #9a3030;
+}
+
+.button + .button {
+    margin-top: 8px;
+}
+
+.button:active {
+    transform: translateY(1px);
+}
+
+
+/* =========================================================
+   FILE
+========================================================= */
+
+.file-input {
+    font-size: 12px;
+}
+
+
+/* =========================================================
    PREVIEW
-========================= */
+========================================================= */
 
 .preview-panel {
+    position: sticky;
+    top: 20px;
+
+    min-width: 0;
+}
+
+.preview-toolbar {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 12px;
+
+    font-size: 12px;
+    color: #70757d;
+}
+
+.preview-toolbar strong {
+    color: #292c31;
 }
 
 .preview-stage {
     width: 100%;
+
     display: flex;
     justify-content: center;
+
+    padding: 10px;
 }
+
+
+/* =========================================================
+   PROFILE CARD
+========================================================= */
 
 .profile-card {
     width: 720px;
     min-height: 900px;
 
     position: relative;
+
     overflow: hidden;
 
     padding: 52px;
@@ -225,541 +454,317 @@ textarea {
         linear-gradient(
             145deg,
             #ffffff,
-            #f1f3f5
+            #f0f2f5
         );
 
+    color: #17191d;
+
     box-shadow:
-        0 25px 70px rgba(0,0,0,.16);
+        0 28px 80px rgba(0,0,0,.18);
+
+    transition:
+        background .2s,
+        color .2s,
+        border-radius .2s;
 }
 
+
+/* Decorative elements */
+
+.profile-decoration-one {
+    position: absolute;
+
+    width: 330px;
+    height: 330px;
+
+    border-radius: 50%;
+
+    right: -150px;
+    top: -150px;
+
+    background: rgba(0,0,0,.045);
+
+    pointer-events: none;
+}
+
+.profile-decoration-two {
+    position: absolute;
+
+    width: 260px;
+    height: 260px;
+
+    border-radius: 50%;
+
+    left: -150px;
+    bottom: -130px;
+
+    background: rgba(0,0,0,.035);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   CARD HEADER
+========================================================= */
+
 .card-header {
+    position: relative;
+    z-index: 2;
+
     display: flex;
     align-items: center;
+
     gap: 24px;
 }
 
 .card-avatar {
     width: 120px;
     height: 120px;
-    border-radius: 50%;
+
     object-fit: cover;
-    background: #ddd;
+
+    background: #dfe2e5;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+}
+
+.card-identity {
+    min-width: 0;
 }
 
 .card-name {
     font-size: 40px;
+
     font-weight: 900;
-    line-height: 1.1;
+
+    line-height: 1.08;
+
     word-break: break-word;
 }
 
 .card-title {
-    margin-top: 7px;
-    color: #777;
+    margin-top: 8px;
+
     font-size: 15px;
-    font-weight: 600;
+
+    color: #737880;
+
+    font-weight: 700;
 }
 
+
+/* =========================================================
+   DESCRIPTION
+========================================================= */
+
 .card-description {
+    position: relative;
+    z-index: 2;
+
     margin-top: 34px;
+
     font-size: 16px;
+
     line-height: 1.8;
+
     white-space: pre-wrap;
+
     word-break: break-word;
 }
 
+
+/* =========================================================
+   LINKS
+========================================================= */
+
 .card-links {
-    margin-top: 38px;
+    position: relative;
+    z-index: 2;
 
     display: grid;
 
     grid-template-columns:
         repeat(2, minmax(0, 1fr));
 
-    gap: 20px;
+    gap: 18px;
+
+    margin-top: 36px;
 }
 
 .qr-item {
+    min-width: 0;
+
     display: flex;
+
     flex-direction: column;
+
     align-items: center;
 
     padding: 18px;
 
-    background: rgba(255,255,255,.78);
+    background:
+        rgba(255,255,255,.78);
 
-    border: 1px solid rgba(0,0,0,.07);
+    border:
+        1px solid rgba(0,0,0,.07);
 
     border-radius: 18px;
+
+    backdrop-filter: blur(6px);
 }
 
 .qr-name {
+    margin-bottom: 11px;
+
     font-size: 14px;
+
     font-weight: 900;
-    margin-bottom: 12px;
 }
 
 .qr-code {
     width: 145px;
     height: 145px;
+
     image-rendering: pixelated;
 }
 
 .qr-url {
     width: 100%;
-    margin-top: 12px;
+
+    margin-top: 11px;
 
     font-size: 10px;
-    line-height: 1.4;
 
-    color: #666;
+    line-height: 1.45;
+
+    color: #656a72;
 
     text-align: center;
 
     word-break: break-all;
 }
 
+.qr-url.hidden {
+    display: none;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
 .card-footer {
     position: absolute;
+
+    z-index: 2;
+
     left: 52px;
     right: 52px;
+
     bottom: 30px;
 
     display: flex;
+
     justify-content: space-between;
 
-    border-top: 1px solid rgba(0,0,0,.08);
+    align-items: center;
+
+    border-top:
+        1px solid rgba(0,0,0,.08);
 
     padding-top: 14px;
 }
 
 .footer-title {
     font-size: 11px;
+
     font-weight: 900;
+
     letter-spacing: .15em;
-    color: #777;
+
+    color: #777c84;
 }
 
 .footer-date {
     font-size: 9px;
-    color: #aaa;
+
+    color: #999da5;
 }
+
+
+/* =========================================================
+   EMPTY
+========================================================= */
 
 .empty-links {
     grid-column: 1 / -1;
-    padding: 50px;
+
+    padding: 50px 20px;
+
     text-align: center;
-    color: #aaa;
+
+    color: #9b9fa6;
+
     font-size: 13px;
 }
 
-@media(max-width: 900px) {
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status {
+    display: none;
+
+    margin-bottom: 12px;
+
+    padding: 10px 12px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+}
+
+.status.show {
+    display: block;
+}
+
+.status.error {
+    background: #f8eaea;
+    color: #9a3030;
+}
+
+.status.success {
+    background: #eaf5ec;
+    color: #31723b;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width: 960px) {
 
     .workspace {
         grid-template-columns: 1fr;
     }
 
     .preview-panel {
+        position: static;
         order: -1;
     }
 
     .profile-card {
-        width: 100%;
+        max-width: 720px;
     }
 }
+
 
 @media(max-width: 600px) {
 
     .container {
-        padding: 12px;
-    }
-
-    .editor {
-        padding: 16px;
-    }
-
-    .profile-card {
-        min-height: 720px;
-        padding: 28px;
-        border-radius: 20px;
-    }
-
-    .card-header {
-        gap: 15px;
-    }
-
-    .card-avatar {
-        width: 78px;
-        height: 78px;
-    }
-
-    .card-name {
-        font-size: 26px;
-    }
-
-    .card-description {
-        font-size: 13px;
-        margin-top: 24px;
-    }
-
-    .card-links {
-        grid-template-columns: 1fr;
-        gap: 12px;
-        margin-top: 25px;
-    }
-
-    .card-footer {
-        left: 28px;
-        right: 28px;
-        bottom: 18px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<header class="header">
-    <div class="header-inner">
-        <div class="logo">
-            CREATOR PROFILE
-        </div>
-
-        <div class="logo-sub">
-            クリエイターの活動を、1枚のプロフィールカードに。
-        </div>
-    </div>
-</header>
-
-
-<main class="container">
-
-<div class="workspace">
-
-<!-- =========================
-     EDITOR
-========================= -->
-
-<section class="editor">
-
-    <div class="section">
-
-        <div class="section-title">
-            PROFILE
-        </div>
-
-        <div class="field">
-
-            <label>
-                プロフィール画像
-            </label>
-
-            <div class="avatar-editor">
-
-                <img
-                    id="avatarPreview"
-                    class="avatar-input"
-                    src=""
-                    alt=""
-                >
-
-                <input
-                    id="avatarFile"
-                    type="file"
-                    accept="image/*"
-                >
-
-            </div>
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                クリエイター名
-            </label>
-
-            <input
-                id="name"
-                type="text"
-                placeholder="例：letam"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                肩書き
-            </label>
-
-            <input
-                id="title"
-                type="text"
-                placeholder="例：Composer / Artist"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                自己紹介
-            </label>
-
-            <textarea
-                id="description"
-                placeholder="あなたの活動について紹介してください。"
-            ></textarea>
-
-        </div>
-
-    </div>
-
-
-    <!-- =====================
-         LINKS
-    ====================== -->
-
-    <div class="section">
-
-        <div class="section-title">
-            LINKS
-        </div>
-
-        <div
-            id="linkEditor"
-            class="link-editor"
-        ></div>
-
-        <button
-            id="addLinkButton"
-            class="add-link"
-            type="button"
-        >
-            ＋ リンクを追加
-        </button>
-
-    </div>
-
-
-    <div class="section">
-
-        <div class="section-title">
-            DESIGN
-        </div>
-
-        <div class="field">
-
-            <label>
-                テーマ
-            </label>
-
-            <select id="theme">
-
-                <option value="white">
-                    White
-                </option>
-
-                <option value="dark">
-                    Dark
-                </option>
-
-                <option value="minimal">
-                    Minimal
-                </option>
-
-            </select>
-
-        </div>
-
-    </div>
-
-
-    <button
-        id="exportButton"
-        class="export-button"
-        type="button"
-    >
-        PNG画像として保存
-    </button>
-
-</section>
-
-
-<!-- =========================
-     PREVIEW
-========================= -->
-
-<section class="preview-panel">
-
-<div class="preview-stage">
-
-<div
-    id="profileCard"
-    class="profile-card"
->
-
-    <div class="card-header">
-
-        <img
-            id="cardAvatar"
-            class="card-avatar"
-            src=""
-            alt=""
-        >
-
-        <div>
-
-            <div
-                id="cardName"
-                class="card-name"
-            >
-                Creator Name
-            </div>
-
-            <div
-                id="cardTitle"
-                class="card-title"
-            >
-                Creator
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div
-        id="cardDescription"
-        class="card-description"
-    >
-        あなたの活動を紹介しましょう。
-    </div>
-
-
-    <div
-        id="cardLinks"
-        class="card-links"
-    ></div>
-
-
-    <div class="card-footer">
-
-        <div class="footer-title">
-            CREATOR PROFILE
-        </div>
-
-        <div
-            id="footerDate"
-            class="footer-date"
-        ></div>
-
-    </div>
-
-</div>
-
-</div>
-
-</section>
-
-</div>
-
-</main>
-
-
-<script>
-
-/* =====================================================
-   STATE
-===================================================== */
-
-let avatarData = "";
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const linkEditor =
-    document.getElementById(
-        "linkEditor"
-    );
-
-const addLinkButton =
-    document.getElementById(
-        "addLinkButton"
-    );
-
-
-/* =====================================================
-   LINK CREATION
-===================================================== */
-
-function createLinkItem(
-    service = "Other",
-    url = ""
-) {
-
-    const item =
-        document.createElement(
-            "div"
-        );
-
-    item.className =
-        "link-item";
-
-    item.innerHTML = `
-
-        <div class="link-header">
-
-            <select class="service">
-
-                <option value="pixiv">pixiv</option>
-                <option value="X">X</option>
-                <option value="YouTube">YouTube</option>
-                <option value="SoundCloud">SoundCloud</option>
-                <option value="GitHub">GitHub</option>
-                <option value="BOOTH">BOOTH</option>
-                <option value="Instagram">Instagram</option>
-                <option value="TikTok">TikTok</option>
-                <option value="Website">Website</option>
-                <option value="Other">Other</option>
-
-            </select>
-
-            <div></div>
-
-            <button
-                class="remove-link"
-                type="button"
-                title="削除"
-            >
-                ×
-            </button>
-
-        </div>
-
-        <input
-            class="link-url"
-            type="url"
-            placeholder="https://example.com/"
-        >
-
-    `;
-
-    const serviceSelect =
-        item.querySelector(
-            ".service"
-        );
-
-    const urlInput =
-        item.querySelector(
-            ".link-url"
-        );
-
-    const removeButton =
-        item
+        padding: 12
