@@ -2,870 +2,702 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>クリエイタープロフィール</title>
+<title>Creator Profile</title>
 
-<!-- QR Code -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js"></script>
+<!-- QR CODE -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<!-- PNG Export -->
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<!-- PNG EXPORT -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
-* {
-    box-sizing: border-box;
+*{
+    box-sizing:border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    margin: 0;
-    background: #eef0f3;
-    color: #17191d;
-
+html,
+body{
+    margin:0;
+    padding:0;
     font-family:
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         "Noto Sans JP",
         sans-serif;
+    background:#eef0f3;
+    color:#17191d;
 }
 
 button,
 input,
 textarea,
-select {
-    font: inherit;
+select{
+    font:inherit;
 }
 
-button {
-    -webkit-tap-highlight-color: transparent;
+button{
+    cursor:pointer;
 }
 
-
-/* =========================================================
-   HEADER
-========================================================= */
-
-.header {
-    background: #111318;
-    color: white;
+.header{
+    background:#111318;
+    color:#fff;
 }
 
-.header-inner {
-    max-width: 1280px;
-    margin: auto;
-    padding: 20px 24px;
+.header-inner{
+    max-width:1280px;
+    margin:auto;
+    padding:20px 24px;
 }
 
-.logo {
-    font-size: 21px;
-    font-weight: 900;
-    letter-spacing: .06em;
+.logo{
+    font-size:21px;
+    font-weight:900;
+    letter-spacing:.08em;
 }
 
-.logo-sub {
-    margin-top: 5px;
-    font-size: 12px;
-    color: #9ca0a8;
+.logo-sub{
+    margin-top:5px;
+    color:#9ca0a8;
+    font-size:12px;
 }
 
-
-/* =========================================================
-   APP
-========================================================= */
-
-.container {
-    width: min(1280px, 100%);
-    margin: auto;
-    padding: 24px;
+.container{
+    width:min(1280px,100%);
+    margin:auto;
+    padding:24px;
 }
 
-.workspace {
-    display: grid;
-    grid-template-columns: 400px minmax(0, 1fr);
-    gap: 24px;
-    align-items: start;
+.workspace{
+    display:grid;
+    grid-template-columns:400px minmax(0,1fr);
+    gap:24px;
+    align-items:start;
 }
 
-
-/* =========================================================
-   EDITOR
-========================================================= */
-
-.editor {
-    background: white;
-    border-radius: 18px;
-    padding: 22px;
-
-    box-shadow:
-        0 8px 35px rgba(0,0,0,.07);
+.editor{
+    background:#fff;
+    padding:22px;
+    border-radius:18px;
+    box-shadow:0 8px 35px rgba(0,0,0,.07);
 }
 
-.section {
-    margin-bottom: 28px;
+.section{
+    margin-bottom:28px;
 }
 
-.section:last-child {
-    margin-bottom: 0;
+.section-title{
+    margin-bottom:14px;
+    font-size:12px;
+    font-weight:900;
+    letter-spacing:.12em;
+    color:#555b63;
 }
 
-.section-title {
-    margin-bottom: 14px;
-
-    font-size: 12px;
-    font-weight: 900;
-
-    letter-spacing: .12em;
-
-    color: #565b63;
+.field{
+    margin-bottom:15px;
 }
 
-.field {
-    margin-bottom: 15px;
-}
-
-.field:last-child {
-    margin-bottom: 0;
-}
-
-.field label {
-    display: block;
-
-    margin-bottom: 6px;
-
-    font-size: 12px;
-    font-weight: 800;
+.field label{
+    display:block;
+    margin-bottom:6px;
+    font-size:12px;
+    font-weight:800;
 }
 
 input,
 textarea,
-select {
-    width: 100%;
-
-    border: 1px solid #dfe2e6;
-    border-radius: 10px;
-
-    padding: 11px 12px;
-
-    background: #fafbfc;
-    color: #17191d;
-
-    outline: none;
-
-    transition:
-        border-color .15s,
-        background .15s;
+select{
+    width:100%;
+    border:1px solid #dfe2e6;
+    border-radius:10px;
+    padding:11px 12px;
+    background:#fafbfc;
+    outline:none;
 }
 
 input:focus,
 textarea:focus,
-select:focus {
-    border-color: #777d86;
-    background: white;
+select:focus{
+    border-color:#777d86;
+    background:#fff;
 }
 
-textarea {
-    min-height: 100px;
-    resize: vertical;
+textarea{
+    min-height:100px;
+    resize:vertical;
 }
 
-
-/* =========================================================
-   IMAGE
-========================================================= */
-
-.avatar-editor {
-    display: flex;
-    align-items: center;
-    gap: 14px;
+.avatar-editor{
+    display:flex;
+    gap:14px;
+    align-items:center;
 }
 
-.avatar-input {
-    width: 78px;
-    height: 78px;
-
-    object-fit: cover;
-
-    border-radius: 50%;
-
-    background: #e3e5e8;
-
-    flex-shrink: 0;
+.avatar-input{
+    width:78px;
+    height:78px;
+    border-radius:50%;
+    object-fit:cover;
+    background:#ddd;
 }
 
-.avatar-actions {
-    flex: 1;
+.link-editor{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
 }
 
-
-/* =========================================================
-   CHECKBOX
-========================================================= */
-
-.checkbox-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-
-    font-size: 13px;
+.link-item{
+    padding:11px;
+    border:1px solid #dfe2e6;
+    border-radius:12px;
+    background:#fafbfc;
 }
 
-.checkbox-row input {
-    width: auto;
+.link-header{
+    display:grid;
+    grid-template-columns:1fr 36px;
+    gap:7px;
 }
 
-
-/* =========================================================
-   LINKS
-========================================================= */
-
-.link-editor {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.link-url{
+    margin-top:7px;
 }
 
-.link-item {
-    padding: 11px;
-
-    border: 1px solid #dfe2e6;
-    border-radius: 12px;
-
-    background: #fafbfc;
+.link-controls{
+    display:flex;
+    gap:5px;
+    margin-top:7px;
 }
 
-.link-header {
-    display: grid;
-
-    grid-template-columns:
-        minmax(95px, 1fr)
-        34px;
-
-    gap: 7px;
+.link-control{
+    flex:1;
+    border:1px solid #dfe2e6;
+    background:#fff;
+    border-radius:8px;
+    padding:6px;
+    font-size:12px;
 }
 
-.link-url {
-    margin-top: 7px;
+.remove-link{
+    border:0;
+    border-radius:8px;
+    background:#e8eaed;
+    font-size:18px;
 }
 
-.link-controls {
-    display: flex;
-    gap: 5px;
-    margin-top: 7px;
+.add-link{
+    width:100%;
+    margin-top:9px;
+    padding:11px;
+    border:1px dashed #aeb3ba;
+    border-radius:10px;
+    background:#fff;
+    font-weight:800;
 }
 
-.link-control {
-    flex: 1;
-
-    border: 1px solid #dfe2e6;
-    background: white;
-
-    border-radius: 8px;
-
-    padding: 6px;
-
-    cursor: pointer;
-
-    font-size: 12px;
+.link-count{
+    margin-top:7px;
+    text-align:right;
+    color:#92969e;
+    font-size:11px;
 }
 
-.link-control:disabled {
-    opacity: .35;
-    cursor: default;
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13px;
 }
 
-.remove-link {
-    border: 0;
-    border-radius: 8px;
-
-    background: #e8eaed;
-
-    color: #555;
-
-    cursor: pointer;
+.checkbox input{
+    width:auto;
 }
 
-.remove-link:hover {
-    background: #dedfe2;
+.range-row{
+    display:grid;
+    grid-template-columns:1fr 55px;
+    gap:10px;
+    align-items:center;
 }
 
-.add-link {
-    width: 100%;
-
-    margin-top: 9px;
-
-    padding: 11px;
-
-    border: 1px dashed #aeb3ba;
-    border-radius: 10px;
-
-    background: white;
-
-    cursor: pointer;
-
-    font-weight: 800;
+input[type="range"]{
+    padding:0;
 }
 
-.add-link:hover {
-    background: #f5f6f7;
+.button{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:10px;
+    font-weight:800;
 }
 
-.link-count {
-    margin-top: 7px;
-
-    font-size: 11px;
-    color: #92969e;
-
-    text-align: right;
+.button-dark{
+    background:#111318;
+    color:#fff;
 }
 
-
-/* =========================================================
-   RANGE
-========================================================= */
-
-.range-row {
-    display: grid;
-
-    grid-template-columns: 1fr 55px;
-
-    gap: 10px;
-
-    align-items: center;
+.button-light{
+    background:#f0f1f3;
 }
 
-input[type="range"] {
-    padding: 0;
+.button-danger{
+    background:#f6e9e9;
+    color:#963737;
 }
 
-
-/* =========================================================
-   BUTTONS
-========================================================= */
-
-.button {
-    width: 100%;
-
-    border: 0;
-    border-radius: 10px;
-
-    padding: 12px;
-
-    cursor: pointer;
-
-    font-weight: 800;
+.button+.button{
+    margin-top:8px;
 }
 
-.button-dark {
-    background: #111318;
-    color: white;
+.status{
+    display:none;
+    margin-bottom:12px;
+    padding:10px 12px;
+    border-radius:9px;
+    font-size:12px;
 }
 
-.button-light {
-    background: #f0f1f3;
-    color: #333;
+.status.show{
+    display:block;
 }
 
-.button-danger {
-    background: #f4e9e9;
-    color: #9a3030;
+.status.error{
+    background:#f8eaea;
+    color:#963737;
 }
 
-.button + .button {
-    margin-top: 8px;
+.status.success{
+    background:#eaf5ec;
+    color:#31723b;
 }
 
-.button:active {
-    transform: translateY(1px);
+.preview-panel{
+    position:sticky;
+    top:20px;
 }
 
-
-/* =========================================================
-   FILE
-========================================================= */
-
-.file-input {
-    font-size: 12px;
+.preview-toolbar{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:12px;
+    font-size:12px;
+    color:#70757d;
 }
 
-
-/* =========================================================
-   PREVIEW
-========================================================= */
-
-.preview-panel {
-    position: sticky;
-    top: 20px;
-
-    min-width: 0;
+.preview-stage{
+    display:flex;
+    justify-content:center;
+    padding:10px;
+    overflow:auto;
 }
 
-.preview-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 12px;
-
-    font-size: 12px;
-    color: #70757d;
+.profile-card{
+    position:relative;
+    width:720px;
+    min-height:900px;
+    overflow:hidden;
+    padding:54px;
+    border-radius:30px;
+    color:#17191d;
+    background:#fff;
+    box-shadow:0 28px 80px rgba(0,0,0,.18);
+    flex-shrink:0;
 }
 
-.preview-toolbar strong {
-    color: #292c31;
+.profile-bg{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
 }
 
-.preview-stage {
-    width: 100%;
-
-    display: flex;
-    justify-content: center;
-
-    padding: 10px;
+.profile-content{
+    position:relative;
+    z-index:2;
 }
 
+.card-header{
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
 
-/* =========================================================
-   PROFILE CARD
-========================================================= */
+.card-avatar{
+    width:120px;
+    height:120px;
+    object-fit:cover;
+    flex-shrink:0;
+    border-radius:50%;
+    background:#ddd;
+}
 
-.profile-card {
-    width: 720px;
-    min-height: 900px;
+.card-name{
+    font-size:40px;
+    line-height:1.05;
+    font-weight:950;
+    word-break:break-word;
+}
 
-    position: relative;
+.card-title{
+    margin-top:9px;
+    font-size:15px;
+    font-weight:700;
+    opacity:.65;
+}
 
-    overflow: hidden;
+.card-description{
+    margin-top:34px;
+    font-size:16px;
+    line-height:1.8;
+    white-space:pre-wrap;
+    word-break:break-word;
+}
 
-    padding: 52px;
+.card-links{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:18px;
+    margin-top:36px;
+}
 
-    border-radius: 30px;
+.qr-item{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-width:0;
+    padding:18px;
+    border-radius:18px;
+    background:rgba(255,255,255,.86);
+    border:1px solid rgba(0,0,0,.08);
+}
 
+.qr-name{
+    margin-bottom:10px;
+    font-size:14px;
+    font-weight:900;
+}
+
+.qr-container{
+    width:155px;
+    height:155px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#fff;
+    padding:5px;
+}
+
+.qr-container img,
+.qr-container canvas{
+    display:block;
+    width:145px !important;
+    height:145px !important;
+}
+
+.qr-url{
+    width:100%;
+    margin-top:11px;
+    font-size:10px;
+    line-height:1.45;
+    text-align:center;
+    word-break:break-all;
+    opacity:.62;
+}
+
+.qr-error{
+    width:145px;
+    height:145px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:11px;
+    color:#a33;
+    background:#faf0f0;
+    border:1px solid #ecc;
+    border-radius:6px;
+}
+
+.empty-links{
+    grid-column:1/-1;
+    padding:50px 20px;
+    text-align:center;
+    opacity:.45;
+    font-size:13px;
+}
+
+.card-footer{
+    position:absolute;
+    left:54px;
+    right:54px;
+    bottom:28px;
+    display:flex;
+    justify-content:space-between;
+    padding-top:13px;
+    border-top:1px solid rgba(0,0,0,.1);
+}
+
+.footer-title{
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:.16em;
+}
+
+.footer-date{
+    font-size:9px;
+    opacity:.45;
+}
+
+/* SNS */
+
+.template-sns .profile-bg{
+    background:
+        radial-gradient(
+            circle at 100% 0%,
+            var(--accent),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 0% 100%,
+            rgba(0,0,0,.06),
+            transparent 35%
+        );
+    opacity:.16;
+}
+
+/* CREATOR */
+
+.template-creator .profile-card{
+    background:#f7f7f5;
+}
+
+.template-creator .profile-bg{
     background:
         linear-gradient(
-            145deg,
-            #ffffff,
-            #f0f2f5
+            135deg,
+            transparent 0 55%,
+            var(--accent) 55% 55.5%,
+            transparent 55.5%
         );
-
-    color: #17191d;
-
-    box-shadow:
-        0 28px 80px rgba(0,0,0,.18);
-
-    transition:
-        background .2s,
-        color .2s,
-        border-radius .2s;
+    opacity:.13;
 }
 
+/* ARTIST */
 
-/* Decorative elements */
-
-.profile-decoration-one {
-    position: absolute;
-
-    width: 330px;
-    height: 330px;
-
-    border-radius: 50%;
-
-    right: -150px;
-    top: -150px;
-
-    background: rgba(0,0,0,.045);
-
-    pointer-events: none;
+.template-artist .profile-card{
+    background:#101114;
+    color:#fff;
 }
 
-.profile-decoration-two {
-    position: absolute;
-
-    width: 260px;
-    height: 260px;
-
-    border-radius: 50%;
-
-    left: -150px;
-    bottom: -130px;
-
-    background: rgba(0,0,0,.035);
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   CARD HEADER
-========================================================= */
-
-.card-header {
-    position: relative;
-    z-index: 2;
-
-    display: flex;
-    align-items: center;
-
-    gap: 24px;
-}
-
-.card-avatar {
-    width: 120px;
-    height: 120px;
-
-    object-fit: cover;
-
-    background: #dfe2e5;
-
-    flex-shrink: 0;
-
-    border-radius: 50%;
-}
-
-.card-identity {
-    min-width: 0;
-}
-
-.card-name {
-    font-size: 40px;
-
-    font-weight: 900;
-
-    line-height: 1.08;
-
-    word-break: break-word;
-}
-
-.card-title {
-    margin-top: 8px;
-
-    font-size: 15px;
-
-    color: #737880;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   DESCRIPTION
-========================================================= */
-
-.card-description {
-    position: relative;
-    z-index: 2;
-
-    margin-top: 34px;
-
-    font-size: 16px;
-
-    line-height: 1.8;
-
-    white-space: pre-wrap;
-
-    word-break: break-word;
-}
-
-
-/* =========================================================
-   LINKS
-========================================================= */
-
-.card-links {
-    position: relative;
-    z-index: 2;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 18px;
-
-    margin-top: 36px;
-}
-
-.qr-item {
-    min-width: 0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    padding: 18px;
-
+.template-artist .profile-bg{
     background:
-        rgba(255,255,255,.78);
-
-    border:
-        1px solid rgba(0,0,0,.07);
-
-    border-radius: 18px;
-
-    backdrop-filter: blur(6px);
+        radial-gradient(
+            circle at 85% 20%,
+            var(--accent),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 10% 90%,
+            rgba(255,255,255,.08),
+            transparent 30%
+        );
+    opacity:.45;
 }
 
-.qr-name {
-    margin-bottom: 11px;
-
-    font-size: 14px;
-
-    font-weight: 900;
+.template-artist .card-title{
+    color:#fff;
 }
 
-.qr-code {
-    width: 145px;
-    height: 145px;
-
-    image-rendering: pixelated;
+.template-artist .card-description{
+    color:#fff;
 }
 
-.qr-url {
-    width: 100%;
-
-    margin-top: 11px;
-
-    font-size: 10px;
-
-    line-height: 1.45;
-
-    color: #656a72;
-
-    text-align: center;
-
-    word-break: break-all;
+.template-artist .qr-item{
+    background:rgba(255,255,255,.08);
+    border-color:rgba(255,255,255,.14);
 }
 
-.qr-url.hidden {
-    display: none;
+.template-artist .qr-url{
+    color:#fff;
 }
 
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.card-footer {
-    position: absolute;
-
-    z-index: 2;
-
-    left: 52px;
-    right: 52px;
-
-    bottom: 30px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    border-top:
-        1px solid rgba(0,0,0,.08);
-
-    padding-top: 14px;
+.template-artist .card-footer{
+    border-color:rgba(255,255,255,.16);
 }
 
-.footer-title {
-    font-size: 11px;
+/* MINIMAL */
 
-    font-weight: 900;
-
-    letter-spacing: .15em;
-
-    color: #777c84;
+.template-minimal .profile-card{
+    background:#fff;
+    box-shadow:none;
+    border:1px solid #ddd;
 }
 
-.footer-date {
-    font-size: 9px;
-
-    color: #999da5;
+.template-minimal .profile-bg{
+    background:
+        linear-gradient(
+            90deg,
+            transparent 49.8%,
+            rgba(0,0,0,.04) 50%,
+            transparent 50.2%
+        ),
+        linear-gradient(
+            transparent 49.8%,
+            rgba(0,0,0,.04) 50%,
+            transparent 50.2%
+        );
+    background-size:40px 40px;
 }
 
-
-/* =========================================================
-   EMPTY
-========================================================= */
-
-.empty-links {
-    grid-column: 1 / -1;
-
-    padding: 50px 20px;
-
-    text-align: center;
-
-    color: #9b9fa6;
-
-    font-size: 13px;
+.template-minimal .qr-item{
+    background:#fff;
+    border-color:#ddd;
 }
 
+/* NEON */
 
-/* =========================================================
-   STATUS
-========================================================= */
-
-.status {
-    display: none;
-
-    margin-bottom: 12px;
-
-    padding: 10px 12px;
-
-    border-radius: 9px;
-
-    font-size: 12px;
+.template-neon .profile-card{
+    background:#090b10;
+    color:#fff;
 }
 
-.status.show {
-    display: block;
+.template-neon .profile-bg{
+    background:
+        linear-gradient(
+            120deg,
+            transparent 0 40%,
+            var(--accent) 40% 41%,
+            transparent 41%
+        ),
+        radial-gradient(
+            circle at 80% 15%,
+            var(--accent),
+            transparent 30%
+        );
+    opacity:.32;
 }
 
-.status.error {
-    background: #f8eaea;
-    color: #9a3030;
+.template-neon .card-title,
+.template-neon .card-description{
+    color:#fff;
 }
 
-.status.success {
-    background: #eaf5ec;
-    color: #31723b;
+.template-neon .qr-item{
+    background:rgba(0,0,0,.45);
+    border:1px solid var(--accent);
 }
 
+.template-neon .qr-url{
+    color:#fff;
+}
 
-/* =========================================================
-   MOBILE
-========================================================= */
+.template-neon .card-footer{
+    border-color:rgba(255,255,255,.2);
+}
 
-@media(max-width: 960px) {
+/* ELEGANT */
 
-    .workspace {
-        grid-template-columns: 1fr;
+.template-elegant .profile-card{
+    background:#f2eee7;
+    color:#27231f;
+}
+
+.template-elegant .profile-bg{
+    background:
+        radial-gradient(
+            circle at 90% 10%,
+            var(--accent),
+            transparent 28%
+        ),
+        radial-gradient(
+            circle at 5% 90%,
+            rgba(0,0,0,.08),
+            transparent 28%
+        );
+    opacity:.16;
+}
+
+.template-elegant .card-name{
+    font-family:Georgia,"Times New Roman",serif;
+    font-weight:700;
+}
+
+.template-elegant .qr-item{
+    background:rgba(255,255,255,.5);
+    border-color:rgba(70,60,50,.15);
+}
+
+/* MOBILE */
+
+@media(max-width:960px){
+
+    .workspace{
+        grid-template-columns:1fr;
     }
 
-    .preview-panel {
-        position: static;
-        order: -1;
-    }
-
-    .profile-card {
-        max-width: 720px;
+    .preview-panel{
+        position:static;
+        order:-1;
     }
 }
 
+@media(max-width:600px){
 
-@media(max-width: 600px) {
-
-    .container {
-        padding: 12px;
+    .container{
+        padding:12px;
     }
 
-    .header-inner {
-        padding: 17px;
+    .editor{
+        padding:16px;
     }
 
-    .editor {
-        padding: 16px;
-        border-radius: 14px;
+    .profile-card{
+        width:600px;
+        min-height:750px;
+        padding:30px;
     }
 
-    .preview-stage {
-        padding: 0;
+    .card-avatar{
+        width:82px;
+        height:82px;
     }
 
-    .profile-card {
-        min-height: 720px;
-
-        padding: 28px;
-
-        border-radius: 20px;
+    .card-name{
+        font-size:29px;
     }
 
-    .card-header {
-        gap: 15px;
+    .card-description{
+        font-size:13px;
     }
 
-    .card-avatar {
-        width: 78px;
-        height: 78px;
-    }
-
-    .card-name {
-        font-size: 27px;
-    }
-
-    .card-title {
-        font-size: 12px;
-    }
-
-    .card-description {
-        margin-top: 24px;
-
-        font-size: 13px;
-    }
-
-    .card-links {
-        grid-template-columns: 1fr;
-
-        margin-top: 25px;
-
-        gap: 12px;
-    }
-
-    .qr-item {
-        padding: 14px;
-    }
-
-    .qr-code {
-        width: 120px;
-        height: 120px;
-    }
-
-    .card-footer {
-        left: 28px;
-        right: 28px;
-
-        bottom: 18px;
+    .card-footer{
+        left:30px;
+        right:30px;
     }
 }
-
 </style>
 </head>
-
 
 <body>
 
 <header class="header">
-
     <div class="header-inner">
-
-        <div class="logo">
-            CREATOR PROFILE
-        </div>
-
+        <div class="logo">CREATOR PROFILE</div>
         <div class="logo-sub">
             クリエイターの活動を、1枚のプロフィールカードに。
         </div>
-
     </div>
-
 </header>
-
 
 <main class="container">
 
 <div class="workspace">
-
 
 <!-- =====================================================
      EDITOR
@@ -873,148 +705,67 @@ input[type="range"] {
 
 <section class="editor">
 
-
-<div
-    id="status"
-    class="status"
-></div>
-
+<div id="status" class="status"></div>
 
 <!-- PROFILE -->
 
 <div class="section">
 
-    <div class="section-title">
-        PROFILE
-    </div>
+<div class="section-title">PROFILE</div>
 
+<div class="field">
 
-    <div class="field">
+<label>プロフィール画像</label>
 
-        <label>
-            プロフィール画像
-        </label>
+<div class="avatar-editor">
 
-        <div class="avatar-editor">
+<img id="avatarPreview" class="avatar-input">
 
-            <img
-                id="avatarPreview"
-                class="avatar-input"
-                alt=""
-            >
-
-            <div class="avatar-actions">
-
-                <input
-                    id="avatarFile"
-                    class="file-input"
-                    type="file"
-                    accept="image/png,image/jpeg,image/webp"
-                >
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="field">
-
-        <label>
-            クリエイター名
-        </label>
-
-        <input
-            id="name"
-            type="text"
-            maxlength="40"
-            placeholder="例：letam"
-        >
-
-    </div>
-
-
-    <div class="field">
-
-        <label>
-            肩書き
-        </label>
-
-        <input
-            id="title"
-            type="text"
-            maxlength="60"
-            placeholder="例：Composer / Artist"
-        >
-
-    </div>
-
-
-    <div class="field">
-
-        <label>
-            自己紹介
-        </label>
-
-        <textarea
-            id="description"
-            maxlength="300"
-            placeholder="あなたの活動について紹介してください。"
-        ></textarea>
-
-    </div>
+<input
+    id="avatarFile"
+    type="file"
+    accept="image/png,image/jpeg,image/webp"
+>
 
 </div>
 
+</div>
 
-<!-- LINKS -->
+<div class="field">
 
-<div class="section">
+<label>クリエイター名</label>
 
-    <div class="section-title">
-        LINKS
-    </div>
+<input
+    id="name"
+    maxlength="40"
+    placeholder="例：letam"
+>
 
+</div>
 
-    <div
-        id="linkEditor"
-        class="link-editor"
-    ></div>
+<div class="field">
 
+<label>肩書き</label>
 
-    <button
-        id="addLinkButton"
-        class="add-link"
-        type="button"
-    >
-        ＋ リンクを追加
-    </button>
+<input
+    id="title"
+    maxlength="60"
+    placeholder="例：Composer / Artist"
+>
 
+</div>
 
-    <div
-        id="linkCount"
-        class="link-count"
-    >
-        0 / 12
-    </div>
+<div class="field">
 
+<label>自己紹介</label>
 
-    <div class="field" style="margin-top:14px;">
+<textarea
+    id="description"
+    maxlength="300"
+    placeholder="あなたの活動について紹介してください。"
+></textarea>
 
-        <label class="checkbox-row">
-
-            <input
-                id="showUrls"
-                type="checkbox"
-                checked
-            >
-
-            QRコードの下にURLを表示
-
-        </label>
-
-    </div>
+</div>
 
 </div>
 
@@ -1023,149 +774,138 @@ input[type="range"] {
 
 <div class="section">
 
-    <div class="section-title">
-        DESIGN
-    </div>
+<div class="section-title">DESIGN</div>
+
+<div class="field">
+
+<label>テンプレート</label>
+
+<select id="template">
+
+<option value="sns">SNS Card</option>
+<option value="creator">Creator</option>
+<option value="artist">Artist</option>
+<option value="minimal">Minimal</option>
+<option value="neon">Neon</option>
+<option value="elegant">Elegant</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>アクセントカラー</label>
+
+<input
+    id="accentColor"
+    type="color"
+    value="#111318"
+>
+
+</div>
+
+<div class="field">
+
+<label>プロフィール画像形状</label>
+
+<select id="avatarShape">
+
+<option value="circle">Circle</option>
+<option value="rounded">Rounded</option>
+<option value="square">Square</option>
+
+</select>
+
+</div>
+
+<div class="field">
+
+<label>カード角丸</label>
+
+<div class="range-row">
+
+<input
+    id="radius"
+    type="range"
+    min="0"
+    max="50"
+    value="30"
+>
+
+<output id="radiusValue">30</output>
+
+</div>
+
+</div>
+
+</div>
 
 
-    <div class="field">
+<!-- LINKS -->
 
-        <label>
-            テーマ
-        </label>
+<div class="section">
 
-        <select id="theme">
+<div class="section-title">LINKS</div>
 
-            <option value="white">
-                White
-            </option>
+<div id="linkEditor" class="link-editor"></div>
 
-            <option value="dark">
-                Dark
-            </option>
+<button
+    id="addLinkButton"
+    class="add-link"
+    type="button"
+>
+＋ リンクを追加
+</button>
 
-            <option value="minimal">
-                Minimal
-            </option>
+<div id="linkCount" class="link-count">
+0 / 12
+</div>
 
-        </select>
-
-    </div>
+</div>
 
 
-    <div class="field">
+<!-- QR -->
 
-        <label>
-            レイアウト
-        </label>
+<div class="section">
 
-        <select id="layout">
+<div class="section-title">QR CODE</div>
 
-            <option value="grid">
-                Grid
-            </option>
+<div class="field">
 
-            <option value="single">
-                Single Column
-            </option>
+<label>QRコードサイズ</label>
 
-            <option value="compact">
-                Compact
-            </option>
+<div class="range-row">
 
-        </select>
+<input
+    id="qrSize"
+    type="range"
+    min="90"
+    max="180"
+    value="145"
+>
 
-    </div>
+<output id="qrSizeValue">145</output>
 
+</div>
 
-    <div class="field">
+</div>
 
-        <label>
-            プロフィール画像形状
-        </label>
+<div class="field">
 
-        <select id="avatarShape">
+<label class="checkbox">
 
-            <option value="circle">
-                Circle
-            </option>
+<input
+    id="showUrls"
+    type="checkbox"
+    checked
+>
 
-            <option value="rounded">
-                Rounded
-            </option>
+QRコードの下にリンクアドレスを表示
 
-            <option value="square">
-                Square
-            </option>
+</label>
 
-        </select>
-
-    </div>
-
-
-    <div class="field">
-
-        <label>
-            アクセントカラー
-        </label>
-
-        <input
-            id="accentColor"
-            type="color"
-            value="#111318"
-        >
-
-    </div>
-
-
-    <div class="field">
-
-        <label>
-            カード角丸
-        </label>
-
-        <div class="range-row">
-
-            <input
-                id="radius"
-                type="range"
-                min="0"
-                max="50"
-                value="30"
-            >
-
-            <output id="radiusValue">
-                30
-            </output>
-
-        </div>
-
-    </div>
-
-
-    <div class="field">
-
-        <label>
-            QRコードサイズ
-        </label>
-
-        <div class="range-row">
-
-            <input
-                id="qrSize"
-                type="range"
-                min="90"
-                max="180"
-                value="145"
-            >
-
-            <output id="qrSizeValue">
-                145
-            </output>
-
-        </div>
-
-    </div>
+</div>
 
 </div>
 
@@ -1174,43 +914,39 @@ input[type="range"] {
 
 <div class="section">
 
-    <div class="section-title">
-        FOOTER
-    </div>
+<div class="section-title">FOOTER</div>
 
+<div class="field">
 
-    <div class="field">
+<label class="checkbox">
 
-        <label class="checkbox-row">
+<input
+    id="showFooter"
+    type="checkbox"
+    checked
+>
 
-            <input
-                id="showFooter"
-                type="checkbox"
-                checked
-            >
+CREATOR PROFILEを表示
 
-            CREATOR PROFILEを表示
+</label>
 
-        </label>
+</div>
 
-    </div>
+<div class="field">
 
+<label class="checkbox">
 
-    <div class="field">
+<input
+    id="showDate"
+    type="checkbox"
+    checked
+>
 
-        <label class="checkbox-row">
+作成日を表示
 
-            <input
-                id="showDate"
-                type="checkbox"
-                checked
-            >
+</label>
 
-            作成日を表示
-
-        </label>
-
-    </div>
+</div>
 
 </div>
 
@@ -1219,54 +955,42 @@ input[type="range"] {
 
 <div class="section">
 
-    <div class="section-title">
-        DATA
-    </div>
+<div class="section-title">DATA</div>
 
+<button
+    id="saveButton"
+    class="button button-dark"
+    type="button"
+>
+設定を保存
+</button>
 
-    <button
-        id="saveButton"
-        class="button button-dark"
-        type="button"
-    >
-        設定を保存
-    </button>
+<button
+    id="loadButton"
+    class="button button-light"
+    type="button"
+>
+保存データを読み込む
+</button>
 
-
-    <button
-        id="loadButton"
-        class="button button-light"
-        type="button"
-    >
-        保存データを読み込む
-    </button>
-
-
-    <button
-        id="resetButton"
-        class="button button-danger"
-        type="button"
-    >
-        すべてリセット
-    </button>
+<button
+    id="resetButton"
+    class="button button-danger"
+    type="button"
+>
+すべてリセット
+</button>
 
 </div>
 
 
-<!-- EXPORT -->
-
-<div class="section">
-
-    <button
-        id="exportButton"
-        class="button button-dark"
-        type="button"
-    >
-        PNG画像として保存
-    </button>
-
-</div>
-
+<button
+    id="exportButton"
+    class="button button-dark"
+    type="button"
+>
+PNG画像として保存
+</button>
 
 </section>
 
@@ -1277,111 +1001,90 @@ input[type="range"] {
 
 <section class="preview-panel">
 
-    <div class="preview-toolbar">
+<div class="preview-toolbar">
 
-        <span>
-            PREVIEW
-        </span>
+<span>PREVIEW</span>
 
-        <strong id="previewStatus">
-            LIVE
-        </strong>
+<strong>LIVE</strong>
 
-    </div>
+</div>
 
+<div class="preview-stage">
 
-    <div class="preview-stage">
+<div
+    id="profileCard"
+    class="profile-card template-sns"
+>
 
-        <div
-            id="profileCard"
-            class="profile-card"
-        >
+<div class="profile-bg"></div>
 
-            <div
-                class="profile-decoration-one"
-            ></div>
+<div class="profile-content">
 
-            <div
-                class="profile-decoration-two"
-            ></div>
+<div class="card-header">
 
+<img
+    id="cardAvatar"
+    class="card-avatar"
+>
 
-            <!-- HEADER -->
+<div>
 
-            <div class="card-header">
+<div
+    id="cardName"
+    class="card-name"
+>
+Creator Name
+</div>
 
-                <img
-                    id="cardAvatar"
-                    class="card-avatar"
-                    alt=""
-                >
+<div
+    id="cardTitle"
+    class="card-title"
+>
+Creator
+</div>
 
-                <div class="card-identity">
+</div>
 
-                    <div
-                        id="cardName"
-                        class="card-name"
-                    >
-                        Creator Name
-                    </div>
+</div>
 
-                    <div
-                        id="cardTitle"
-                        class="card-title"
-                    >
-                        Creator
-                    </div>
+<div
+    id="cardDescription"
+    class="card-description"
+>
+あなたの活動を紹介しましょう。
+</div>
 
-                </div>
+<div
+    id="cardLinks"
+    class="card-links"
+></div>
 
-            </div>
+</div>
 
+<div
+    id="cardFooter"
+    class="card-footer"
+>
 
-            <!-- DESCRIPTION -->
+<div
+    id="footerTitle"
+    class="footer-title"
+>
+CREATOR PROFILE
+</div>
 
-            <div
-                id="cardDescription"
-                class="card-description"
-            >
-                あなたの活動を紹介しましょう。
-            </div>
+<div
+    id="footerDate"
+    class="footer-date"
+></div>
 
+</div>
 
-            <!-- LINKS -->
+</div>
 
-            <div
-                id="cardLinks"
-                class="card-links"
-            ></div>
-
-
-            <!-- FOOTER -->
-
-            <div
-                id="cardFooter"
-                class="card-footer"
-            >
-
-                <div
-                    id="footerTitle"
-                    class="footer-title"
-                >
-                    CREATOR PROFILE
-                </div>
-
-                <div
-                    id="footerDate"
-                    class="footer-date"
-                ></div>
-
-            </div>
-
-        </div>
-
-    </div>
+</div>
 
 </section>
-
 
 </div>
 
@@ -1390,232 +1093,148 @@ input[type="range"] {
 
 <script>
 
-/* =========================================================
-   CONSTANTS
-========================================================= */
+/* =====================================================
+   BASIC
+===================================================== */
 
 const MAX_LINKS = 12;
-
-const STORAGE_KEY =
-    "creator-profile-data-v1";
-
-
-/* =========================================================
-   STATE
-========================================================= */
+const STORAGE_KEY = "creator-profile-v3";
 
 let avatarData = "";
 
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const $ = id =>
-    document.getElementById(id);
-
-const linkEditor =
-    $("linkEditor");
+const $ = id => document.getElementById(id);
 
 
-/* =========================================================
-   DEFAULT DATA
-========================================================= */
+/* =====================================================
+   PLACEHOLDER
+===================================================== */
 
-const defaultData = {
+function createPlaceholder(){
 
-    name: "",
+    const canvas = document.createElement("canvas");
 
-    title: "",
+    canvas.width = 300;
+    canvas.height = 300;
 
-    description: "",
+    const ctx = canvas.getContext("2d");
 
-    avatar: "",
+    ctx.fillStyle = "#dfe2e5";
+    ctx.fillRect(0,0,300,300);
 
-    theme: "white",
+    ctx.fillStyle = "#aeb3ba";
 
-    layout: "grid",
+    ctx.beginPath();
+    ctx.arc(150,105,55,0,Math.PI*2);
+    ctx.fill();
 
-    avatarShape: "circle",
+    ctx.beginPath();
+    ctx.arc(150,330,115,Math.PI,0);
+    ctx.fill();
 
-    accentColor: "#111318",
-
-    radius: 30,
-
-    qrSize: 145,
-
-    showUrls: true,
-
-    showFooter: true,
-
-    showDate: true,
-
-    links: [
-
-        {
-            service: "pixiv",
-            url: ""
-        },
-
-        {
-            service: "X",
-            url: ""
-        },
-
-        {
-            service: "YouTube",
-            url: ""
-        },
-
-        {
-            service: "SoundCloud",
-            url: ""
-        }
-
-    ]
-
-};
+    return canvas.toDataURL("image/png");
+}
 
 
-/* =========================================================
+/* =====================================================
    STATUS
-========================================================= */
+===================================================== */
 
-let statusTimer = null;
+let statusTimer;
 
-function showStatus(
-    message,
-    type = "success"
-) {
+function showStatus(message,type="success"){
 
-    const status =
-        $("status");
+    const box = $("status");
 
-    status.textContent =
-        message;
+    box.textContent = message;
 
-    status.className =
+    box.className =
         "status show " + type;
 
     clearTimeout(statusTimer);
 
-    statusTimer =
-        setTimeout(
-            () => {
-
-                status.className =
-                    "status";
-
-            },
-            3000
-        );
-
+    statusTimer = setTimeout(()=>{
+        box.className = "status";
+    },3000);
 }
 
 
-/* =========================================================
-   SANITIZE URL
-========================================================= */
+/* =====================================================
+   URL VALIDATION
+===================================================== */
 
-function normalizeURL(value) {
+function normalizeURL(value){
 
-    let url =
-        String(value || "")
-            .trim();
+    let url = String(value || "").trim();
 
-    if (!url) {
+    if(!url){
         return "";
     }
 
     /*
-     * javascript:
-     * data:
-     * file:
-     * などを拒否
+     * スクリプト系URLは禁止
      */
 
-    const lower =
-        url.toLowerCase();
+    const lower = url.toLowerCase();
 
-    if (
+    if(
         lower.startsWith("javascript:") ||
         lower.startsWith("data:") ||
         lower.startsWith("file:")
-    ) {
-
+    ){
         return "";
-
     }
 
     /*
-     * httpがなければ補完
+     * https:// が無ければ追加
      */
 
-    if (
+    if(
         !lower.startsWith("http://") &&
         !lower.startsWith("https://")
-    ) {
-
-        url =
-            "https://" + url;
-
+    ){
+        url = "https://" + url;
     }
 
-    try {
+    try{
 
-        const parsed =
-            new URL(url);
+        const parsed = new URL(url);
 
-        if (
+        if(
             parsed.protocol !== "http:" &&
             parsed.protocol !== "https:"
-        ) {
-
+        ){
             return "";
-
         }
 
         return parsed.href;
 
-    } catch {
+    }catch{
 
         return "";
-
     }
-
 }
 
 
-/* =========================================================
-   CREATE LINK ITEM
-========================================================= */
+/* =====================================================
+   LINK EDITOR
+===================================================== */
 
-function createLinkItem(
-    service = "Other",
-    url = ""
-) {
+function addLink(service="Website",url=""){
 
-    if (
-        linkEditor.children.length
-        >= MAX_LINKS
-    ) {
-
+    if(
+        $("linkEditor").children.length >= MAX_LINKS
+    ){
         showStatus(
             "リンクは最大12件まで追加できます。",
             "error"
         );
-
         return;
-
     }
-
 
     const item =
         document.createElement("div");
 
-    item.className =
-        "link-item";
-
+    item.className = "link-item";
 
     item.innerHTML = `
 
@@ -1623,24 +1242,23 @@ function createLinkItem(
 
             <select class="service">
 
-                <option value="pixiv">pixiv</option>
-                <option value="X">X</option>
-                <option value="YouTube">YouTube</option>
-                <option value="SoundCloud">SoundCloud</option>
-                <option value="GitHub">GitHub</option>
-                <option value="BOOTH">BOOTH</option>
-                <option value="Instagram">Instagram</option>
-                <option value="TikTok">TikTok</option>
-                <option value="Discord">Discord</option>
-                <option value="Website">Website</option>
-                <option value="Other">Other</option>
+                <option>pixiv</option>
+                <option>X</option>
+                <option>YouTube</option>
+                <option>SoundCloud</option>
+                <option>GitHub</option>
+                <option>BOOTH</option>
+                <option>Instagram</option>
+                <option>TikTok</option>
+                <option>Discord</option>
+                <option>Website</option>
+                <option>Other</option>
 
             </select>
 
             <button
-                type="button"
                 class="remove-link"
-                title="削除"
+                type="button"
             >
                 ×
             </button>
@@ -1651,22 +1269,22 @@ function createLinkItem(
             class="link-url"
             type="text"
             inputmode="url"
+            autocomplete="url"
             placeholder="https://example.com/"
-            value=""
         >
 
         <div class="link-controls">
 
             <button
+                class="link-control up"
                 type="button"
-                class="link-control move-up"
             >
                 ↑ 上へ
             </button>
 
             <button
+                class="link-control down"
                 type="button"
-                class="link-control move-down"
             >
                 ↓ 下へ
             </button>
@@ -1675,45 +1293,18 @@ function createLinkItem(
 
     `;
 
-
-    const serviceSelect =
-        item.querySelector(
-            ".service"
-        );
+    const serviceInput =
+        item.querySelector(".service");
 
     const urlInput =
-        item.querySelector(
-            ".link-url"
-        );
+        item.querySelector(".link-url");
 
-    const removeButton =
-        item.querySelector(
-            ".remove-link"
-        );
+    serviceInput.value = service;
 
-    const upButton =
-        item.querySelector(
-            ".move-up"
-        );
-
-    const downButton =
-        item.querySelector(
-            ".move-down"
-        );
+    urlInput.value = url;
 
 
-    serviceSelect.value =
-        service;
-
-    urlInput.value =
-        url;
-
-
-    /*
-     * Events
-     */
-
-    serviceSelect.addEventListener(
+    serviceInput.addEventListener(
         "change",
         update
     );
@@ -1723,408 +1314,381 @@ function createLinkItem(
         update
     );
 
-
-    removeButton.addEventListener(
-        "click",
-        () => {
-
-            item.remove();
-
-            update();
-
-        }
-    );
-
-
-    upButton.addEventListener(
-        "click",
-        () => {
-
-            const previous =
-                item.previousElementSibling;
-
-            if (!previous) {
-                return;
+    item.querySelector(".remove-link")
+        .addEventListener(
+            "click",
+            ()=>{
+                item.remove();
+                update();
             }
-
-            linkEditor.insertBefore(
-                item,
-                previous
-            );
-
-            update();
-
-        }
-    );
-
-
-    downButton.addEventListener(
-        "click",
-        () => {
-
-            const next =
-                item.nextElementSibling;
-
-            if (!next) {
-                return;
-            }
-
-            linkEditor.insertBefore(
-                next,
-                item
-            );
-
-            update();
-
-        }
-    );
-
-
-    linkEditor.appendChild(item);
-
-    update();
-
-}
-
-
-/* =========================================================
-   ADD LINK
-========================================================= */
-
-$("addLinkButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            createLinkItem(
-                "Other",
-                ""
-            );
-
-            const items =
-                linkEditor.querySelectorAll(
-                    ".link-item"
-                );
-
-            const last =
-                items[items.length - 1];
-
-            if (last) {
-
-                last.querySelector(
-                    ".link-url"
-                ).focus();
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   COLLECT LINKS
-========================================================= */
-
-function collectLinks() {
-
-    const result = [];
-
-    const items =
-        linkEditor.querySelectorAll(
-            ".link-item"
         );
 
 
-    items.forEach(
-        item => {
+    item.querySelector(".up")
+        .addEventListener(
+            "click",
+            ()=>{
+
+                const previous =
+                    item.previousElementSibling;
+
+                if(previous){
+
+                    $("linkEditor")
+                        .insertBefore(
+                            item,
+                            previous
+                        );
+
+                    update();
+                }
+
+            }
+        );
+
+
+    item.querySelector(".down")
+        .addEventListener(
+            "click",
+            ()=>{
+
+                const next =
+                    item.nextElementSibling;
+
+                if(next){
+
+                    $("linkEditor")
+                        .insertBefore(
+                            next,
+                            item
+                        );
+
+                    update();
+                }
+
+            }
+        );
+
+
+    $("linkEditor").appendChild(item);
+
+    update();
+}
+
+
+/* =====================================================
+   COLLECT LINKS
+===================================================== */
+
+function collectLinks(){
+
+    const result = [];
+
+    $("linkEditor")
+        .querySelectorAll(".link-item")
+        .forEach(item=>{
 
             const service =
                 item.querySelector(
                     ".service"
                 ).value;
 
-            const rawURL =
+            const raw =
                 item.querySelector(
                     ".link-url"
-                ).value.trim();
-
-
-            if (!rawURL) {
-                return;
-            }
-
+                ).value;
 
             const url =
-                normalizeURL(
-                    rawURL
-                );
+                normalizeURL(raw);
 
+            if(url){
 
-            if (!url) {
-                return;
+                result.push({
+                    service,
+                    url
+                });
+
             }
 
-
-            result.push({
-
-                service,
-
-                url
-
-            });
-
-        }
-    );
-
+        });
 
     return result;
-
 }
 
 
-/* =========================================================
-   UPDATE PROFILE
-========================================================= */
+/* =====================================================
+   PROFILE
+===================================================== */
 
-function updateProfile() {
+function updateProfile(){
 
-    const name =
-        $("name")
-            .value
-            .trim();
-
-    const title =
-        $("title")
-            .value
-            .trim();
-
-    const description =
-        $("description")
-            .value
-            .trim();
-
-
-    $("cardName")
-        .textContent =
-        name ||
+    $("cardName").textContent =
+        $("name").value.trim() ||
         "Creator Name";
 
-
-    $("cardTitle")
-        .textContent =
-        title ||
+    $("cardTitle").textContent =
+        $("title").value.trim() ||
         "Creator";
 
-
-    $("cardDescription")
-        .textContent =
-        description ||
+    $("cardDescription").textContent =
+        $("description").value.trim() ||
         "あなたの活動を紹介しましょう。";
-
 }
 
 
-/* =========================================================
-   UPDATE THEME
-========================================================= */
+/* =====================================================
+   DESIGN
+===================================================== */
 
-function updateTheme() {
+function updateDesign(){
 
-    const card =
-        $("profileCard");
+    const card = $("profileCard");
 
-    const theme =
-        $("theme").value;
+    card.className =
+        "profile-card template-" +
+        $("template").value;
 
-    const accent =
-        $("accentColor").value;
-
-
-    /*
-     * Accent
-     */
-
-    $("footerTitle")
-        .style.color =
-        accent;
-
-
-    /*
-     * Theme
-     */
-
-    if (theme === "dark") {
-
-        card.style.background =
-            "linear-gradient(145deg,#121419,#292d34)";
-
-        card.style.color =
-            "#ffffff";
-
-        $("cardTitle")
-            .style.color =
-            "#aeb2b9";
-
-        $("cardDescription")
-            .style.color =
-            "#d0d3d8";
-
-    }
-
-    else if (theme === "minimal") {
-
-        card.style.background =
-            "#ffffff";
-
-        card.style.color =
-            "#17191d";
-
-        $("cardTitle")
-            .style.color =
-            "#777c84";
-
-        $("cardDescription")
-            .style.color =
-            "#454a51";
-
-    }
-
-    else {
-
-        card.style.background =
-            "linear-gradient(145deg,#ffffff,#f0f2f5)";
-
-        card.style.color =
-            "#17191d";
-
-        $("cardTitle")
-            .style.color =
-            "#737880";
-
-        $("cardDescription")
-            .style.color =
-            "#41454b";
-
-    }
-
-
-    /*
-     * Radius
-     */
-
-    const radius =
-        Number(
-            $("radius").value
-        );
+    card.style.setProperty(
+        "--accent",
+        $("accentColor").value
+    );
 
     card.style.borderRadius =
-        radius + "px";
+        $("radius").value + "px";
 
-    $("radiusValue")
-        .textContent =
-        radius;
+    $("radiusValue").textContent =
+        $("radius").value;
 
+    $("qrSizeValue").textContent =
+        $("qrSize").value;
 
-    /*
-     * Avatar shape
-     */
-
-    const avatar =
-        $("cardAvatar");
 
     const shape =
         $("avatarShape").value;
 
-    if (shape === "circle") {
+    if(shape === "circle"){
 
-        avatar.style.borderRadius =
+        $("cardAvatar").style.borderRadius =
             "50%";
 
     }
+    else if(shape === "rounded"){
 
-    else if (shape === "rounded") {
-
-        avatar.style.borderRadius =
+        $("cardAvatar").style.borderRadius =
             "22px";
 
     }
+    else{
 
-    else {
-
-        avatar.style.borderRadius =
+        $("cardAvatar").style.borderRadius =
             "0";
-
-    }
-
-
-    /*
-     * QR size
-     */
-
-    $("qrSizeValue")
-        .textContent =
-        $("qrSize").value;
-
-
-    /*
-     * Layout
-     */
-
-    const layout =
-        $("layout").value;
-
-    const links =
-        $("cardLinks");
-
-
-    if (layout === "single") {
-
-        links.style.gridTemplateColumns =
-            "1fr";
-
-    }
-
-    else {
-
-        links.style.gridTemplateColumns =
-            "repeat(2,minmax(0,1fr))";
-
-    }
-
-
-    if (layout === "compact") {
-
-        links.style.gap =
-            "10px";
-
-        links.style.marginTop =
-            "25px";
-
-    }
-
-    else {
-
-        links.style.gap =
-            "18px";
-
-        links.style.marginTop =
-            "36px";
 
     }
 
 }
 
 
-/* =========================================================
-   UPDATE FOOTER
-========================================================= */
+/* =====================================================
+   QR CODE
+===================================================== */
 
-function updateFooter() {
+function generateQRCode(container,url,size){
 
-    const footer =
-        $("cardFooter");
+    /*
+     * 既存QRを完全に削除
+     */
 
-    footer.style.display =
+    container.innerHTML = "";
+
+    if(!url){
+
+        return false;
+    }
+
+    /*
+     * QRCode.jsが読み込まれているか確認
+     */
+
+    if(
+        typeof QRCode === "undefined"
+    ){
+
+        const error =
+            document.createElement("div");
+
+        error.className = "qr-error";
+
+        error.textContent =
+            "QRコードライブラリを読み込めませんでした。";
+
+        container.appendChild(error);
+
+        return false;
+    }
+
+    try{
+
+        /*
+         * QRCode.jsで生成
+         */
+
+        new QRCode(
+            container,
+            {
+                text:url,
+
+                width:size,
+
+                height:size,
+
+                colorDark:"#000000",
+
+                colorLight:"#ffffff",
+
+                correctLevel:
+                    QRCode.CorrectLevel.M
+            }
+        );
+
+        return true;
+
+    }catch(error){
+
+        console.error(
+            "QR Code Error:",
+            error
+        );
+
+        const errorBox =
+            document.createElement("div");
+
+        errorBox.className =
+            "qr-error";
+
+        errorBox.textContent =
+            "このURLのQRコードを生成できませんでした。";
+
+        container.appendChild(
+            errorBox
+        );
+
+        return false;
+    }
+}
+
+
+/* =====================================================
+   LINK PREVIEW
+===================================================== */
+
+function updateLinks(){
+
+    const container =
+        $("cardLinks");
+
+    container.innerHTML = "";
+
+    const links =
+        collectLinks();
+
+    $("linkCount").textContent =
+        links.length + " / " + MAX_LINKS;
+
+
+    if(!links.length){
+
+        container.innerHTML = `
+
+            <div class="empty-links">
+
+                リンクを追加すると<br>
+                QRコードとリンクアドレスが表示されます。
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const size =
+        Number($("qrSize").value);
+
+
+    links.forEach(link=>{
+
+        const box =
+            document.createElement("div");
+
+        box.className =
+            "qr-item";
+
+
+        const name =
+            document.createElement("div");
+
+        name.className =
+            "qr-name";
+
+        name.textContent =
+            link.service;
+
+
+        const qr =
+            document.createElement("div");
+
+        qr.className =
+            "qr-container";
+
+
+        const url =
+            document.createElement("div");
+
+        url.className =
+            "qr-url";
+
+        url.textContent =
+            link.url;
+
+
+        if(
+            !$("showUrls").checked
+        ){
+
+            url.style.display =
+                "none";
+
+        }
+
+
+        box.appendChild(name);
+
+        box.appendChild(qr);
+
+        box.appendChild(url);
+
+        container.appendChild(box);
+
+
+        generateQRCode(
+            qr,
+            link.url,
+            size
+        );
+
+    });
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+function updateFooter(){
+
+    $("cardFooter").style.display =
         $("showFooter").checked
             ? "flex"
             : "none";
@@ -2136,500 +1700,177 @@ function updateFooter() {
             : "none";
 
 
-    const now =
+    const date =
         new Date();
 
-    $("footerDate")
-        .textContent =
-        now.getFullYear()
-        + "."
-        + String(
-            now.getMonth() + 1
-        ).padStart(2,"0")
-        + "."
-        + String(
-            now.getDate()
+
+    $("footerDate").textContent =
+        date.getFullYear() +
+        "." +
+        String(
+            date.getMonth()+1
+        ).padStart(2,"0") +
+        "." +
+        String(
+            date.getDate()
         ).padStart(2,"0");
-
 }
 
 
-/* =========================================================
-   UPDATE LINKS
-========================================================= */
-
-function updateLinks() {
-
-    const output =
-        $("cardLinks");
-
-    output.innerHTML = "";
-
-
-    const items =
-        linkEditor.querySelectorAll(
-            ".link-item"
-        );
-
-
-    $("linkCount")
-        .textContent =
-        collectLinks().length
-        + " / "
-        + MAX_LINKS;
-
-
-    const showURLs =
-        $("showUrls").checked;
-
-
-    let validCount = 0;
-
-
-    items.forEach(
-        item => {
-
-            const service =
-                item.querySelector(
-                    ".service"
-                ).value;
-
-            const rawURL =
-                item.querySelector(
-                    ".link-url"
-                ).value.trim();
-
-
-            if (!rawURL) {
-                return;
-            }
-
-
-            const url =
-                normalizeURL(
-                    rawURL
-                );
-
-
-            if (!url) {
-                return;
-            }
-
-
-            validCount++;
-
-
-            const box =
-                document.createElement(
-                    "div"
-                );
-
-            box.className =
-                "qr-item";
-
-
-            const title =
-                document.createElement(
-                    "div"
-                );
-
-            title.className =
-                "qr-name";
-
-            title.textContent =
-                service;
-
-
-            const canvas =
-                document.createElement(
-                    "canvas"
-                );
-
-            canvas.className =
-                "qr-code";
-
-
-            const address =
-                document.createElement(
-                    "div"
-                );
-
-            address.className =
-                "qr-url";
-
-            address.textContent =
-                url;
-
-
-            if (!showURLs) {
-
-                address.classList.add(
-                    "hidden"
-                );
-
-            }
-
-
-            box.appendChild(title);
-
-            box.appendChild(canvas);
-
-            box.appendChild(address);
-
-            output.appendChild(box);
-
-
-            /*
-             * QR generation
-             */
-
-            try {
-
-                QRCode.toCanvas(
-                    canvas,
-                    url,
-                    {
-                        width:
-                            Number(
-                                $("qrSize").value
-                            ),
-
-                        margin: 2,
-
-                        errorCorrectionLevel:
-                            "M"
-                    }
-                );
-
-            }
-
-            catch(error) {
-
-                console.error(
-                    "QR Error:",
-                    error
-                );
-
-                const errorText =
-                    document.createElement(
-                        "div"
-                    );
-
-                errorText.textContent =
-                    "QRコードを生成できませんでした。";
-
-                errorText.style.fontSize =
-                    "11px";
-
-                errorText.style.color =
-                    "#a33";
-
-                box.replaceChild(
-                    errorText,
-                    canvas
-                );
-
-            }
-
-        }
-    );
-
-
-    if (validCount === 0) {
-
-        output.innerHTML = `
-
-            <div class="empty-links">
-
-                リンクを追加すると<br>
-                QRコードとURLが<br>
-                ここに表示されます。
-
-            </div>
-
-        `;
-
-    }
-
-
-    /*
-     * Update move buttons
-     */
-
-    const allItems =
-        Array.from(
-            items
-        );
-
-
-    allItems.forEach(
-        (item,index) => {
-
-            const up =
-                item.querySelector(
-                    ".move-up"
-                );
-
-            const down =
-                item.querySelector(
-                    ".move-down"
-                );
-
-
-            up.disabled =
-                index === 0;
-
-            down.disabled =
-                index ===
-                allItems.length - 1;
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   UPDATE AVATAR
-========================================================= */
-
-function updateAvatar() {
+/* =====================================================
+   AVATAR
+===================================================== */
+
+function updateAvatar(){
 
     const source =
-        avatarData;
+        avatarData ||
+        createPlaceholder();
 
+    $("avatarPreview").src =
+        source;
 
-    if (source) {
-
-        $("avatarPreview")
-            .src =
-            source;
-
-        $("cardAvatar")
-            .src =
-            source;
-
-    }
-
-    else {
-
-        /*
-         * 空の場合は
-         * シンプルなプレースホルダー
-         */
-
-        const placeholder =
-            createPlaceholderAvatar();
-
-        $("avatarPreview")
-            .src =
-            placeholder;
-
-        $("cardAvatar")
-            .src =
-            placeholder;
-
-    }
-
+    $("cardAvatar").src =
+        source;
 }
 
 
-/* =========================================================
-   PLACEHOLDER AVATAR
-========================================================= */
+/* =====================================================
+   MASTER UPDATE
+===================================================== */
 
-function createPlaceholderAvatar() {
-
-    const canvas =
-        document.createElement(
-            "canvas"
-        );
-
-    canvas.width = 300;
-    canvas.height = 300;
-
-    const ctx =
-        canvas.getContext(
-            "2d"
-        );
-
-    ctx.fillStyle =
-        "#dfe2e5";
-
-    ctx.fillRect(
-        0,
-        0,
-        300,
-        300
-    );
-
-    ctx.fillStyle =
-        "#aeb3ba";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        150,
-        110,
-        55,
-        0,
-        Math.PI * 2
-    );
-
-    ctx.fill();
-
-    ctx.beginPath();
-
-    ctx.arc(
-        150,
-        300,
-        105,
-        Math.PI,
-        0
-    );
-
-    ctx.fill();
-
-    return canvas.toDataURL(
-        "image/png"
-    );
-
-}
-
-
-/* =========================================================
-   UPDATE
-========================================================= */
-
-function update() {
+function update(){
 
     updateProfile();
 
-    updateTheme();
-
-    updateFooter();
+    updateDesign();
 
     updateAvatar();
 
     updateLinks();
 
+    updateFooter();
+
 }
 
 
-/* =========================================================
+/* =====================================================
    INPUT EVENTS
-========================================================= */
+===================================================== */
 
 [
     "name",
     "title",
     "description",
-    "theme",
-    "layout",
-    "avatarShape",
+    "template",
     "accentColor",
+    "avatarShape",
     "radius",
     "qrSize",
     "showUrls",
     "showFooter",
     "showDate"
 
-].forEach(
-    id => {
+].forEach(id=>{
 
-        $(id).addEventListener(
-            "input",
-            update
-        );
+    $(id).addEventListener(
+        "input",
+        update
+    );
 
-        $(id).addEventListener(
-            "change",
-            update
-        );
+    $(id).addEventListener(
+        "change",
+        update
+    );
+
+});
+
+
+/* =====================================================
+   AVATAR
+===================================================== */
+
+$("avatarFile")
+.addEventListener(
+    "change",
+    event=>{
+
+        const file =
+            event.target.files[0];
+
+        if(!file){
+            return;
+        }
+
+
+        if(
+            file.size >
+            10 * 1024 * 1024
+        ){
+
+            showStatus(
+                "画像は10MB以下にしてください。",
+                "error"
+            );
+
+            event.target.value = "";
+
+            return;
+        }
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            event=>{
+
+                avatarData =
+                    event.target.result;
+
+                update();
+
+            };
+
+
+        reader.onerror =
+            ()=>{
+
+                showStatus(
+                    "画像を読み込めませんでした。",
+                    "error"
+                );
+
+            };
+
+
+        reader.readAsDataURL(file);
 
     }
 );
 
 
-/* =========================================================
-   AVATAR FILE
-========================================================= */
+/* =====================================================
+   ADD LINK
+===================================================== */
 
-$("avatarFile")
-    .addEventListener(
-        "change",
-        event => {
-
-            const file =
-                event.target.files[0];
-
-            if (!file) {
-                return;
-            }
+$("addLinkButton")
+.addEventListener(
+    "click",
+    ()=>{
+        addLink();
+    }
+);
 
 
-            /*
-             * 画像サイズ制限
-             */
-
-            if (
-                file.size >
-                10 * 1024 * 1024
-            ) {
-
-                showStatus(
-                    "画像は10MB以下にしてください。",
-                    "error"
-                );
-
-                event.target.value = "";
-
-                return;
-
-            }
-
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                event => {
-
-                    avatarData =
-                        event.target.result;
-
-                    update();
-
-                };
-
-
-            reader.onerror =
-                () => {
-
-                    showStatus(
-                        "画像を読み込めませんでした。",
-                        "error"
-                    );
-
-                };
-
-
-            reader.readAsDataURL(
-                file
-            );
-
-        }
-    );
-
-
-/* =========================================================
+/* =====================================================
    SAVE DATA
-========================================================= */
+===================================================== */
 
-function getData() {
+function getData(){
 
-    return {
+    return{
 
         name:
             $("name").value,
@@ -2643,17 +1884,14 @@ function getData() {
         avatar:
             avatarData,
 
-        theme:
-            $("theme").value,
-
-        layout:
-            $("layout").value,
-
-        avatarShape:
-            $("avatarShape").value,
+        template:
+            $("template").value,
 
         accentColor:
             $("accentColor").value,
+
+        avatarShape:
+            $("avatarShape").value,
 
         radius:
             Number(
@@ -2682,13 +1920,9 @@ function getData() {
 }
 
 
-/* =========================================================
-   APPLY DATA
-========================================================= */
+function applyData(data){
 
-function applyData(data) {
-
-    if (!data) {
+    if(!data){
         return;
     }
 
@@ -2707,33 +1941,21 @@ function applyData(data) {
         data.avatar || "";
 
 
-    $("theme").value =
-        data.theme || "white";
-
-    $("layout").value =
-        data.layout || "grid";
-
-    $("avatarShape").value =
-        data.avatarShape || "circle";
+    $("template").value =
+        data.template || "sns";
 
     $("accentColor").value =
         data.accentColor || "#111318";
 
+    $("avatarShape").value =
+        data.avatarShape || "circle";
+
 
     $("radius").value =
-        Number.isFinite(
-            Number(data.radius)
-        )
-            ? Number(data.radius)
-            : 30;
-
+        Number(data.radius) || 30;
 
     $("qrSize").value =
-        Number.isFinite(
-            Number(data.qrSize)
-        )
-            ? Number(data.qrSize)
-            : 145;
+        Number(data.qrSize) || 145;
 
 
     $("showUrls").checked =
@@ -2746,33 +1968,28 @@ function applyData(data) {
         data.showDate !== false;
 
 
-    /*
-     * Links
-     */
-
-    linkEditor.innerHTML = "";
+    $("linkEditor").innerHTML = "";
 
 
-    const links =
-        Array.isArray(
-            data.links
-        )
-            ? data.links
-            : [];
+    if(
+        Array.isArray(data.links)
+    ){
 
+        data.links
+            .slice(0,MAX_LINKS)
+            .forEach(link=>{
 
-    links
-        .slice(0,MAX_LINKS)
-        .forEach(
-            link => {
+                addLink(
+                    link.service ||
+                        "Website",
 
-                createLinkItem(
-                    link.service || "Other",
-                    link.url || ""
+                    link.url ||
+                        ""
                 );
 
-            }
-        );
+            });
+
+    }
 
 
     update();
@@ -2780,327 +1997,243 @@ function applyData(data) {
 }
 
 
-/* =========================================================
-   SAVE BUTTON
-========================================================= */
+/* =====================================================
+   SAVE
+===================================================== */
 
 $("saveButton")
-    .addEventListener(
-        "click",
-        () => {
+.addEventListener(
+    "click",
+    ()=>{
 
-            try {
+        try{
 
-                const data =
-                    getData();
-
-                localStorage.setItem(
-                    STORAGE_KEY,
-                    JSON.stringify(data)
-                );
-
-                showStatus(
-                    "設定を保存しました。"
-                );
-
-            }
-
-            catch(error) {
-
-                console.error(error);
-
-                showStatus(
-                    "設定を保存できませんでした。",
-                    "error"
-                );
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   LOAD BUTTON
-========================================================= */
-
-$("loadButton")
-    .addEventListener(
-        "click",
-        () => {
-
-            try {
-
-                const raw =
-                    localStorage.getItem(
-                        STORAGE_KEY
-                    );
-
-
-                if (!raw) {
-
-                    showStatus(
-                        "保存されたデータがありません。",
-                        "error"
-                    );
-
-                    return;
-
-                }
-
-
-                const data =
-                    JSON.parse(raw);
-
-                applyData(data);
-
-                showStatus(
-                    "保存データを読み込みました。"
-                );
-
-            }
-
-            catch(error) {
-
-                console.error(error);
-
-                showStatus(
-                    "保存データを読み込めませんでした。",
-                    "error"
-                );
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   AUTO LOAD
-========================================================= */
-
-function loadSavedDataSilently() {
-
-    try {
-
-        const raw =
-            localStorage.getItem(
-                STORAGE_KEY
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(
+                    getData()
+                )
             );
 
+            showStatus(
+                "設定を保存しました。"
+            );
 
-        if (!raw) {
-            return false;
+        }catch(error){
+
+            console.error(error);
+
+            showStatus(
+                "保存できませんでした。",
+                "error"
+            );
+
         }
 
-
-        const data =
-            JSON.parse(raw);
-
-        applyData(data);
-
-        return true;
-
     }
-
-    catch(error) {
-
-        console.warn(
-            "Auto load failed:",
-            error
-        );
-
-        return false;
-
-    }
-
-}
+);
 
 
-/* =========================================================
-   RESET
-========================================================= */
+/* =====================================================
+   LOAD
+===================================================== */
 
-$("resetButton")
-    .addEventListener(
-        "click",
-        () => {
+$("loadButton")
+.addEventListener(
+    "click",
+    ()=>{
 
-            const confirmed =
-                confirm(
-                    "すべての入力内容をリセットしますか？"
+        try{
+
+            const raw =
+                localStorage.getItem(
+                    STORAGE_KEY
                 );
 
 
-            if (!confirmed) {
+            if(!raw){
+
+                showStatus(
+                    "保存データがありません。",
+                    "error"
+                );
+
                 return;
             }
 
 
-            localStorage.removeItem(
-                STORAGE_KEY
+            applyData(
+                JSON.parse(raw)
             );
-
-
-            linkEditor.innerHTML =
-                "";
-
-            avatarData =
-                "";
-
-
-            /*
-             * Restore fields
-             */
-
-            $("name").value =
-                "";
-
-            $("title").value =
-                "";
-
-            $("description").value =
-                "";
-
-            $("theme").value =
-                "white";
-
-            $("layout").value =
-                "grid";
-
-            $("avatarShape").value =
-                "circle";
-
-            $("accentColor").value =
-                "#111318";
-
-            $("radius").value =
-                "30";
-
-            $("qrSize").value =
-                "145";
-
-            $("showUrls").checked =
-                true;
-
-            $("showFooter").checked =
-                true;
-
-            $("showDate").checked =
-                true;
-
-
-            /*
-             * Default links
-             */
-
-            defaultData.links.forEach(
-                link => {
-
-                    createLinkItem(
-                        link.service,
-                        link.url
-                    );
-
-                }
-            );
-
-
-            update();
 
 
             showStatus(
-                "リセットしました。"
+                "保存データを読み込みました。"
+            );
+
+
+        }catch(error){
+
+            console.error(error);
+
+            showStatus(
+                "保存データを読み込めませんでした。",
+                "error"
             );
 
         }
-    );
+
+    }
+);
 
 
-/* =========================================================
-   EXPORT PNG
-========================================================= */
+/* =====================================================
+   RESET
+===================================================== */
+
+$("resetButton")
+.addEventListener(
+    "click",
+    ()=>{
+
+        if(
+            !confirm(
+                "すべての入力内容をリセットしますか？"
+            )
+        ){
+            return;
+        }
+
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+
+        $("name").value = "";
+
+        $("title").value = "";
+
+        $("description").value = "";
+
+        $("template").value = "sns";
+
+        $("accentColor").value =
+            "#111318";
+
+        $("avatarShape").value =
+            "circle";
+
+        $("radius").value = 30;
+
+        $("qrSize").value = 145;
+
+        $("showUrls").checked = true;
+
+        $("showFooter").checked = true;
+
+        $("showDate").checked = true;
+
+
+        avatarData = "";
+
+
+        $("linkEditor").innerHTML = "";
+
+
+        addLink("pixiv","");
+
+        addLink("X","");
+
+        addLink("YouTube","");
+
+        addLink("Website","");
+
+
+        update();
+
+
+        showStatus(
+            "リセットしました。"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   PNG EXPORT
+===================================================== */
 
 $("exportButton")
-    .addEventListener(
-        "click",
-        async () => {
+.addEventListener(
+    "click",
+    async()=>{
+
+        const button =
+            $("exportButton");
+
+
+        if(
+            typeof html2canvas ===
+            "undefined"
+        ){
+
+            showStatus(
+                "画像出力機能を読み込めませんでした。",
+                "error"
+            );
+
+            return;
+        }
+
+
+        button.disabled = true;
+
+        button.textContent =
+            "画像を生成しています…";
+
+
+        try{
 
             /*
-             * html2canvasが存在するか確認
+             * QRコード生成を待つ
              */
 
-            if (
-                typeof html2canvas !==
-                "function"
-            ) {
-
-                showStatus(
-                    "画像出力ライブラリを読み込めませんでした。",
-                    "error"
-                );
-
-                return;
-
-            }
+            await new Promise(
+                resolve =>
+                    setTimeout(
+                        resolve,
+                        500
+                    )
+            );
 
 
-            const button =
-                $("exportButton");
+            /*
+             * カードを画像化
+             */
 
+            const canvas =
+                await html2canvas(
+                    $("profileCard"),
+                    {
 
-            button.disabled =
-                true;
+                        scale:3,
 
-            button.textContent =
-                "画像を生成しています…";
+                        useCORS:true,
 
+                        allowTaint:false,
 
-            try {
+                        backgroundColor:null,
 
-                /*
-                 * QRコードの描画が
-                 * 完了する時間を確保
-                 */
+                        logging:false
 
-                await new Promise(
-                    resolve =>
-                        setTimeout(
-                            resolve,
-                            250
-                        )
+                    }
                 );
 
 
-                const card =
-                    $("profileCard");
-
-
-                const canvas =
-                    await html2canvas(
-                        card,
-                        {
-
-                            /*
-                             * 高解像度
-                             */
-
-                            scale: 3,
-
-                            useCORS: true,
-
-                            allowTaint: false,
-
-                            backgroundColor:
-                                null,
-
-                            logging: false
-
-                        }
-                    );
-
-
-                const name =
+            const filename =
+                (
                     $("name")
                         .value
                         .trim()
@@ -3108,110 +2241,136 @@ $("exportButton")
                             /[\\/:*?"<>|]/g,
                             ""
                         )
-                        ||
-                        "creator-profile";
+                    ||
+                    "creator-profile"
+                ) +
+                "-creator-profile.png";
 
 
-                const link =
-                    document.createElement(
-                        "a"
-                    );
+            const link =
+                document.createElement("a");
 
 
-                link.download =
-                    name +
-                    "-creator-profile.png";
+            link.download =
+                filename;
 
 
-                link.href =
-                    canvas.toDataURL(
-                        "image/png"
-                    );
-
-
-                document.body.appendChild(
-                    link
+            link.href =
+                canvas.toDataURL(
+                    "image/png"
                 );
 
 
-                link.click();
-
-
-                link.remove();
-
-
-                showStatus(
-                    "PNG画像を作成しました。"
-                );
-
-            }
-
-            catch(error) {
-
-                console.error(
-                    "Export error:",
-                    error
-                );
-
-
-                showStatus(
-                    "画像の作成に失敗しました。もう一度お試しください。",
-                    "error"
-                );
-
-            }
-
-            finally {
-
-                button.disabled =
-                    false;
-
-                button.textContent =
-                    "PNG画像として保存";
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-function initialize() {
-
-    /*
-     * 最初にデフォルトリンクを作る
-     */
-
-    defaultData.links.forEach(
-        link => {
-
-            createLinkItem(
-                link.service,
-                link.url
+            document.body.appendChild(
+                link
             );
 
+
+            link.click();
+
+
+            link.remove();
+
+
+            showStatus(
+                "PNG画像を作成しました。"
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Export Error:",
+                error
+            );
+
+
+            showStatus(
+                "画像の作成に失敗しました。",
+                "error"
+            );
+
+
+        }finally{
+
+            button.disabled = false;
+
+            button.textContent =
+                "PNG画像として保存";
+
         }
-    );
+
+    }
+);
+
+
+/* =====================================================
+   INITIALIZE
+===================================================== */
+
+function initialize(){
+
+    /*
+     * 保存データがある場合は読み込む
+     */
+
+    let loaded = false;
+
+    try{
+
+        const raw =
+            localStorage.getItem(
+                STORAGE_KEY
+            );
+
+        if(raw){
+
+            applyData(
+                JSON.parse(raw)
+            );
+
+            loaded = true;
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+    }
 
 
     /*
-     * 保存データがあれば復元
+     * 初回だけサンプルリンクを用意
      */
 
-    loadSavedDataSilently();
+    if(!loaded){
 
+        addLink(
+            "pixiv",
+            ""
+        );
 
-    /*
-     * 最終更新
-     */
+        addLink(
+            "X",
+            ""
+        );
+
+        addLink(
+            "YouTube",
+            ""
+        );
+
+        addLink(
+            "Website",
+            ""
+        );
+
+    }
+
 
     update();
 
 }
-
 
 initialize();
 
