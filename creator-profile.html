@@ -14,21 +14,11 @@
     box-sizing: border-box;
 }
 
-:root {
-    --bg: #eef0f3;
-    --panel: #ffffff;
-    --text: #15171a;
-    --sub: #747980;
-    --line: #e2e5e9;
-    --accent: #111318;
-}
-
 body {
     margin: 0;
-    background: var(--bg);
-    color: var(--text);
+    background: #eef0f3;
+    color: #16181c;
     font-family:
-        Inter,
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
@@ -36,39 +26,30 @@ body {
         sans-serif;
 }
 
-/* =========================
-   Header
-========================= */
-
 .header {
     background: #111318;
     color: white;
-    padding: 20px 24px;
+    padding: 20px;
 }
 
 .header-inner {
-    width: min(1200px, 100%);
+    max-width: 1200px;
     margin: auto;
 }
 
 .logo {
     font-size: 20px;
-    font-weight: 800;
-    letter-spacing: .04em;
+    font-weight: 900;
 }
 
 .logo-sub {
-    font-size: 12px;
-    color: #999da5;
     margin-top: 4px;
+    color: #999;
+    font-size: 12px;
 }
 
-/* =========================
-   Layout
-========================= */
-
 .container {
-    width: min(1200px, 100%);
+    max-width: 1200px;
     margin: auto;
     padding: 24px;
 }
@@ -79,12 +60,8 @@ body {
     gap: 24px;
 }
 
-/* =========================
-   Editor
-========================= */
-
 .editor {
-    background: var(--panel);
+    background: white;
     border-radius: 18px;
     padding: 22px;
     box-shadow: 0 8px 30px rgba(0,0,0,.06);
@@ -95,9 +72,10 @@ body {
 }
 
 .section-title {
-    font-size: 14px;
-    font-weight: 800;
-    margin-bottom: 14px;
+    font-size: 13px;
+    font-weight: 900;
+    margin-bottom: 13px;
+    letter-spacing: .08em;
 }
 
 .field {
@@ -115,7 +93,7 @@ input,
 textarea,
 select {
     width: 100%;
-    border: 1px solid var(--line);
+    border: 1px solid #dfe2e6;
     border-radius: 10px;
     padding: 11px 12px;
     font-size: 14px;
@@ -135,10 +113,6 @@ textarea {
     resize: vertical;
 }
 
-/* =========================
-   Avatar
-========================= */
-
 .avatar-editor {
     display: flex;
     align-items: center;
@@ -154,7 +128,7 @@ textarea {
 }
 
 /* =========================
-   Links
+   LINK EDITOR
 ========================= */
 
 .link-editor {
@@ -164,15 +138,15 @@ textarea {
 }
 
 .link-item {
-    border: 1px solid var(--line);
+    border: 1px solid #dfe2e6;
     border-radius: 12px;
-    padding: 12px;
+    padding: 11px;
     background: #fafbfc;
 }
 
-.link-top {
+.link-header {
     display: grid;
-    grid-template-columns: 110px 1fr 32px;
+    grid-template-columns: 105px 1fr 34px;
     gap: 6px;
 }
 
@@ -181,31 +155,37 @@ textarea {
 }
 
 .remove-link {
-    border: none;
+    border: 0;
     border-radius: 8px;
     background: #e8eaed;
+    color: #666;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 17px;
+    padding: 0;
+}
+
+.remove-link:hover {
+    background: #ddd;
 }
 
 .add-link {
     width: 100%;
-    border: 1px dashed #bbbfc5;
-    background: transparent;
-    color: #555;
-    padding: 10px;
+    margin-top: 9px;
+    border: 1px dashed #aeb3ba;
+    background: white;
     border-radius: 10px;
+    padding: 11px;
     cursor: pointer;
-    margin-top: 8px;
+    font-weight: 700;
 }
 
-/* =========================
-   Buttons
-========================= */
+.add-link:hover {
+    background: #f5f6f7;
+}
 
 .export-button {
     width: 100%;
-    border: none;
+    border: 0;
     background: #111318;
     color: white;
     border-radius: 11px;
@@ -215,94 +195,44 @@ textarea {
     cursor: pointer;
 }
 
-.export-button:hover {
-    opacity: .9;
-}
-
 /* =========================
-   Preview
+   PREVIEW
 ========================= */
 
 .preview-panel {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
 }
 
 .preview-stage {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding: 15px;
 }
-
-/* =========================
-   Profile Card
-========================= */
 
 .profile-card {
     width: 720px;
     min-height: 900px;
 
-    background:
-        linear-gradient(
-            145deg,
-            #ffffff 0%,
-            #f4f5f7 100%
-        );
-
-    border-radius: 30px;
+    position: relative;
+    overflow: hidden;
 
     padding: 52px;
 
-    position: relative;
+    border-radius: 30px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f1f3f5
+        );
 
     box-shadow:
         0 25px 70px rgba(0,0,0,.16);
-
-    overflow: hidden;
 }
-
-/* decorative background */
-
-.profile-card::before {
-    content: "";
-    position: absolute;
-
-    width: 330px;
-    height: 330px;
-
-    border-radius: 50%;
-
-    background: rgba(0,0,0,.035);
-
-    right: -120px;
-    top: -120px;
-}
-
-.profile-card::after {
-    content: "";
-    position: absolute;
-
-    width: 250px;
-    height: 250px;
-
-    border-radius: 50%;
-
-    background: rgba(0,0,0,.025);
-
-    left: -120px;
-    bottom: -100px;
-}
-
-/* =========================
-   Card Header
-========================= */
 
 .card-header {
-    position: relative;
-    z-index: 2;
-
     display: flex;
     align-items: center;
     gap: 24px;
@@ -311,63 +241,34 @@ textarea {
 .card-avatar {
     width: 120px;
     height: 120px;
-
     border-radius: 50%;
-
     object-fit: cover;
-
     background: #ddd;
-
-    flex-shrink: 0;
 }
 
 .card-name {
     font-size: 40px;
     font-weight: 900;
     line-height: 1.1;
-
     word-break: break-word;
 }
 
 .card-title {
     margin-top: 7px;
-
-    font-size: 15px;
-
     color: #777;
-
+    font-size: 15px;
     font-weight: 600;
 }
 
-/* =========================
-   Description
-========================= */
-
 .card-description {
-    position: relative;
-    z-index: 2;
-
     margin-top: 34px;
-
     font-size: 16px;
-
     line-height: 1.8;
-
     white-space: pre-wrap;
-
     word-break: break-word;
-
-    color: #41454b;
 }
 
-/* =========================
-   QR Links
-========================= */
-
 .card-links {
-    position: relative;
-    z-index: 2;
-
     margin-top: 38px;
 
     display: grid;
@@ -379,70 +280,53 @@ textarea {
 }
 
 .qr-item {
-    background: rgba(255,255,255,.75);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 18px;
+
+    background: rgba(255,255,255,.78);
 
     border: 1px solid rgba(0,0,0,.07);
 
     border-radius: 18px;
-
-    padding: 18px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    text-align: center;
 }
 
 .qr-name {
     font-size: 14px;
-
-    font-weight: 800;
-
+    font-weight: 900;
     margin-bottom: 12px;
 }
 
 .qr-code {
     width: 145px;
     height: 145px;
-
     image-rendering: pixelated;
 }
 
 .qr-url {
     width: 100%;
-
     margin-top: 12px;
 
     font-size: 10px;
-
     line-height: 1.4;
 
     color: #666;
 
+    text-align: center;
+
     word-break: break-all;
 }
 
-/* =========================
-   Footer
-========================= */
-
 .card-footer {
     position: absolute;
-
-    z-index: 2;
-
     left: 52px;
     right: 52px;
     bottom: 30px;
 
     display: flex;
-
     justify-content: space-between;
-
-    align-items: center;
 
     border-top: 1px solid rgba(0,0,0,.08);
 
@@ -451,39 +335,23 @@ textarea {
 
 .footer-title {
     font-size: 11px;
-
     font-weight: 900;
-
     letter-spacing: .15em;
-
     color: #777;
 }
 
 .footer-date {
     font-size: 9px;
-
     color: #aaa;
 }
-
-/* =========================
-   Empty State
-========================= */
 
 .empty-links {
     grid-column: 1 / -1;
-
-    text-align: center;
-
     padding: 50px;
-
+    text-align: center;
     color: #aaa;
-
     font-size: 13px;
 }
-
-/* =========================
-   Responsive
-========================= */
 
 @media(max-width: 900px) {
 
@@ -497,7 +365,6 @@ textarea {
 
     .profile-card {
         width: 100%;
-        max-width: 720px;
     }
 }
 
@@ -507,19 +374,13 @@ textarea {
         padding: 12px;
     }
 
-    .header {
-        padding: 17px;
-    }
-
     .editor {
         padding: 16px;
     }
 
     .profile-card {
+        min-height: 720px;
         padding: 28px;
-
-        min-height: 700px;
-
         border-radius: 20px;
     }
 
@@ -536,31 +397,15 @@ textarea {
         font-size: 26px;
     }
 
-    .card-title {
-        font-size: 12px;
-    }
-
     .card-description {
         font-size: 13px;
-
         margin-top: 24px;
     }
 
     .card-links {
         grid-template-columns: 1fr;
-
         gap: 12px;
-
         margin-top: 25px;
-    }
-
-    .qr-item {
-        padding: 13px;
-    }
-
-    .qr-code {
-        width: 115px;
-        height: 115px;
     }
 
     .card-footer {
@@ -576,7 +421,10 @@ textarea {
 
 <header class="header">
     <div class="header-inner">
-        <div class="logo">CREATOR PROFILE</div>
+        <div class="logo">
+            CREATOR PROFILE
+        </div>
+
         <div class="logo-sub">
             クリエイターの活動を、1枚のプロフィールカードに。
         </div>
@@ -588,9 +436,9 @@ textarea {
 
 <div class="workspace">
 
-<!-- =====================
+<!-- =========================
      EDITOR
-===================== -->
+========================= -->
 
 <section class="editor">
 
@@ -602,13 +450,16 @@ textarea {
 
         <div class="field">
 
-            <label>プロフィール画像</label>
+            <label>
+                プロフィール画像
+            </label>
 
             <div class="avatar-editor">
 
                 <img
                     id="avatarPreview"
                     class="avatar-input"
+                    src=""
                     alt=""
                 >
 
@@ -625,7 +476,9 @@ textarea {
 
         <div class="field">
 
-            <label>クリエイター名</label>
+            <label>
+                クリエイター名
+            </label>
 
             <input
                 id="name"
@@ -638,7 +491,9 @@ textarea {
 
         <div class="field">
 
-            <label>肩書き</label>
+            <label>
+                肩書き
+            </label>
 
             <input
                 id="title"
@@ -651,7 +506,9 @@ textarea {
 
         <div class="field">
 
-            <label>自己紹介</label>
+            <label>
+                自己紹介
+            </label>
 
             <textarea
                 id="description"
@@ -662,6 +519,10 @@ textarea {
 
     </div>
 
+
+    <!-- =====================
+         LINKS
+    ====================== -->
 
     <div class="section">
 
@@ -675,8 +536,9 @@ textarea {
         ></div>
 
         <button
+            id="addLinkButton"
             class="add-link"
-            onclick="addLink()"
+            type="button"
         >
             ＋ リンクを追加
         </button>
@@ -692,7 +554,9 @@ textarea {
 
         <div class="field">
 
-            <label>テーマ</label>
+            <label>
+                テーマ
+            </label>
 
             <select id="theme">
 
@@ -716,8 +580,9 @@ textarea {
 
 
     <button
+        id="exportButton"
         class="export-button"
-        onclick="exportPNG()"
+        type="button"
     >
         PNG画像として保存
     </button>
@@ -725,78 +590,79 @@ textarea {
 </section>
 
 
-<!-- =====================
+<!-- =========================
      PREVIEW
-===================== -->
+========================= -->
 
 <section class="preview-panel">
 
-    <div class="preview-stage">
+<div class="preview-stage">
 
-        <div
-            id="profileCard"
-            class="profile-card"
+<div
+    id="profileCard"
+    class="profile-card"
+>
+
+    <div class="card-header">
+
+        <img
+            id="cardAvatar"
+            class="card-avatar"
+            src=""
+            alt=""
         >
 
-            <div class="card-header">
-
-                <img
-                    id="cardAvatar"
-                    class="card-avatar"
-                    alt=""
-                >
-
-                <div>
-
-                    <div
-                        id="cardName"
-                        class="card-name"
-                    >
-                        Creator Name
-                    </div>
-
-                    <div
-                        id="cardTitle"
-                        class="card-title"
-                    >
-                        Creator
-                    </div>
-
-                </div>
-
-            </div>
-
+        <div>
 
             <div
-                id="cardDescription"
-                class="card-description"
+                id="cardName"
+                class="card-name"
             >
-                あなたの活動を紹介しましょう。
+                Creator Name
             </div>
 
-
             <div
-                id="cardLinks"
-                class="card-links"
-            ></div>
-
-
-            <div class="card-footer">
-
-                <div class="footer-title">
-                    CREATOR PROFILE
-                </div>
-
-                <div
-                    id="footerDate"
-                    class="footer-date"
-                ></div>
-
+                id="cardTitle"
+                class="card-title"
+            >
+                Creator
             </div>
 
         </div>
 
     </div>
+
+
+    <div
+        id="cardDescription"
+        class="card-description"
+    >
+        あなたの活動を紹介しましょう。
+    </div>
+
+
+    <div
+        id="cardLinks"
+        class="card-links"
+    ></div>
+
+
+    <div class="card-footer">
+
+        <div class="footer-title">
+            CREATOR PROFILE
+        </div>
+
+        <div
+            id="footerDate"
+            class="footer-date"
+        ></div>
+
+    </div>
+
+</div>
+
+</div>
 
 </section>
 
@@ -807,363 +673,93 @@ textarea {
 
 <script>
 
-/* =========================
-   State
-========================= */
+/* =====================================================
+   STATE
+===================================================== */
 
 let avatarData = "";
 
 
-/* =========================
-   Initial Links
-========================= */
+/* =====================================================
+   ELEMENTS
+===================================================== */
 
-const initialLinks = [
-    {
-        name: "pixiv",
-        url: ""
-    },
-    {
-        name: "X",
-        url: ""
-    },
-    {
-        name: "YouTube",
-        url: ""
-    },
-    {
-        name: "SoundCloud",
-        url: ""
-    }
-];
+const linkEditor =
+    document.getElementById(
+        "linkEditor"
+    );
+
+const addLinkButton =
+    document.getElementById(
+        "addLinkButton"
+    );
 
 
-/* =========================
-   Add Link
-========================= */
+/* =====================================================
+   LINK CREATION
+===================================================== */
 
-function addLink(
-    name = "Website",
+function createLinkItem(
+    service = "Other",
     url = ""
 ) {
 
     const item =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
-    item.className = "link-item";
+    item.className =
+        "link-item";
 
     item.innerHTML = `
 
-        <div class="link-top">
+        <div class="link-header">
 
-            <select class="link-name">
+            <select class="service">
 
-                <option>pixiv</option>
-                <option>X</option>
-                <option>YouTube</option>
-                <option>SoundCloud</option>
-                <option>GitHub</option>
-                <option>BOOTH</option>
-                <option>Instagram</option>
-                <option>TikTok</option>
-                <option>Website</option>
-                <option>Other</option>
+                <option value="pixiv">pixiv</option>
+                <option value="X">X</option>
+                <option value="YouTube">YouTube</option>
+                <option value="SoundCloud">SoundCloud</option>
+                <option value="GitHub">GitHub</option>
+                <option value="BOOTH">BOOTH</option>
+                <option value="Instagram">Instagram</option>
+                <option value="TikTok">TikTok</option>
+                <option value="Website">Website</option>
+                <option value="Other">Other</option>
 
             </select>
 
-            <input
-                class="link-url"
-                type="url"
-                placeholder="https://example.com/"
-                value=""
-            >
+            <div></div>
 
             <button
                 class="remove-link"
                 type="button"
+                title="削除"
             >
                 ×
             </button>
 
         </div>
 
+        <input
+            class="link-url"
+            type="url"
+            placeholder="https://example.com/"
+        >
+
     `;
 
-    const select =
-        item.querySelector(".link-name");
-
-    const input =
-        item.querySelector(".link-url");
-
-    select.value = name;
-
-    input.value = url;
-
-    select.addEventListener(
-        "input",
-        update
-    );
-
-    input.addEventListener(
-        "input",
-        update
-    );
-
-    item
-        .querySelector(".remove-link")
-        .addEventListener(
-            "click",
-            () => {
-
-                item.remove();
-
-                update();
-
-            }
+    const serviceSelect =
+        item.querySelector(
+            ".service"
         );
 
-    document
-        .getElementById("linkEditor")
-        .appendChild(item);
-
-    update();
-}
-
-
-/* =========================
-   Initial Setup
-========================= */
-
-initialLinks.forEach(
-    link =>
-        addLink(
-            link.name,
-            link.url
-        )
-);
-
-
-/* =========================
-   Avatar
-========================= */
-
-document
-    .getElementById("avatarFile")
-    .addEventListener(
-        "change",
-        function(event) {
-
-            const file =
-                event.target.files[0];
-
-            if (!file) return;
-
-            const reader =
-                new FileReader();
-
-            reader.onload =
-                function(e) {
-
-                    avatarData =
-                        e.target.result;
-
-                    document
-                        .getElementById(
-                            "avatarPreview"
-                        )
-                        .src =
-                        avatarData;
-
-                    document
-                        .getElementById(
-                            "cardAvatar"
-                        )
-                        .src =
-                        avatarData;
-
-                };
-
-            reader.readAsDataURL(file);
-
-        }
-    );
-
-
-/* =========================
-   Input Events
-========================= */
-
-[
-    "name",
-    "title",
-    "description",
-    "theme"
-].forEach(id => {
-
-    document
-        .getElementById(id)
-        .addEventListener(
-            "input",
-            update
+    const urlInput =
+        item.querySelector(
+            ".link-url"
         );
 
-});
-
-
-/* =========================
-   Update
-========================= */
-
-function update() {
-
-    const name =
-        document
-            .getElementById("name")
-            .value
-            .trim();
-
-    const title =
-        document
-            .getElementById("title")
-            .value
-            .trim();
-
-    const description =
-        document
-            .getElementById("description")
-            .value
-            .trim();
-
-    document
-        .getElementById("cardName")
-        .textContent =
-        name || "Creator Name";
-
-    document
-        .getElementById("cardTitle")
-        .textContent =
-        title || "Creator";
-
-    document
-        .getElementById("cardDescription")
-        .textContent =
-        description ||
-        "あなたの活動を紹介しましょう。";
-
-    updateTheme();
-
-    updateLinks();
-
-    updateDate();
-}
-
-
-/* =========================
-   Theme
-========================= */
-
-function updateTheme() {
-
-    const card =
-        document.getElementById(
-            "profileCard"
-        );
-
-    const theme =
-        document.getElementById(
-            "theme"
-        ).value;
-
-    card.style.background = "";
-
-    card.style.color = "";
-
-    if (theme === "dark") {
-
-        card.style.background =
-            "linear-gradient(145deg,#15171b,#282c33)";
-
-        card.style.color =
-            "#ffffff";
-
-    }
-
-    if (theme === "minimal") {
-
-        card.style.background =
-            "#ffffff";
-
-        card.style.color =
-            "#111318";
-
-    }
-}
-
-
-/* =========================
-   QR Links
-========================= */
-
-function updateLinks() {
-
-    const output =
-        document.getElementById(
-            "cardLinks"
-        );
-
-    output.innerHTML = "";
-
-    const items =
-        document.querySelectorAll(
-            ".link-item"
-        );
-
-    let count = 0;
-
-    items.forEach(item => {
-
-        const name =
-            item.querySelector(
-                ".link-name"
-            ).value;
-
-        const url =
-            item.querySelector(
-                ".link-url"
-            ).value.trim();
-
-        if (!url) return;
-
-        count++;
-
-        const box =
-            document.createElement(
-                "div"
-            );
-
-        box.className =
-            "qr-item";
-
-        const title =
-            document.createElement(
-                "div"
-            );
-
-        title.className =
-            "qr-name";
-
-        title.textContent =
-            name;
-
-        const canvas =
-            document.createElement(
-                "canvas"
-            );
-
-        canvas.className =
-            "qr-code";
-
-        const address =
-            document.createElement(
-                "div"
-           
+    const removeButton =
+        item
